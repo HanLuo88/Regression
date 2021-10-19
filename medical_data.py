@@ -32,9 +32,9 @@ classificationtableCopy = classificationtable.copy()
 #############################################################################################
 sorted_complete = completeDFcopy.sort_values(["Pseudonym", "relatives_datum", 'ABKU'], ascending = True)
 # sorted_complete.to_csv('sorted_complete_copy.csv')
-sorted_complete_mat = sorted_complete.to_numpy()
-uniquePseudo = sorted_complete['Pseudonym'].unique()
-ml.create_csv(uniquePseudo, sorted_complete, 0)
+# sorted_complete_mat = sorted_complete.to_numpy()
+# uniquePseudo = sorted_complete['Pseudonym'].unique()
+# ml.create_csv(uniquePseudo, sorted_complete, 0)
 #############################################################################################
 # onlySoEzero = sorted_complete.loc[sorted_complete['relatives_datum'] <= 0] #nimm nur Datum bis Tag 0
 # onlySoEzero.to_csv('sorted_complete_SoEzero.csv')

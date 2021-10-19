@@ -162,7 +162,7 @@ def scoring(predicted, truevalue):
 def abkuFilter(filename, laborart):
     df = pd.read_csv(str(filename))
     df.sort_values(['ABKU', 'relatives_datum'], inplace=True, ascending=False)
-    tmpdf = df[df['ABKU']=='laborart']
+    tmpdf = df[df['ABKU']== str(laborart)]
     laborartwert = tmpdf['Messwert_String']
     datum = tmpdf['relatives_datum']
     fig = plt.figure()
@@ -174,4 +174,16 @@ def abkuFilter(filename, laborart):
     # plt.show() 
     
 
+def replaceValues(inputDF, featureOfInputDF, val):
+    onlyNonNumbers = pd.read_csv(str(inputDF))
+    inputcopy = onlyNonNumbers.copy()
+    feature = inputcopy[featureOfInputDF]
+    for el in range(len(feature)):
+
+        if (feature[el] == '<0.1'):
+            feature[el] = str(val)
+    feature = feature.astype(float)
+    meanOfColumn = feature.mean(axis=0, skipna=True)
+    feature.fillna(meanOfColumn, inplace=True)
     
+    return feature

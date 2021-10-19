@@ -171,7 +171,7 @@ for estimator in range(50, 501, 25):
     print('')
 
 #10-Fold Random Forest
-medical_KFOLD_RF = RandomForestClassifier(n_estimators= 250)
+medical_KFOLD_RF = RandomForestClassifier(n_estimators= 125)
 accuracyRF_CV = cross_val_score(medical_KFOLD_RF, med_features, med_class, cv=10, scoring='accuracy')
 precisionRF_CV = cross_val_score(medical_KFOLD_RF, med_features, med_class, cv=10, scoring='precision')
 recallRF_CV = cross_val_score(medical_KFOLD_RF, med_features, med_class, cv=10, scoring='recall')
