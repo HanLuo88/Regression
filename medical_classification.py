@@ -14,6 +14,8 @@ from matplotlib import pyplot
 from xgboost.core import Booster
 from sklearn.linear_model import LogisticRegression
 from sklearn import svm
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 #################################################################################################
 medData = pd.read_csv('dfNumbersOnly.csv')
 medDataCopy = medData.copy()
@@ -64,7 +66,7 @@ print('')
 # Jetzt mit n-fold Cross-Validation
 medical_KFOLD_KNN = KNeighborsClassifier(n_neighbors=8)
 # Training mit n-foldaccuracyKNN_CV, precisionKNN_CV, recallKNN_CV, f1scoreKNN_CV
-accuracyKNN_CV = cross_val_score(medical_KFOLD_KNN, med_features, med_class, cv=10)
+accuracyKNN_CV = cross_val_score(medical_KFOLD_KNN, med_features, med_class, cv=10, scoring='accuracy')
 precisionKNN_CV = cross_val_score(medical_KFOLD_KNN, med_features, med_class, cv=10, scoring='precision')
 recallKNN_CV = cross_val_score(medical_KFOLD_KNN, med_features, med_class, cv=10, scoring='recall')
 f1scoreKNN_CV = cross_val_score(medical_KFOLD_KNN, med_features, med_class, cv=10, scoring='f1')
@@ -90,7 +92,7 @@ print('')
 
 # 10-Fold Logistic Regression:
 medical_KFOLD_LogReg = LogisticRegression()
-accuracyLogReg_CV = cross_val_score(medical_KFOLD_LogReg, med_features, med_class, cv=10)
+accuracyLogReg_CV = cross_val_score(medical_KFOLD_LogReg, med_features, med_class, cv=10, scoring='accuracy')
 precisionLogReg_CV = cross_val_score(medical_KFOLD_LogReg, med_features, med_class, cv=10, scoring='precision')
 recallLogReg_CV = cross_val_score(medical_KFOLD_LogReg, med_features, med_class, cv=10, scoring='recall')
 f1scoreLogReg_CV = cross_val_score(medical_KFOLD_LogReg, med_features, med_class, cv=10, scoring='f1')
@@ -119,7 +121,7 @@ print('')
 
 #10-Fold SVM
 medical_KFOLD_SVM = svm.SVC(kernel='linear')
-accuracySVM_CV = cross_val_score(medical_KFOLD_SVM, med_features, med_class, cv=10)
+accuracySVM_CV = cross_val_score(medical_KFOLD_SVM, med_features, med_class, cv=10, scoring='accuracy')
 precisionSVM_CV = cross_val_score(medical_KFOLD_SVM, med_features, med_class, cv=10, scoring='precision')
 recallSVM_CV = cross_val_score(medical_KFOLD_SVM, med_features, med_class, cv=10, scoring='recall')
 f1scoreSVM_CV = cross_val_score(medical_KFOLD_SVM, med_features, med_class, cv=10, scoring='f1')
@@ -135,3 +137,48 @@ print('')
 ###########################################################################################################################
 ###########################################################################################################################
 #Decision Tree
+medical_DecTree = DecisionTreeClassifier()
+medical_DecTree = medical_DecTree.fit(med_features_train, med_class_train)
+decTree_pred = medical_DecTree.predict(med_features_test)
+accuracyDecTree, precisionDecTree, recallDecTree, f1scoreDecTree = ml.scoring(decTree_pred, med_class_test_array)
+print('medical_DecTree Accuracy: ', accuracyDecTree, 'DecTree Precision: ', precisionDecTree, 'DecTree Recall: ', recallDecTree, 'DecTree F1-Score: ', f1scoreDecTree )
+print('')
+
+#10-Fold Decision Tree
+medical_KFOLD_DecTree = DecisionTreeClassifier()
+accuracyDecTree_CV = cross_val_score(medical_KFOLD_DecTree, med_features, med_class, cv=10, scoring='accuracy')
+precisionDecTree_CV = cross_val_score(medical_KFOLD_DecTree, med_features, med_class, cv=10, scoring='precision')
+recallDecTree_CV = cross_val_score(medical_KFOLD_DecTree, med_features, med_class, cv=10, scoring='recall')
+f1scoreDecTree_CV = cross_val_score(medical_KFOLD_DecTree, med_features, med_class, cv=10, scoring='f1')
+meanAccuracyDecTree_CV = np.mean(accuracyDecTree_CV)
+meanPrecisionDecTree_CV = np.mean(precisionDecTree_CV)
+meanRecallDecTree_CV = np.mean(recallDecTree_CV)
+meanF1scoreDecTree_CV = np.mean(f1scoreDecTree_CV)
+print('10-Fold DecTree Accuracy: ', meanAccuracyDecTree_CV, '10-Fold DecTree Precision: ', meanPrecisionDecTree_CV, '10-Fold DecTree Recall: ', meanRecallDecTree_CV, '10-Fold DecTree F1-Score: ', meanF1scoreDecTree_CV )
+print('')
+
+###########################################################################################################################
+###########################################################################################################################
+###########################################################################################################################
+###########################################################################################################################
+#Random Forest
+for estimator in range(50, 501, 25):
+    medical_RF = RandomForestClassifier(n_estimators= estimator)
+    medical_RF.fit(med_features_train, med_class_train)
+    rfPred = medical_RF.predict(med_features_test)
+    accuracyRF, precisionRF, recallRF, f1scoreRF = ml.scoring(rfPred, med_class_test_array)
+    print('Anzahl Estimator: ', estimator, 'RF Accuracy: ', accuracyRF, 'RF Precision: ', precisionRF, 'RF Recall: ', recallRF, 'RF F1-Score: ', f1scoreRF )
+    print('')
+
+#10-Fold Random Forest
+medical_KFOLD_RF = RandomForestClassifier(n_estimators= 250)
+accuracyRF_CV = cross_val_score(medical_KFOLD_RF, med_features, med_class, cv=10, scoring='accuracy')
+precisionRF_CV = cross_val_score(medical_KFOLD_RF, med_features, med_class, cv=10, scoring='precision')
+recallRF_CV = cross_val_score(medical_KFOLD_RF, med_features, med_class, cv=10, scoring='recall')
+f1scoreRF_CV = cross_val_score(medical_KFOLD_RF, med_features, med_class, cv=10, scoring='f1')
+meanAccuracyRF_CV = np.mean(accuracyRF_CV)
+meanPrecisionRF_CV = np.mean(precisionRF_CV)
+meanRecallRFCV = np.mean(recallRF_CV)
+meanF1scoreRF_CV = np.mean(f1scoreRF_CV)
+print('10-Fold RF Accuracy: ', meanAccuracyRF_CV, '10-Fold RF Precision: ', meanPrecisionRF_CV, '10-Fold RF Recall: ', meanRecallRFCV, '10-Fold RF F1-Score: ', meanF1scoreRF_CV )
+print('')

@@ -2,6 +2,7 @@ import re
 import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
+from sklearn.ensemble import IsolationForest
 
 def hasBefund_one(df1, befundDf):
     gesDf = df1.copy()
@@ -158,10 +159,10 @@ def scoring(predicted, truevalue):
 
 
 
-def crea(filename):
+def abkuFilter(filename, laborart):
     df = pd.read_csv(str(filename))
     df.sort_values(['ABKU', 'relatives_datum'], inplace=True, ascending=False)
-    tmpdf = df[df['ABKU']=='CREA']
+    tmpdf = df[df['ABKU']=='laborart']
     laborartwert = tmpdf['Messwert_String']
     datum = tmpdf['relatives_datum']
 
