@@ -1,0 +1,3 @@
+*.csv
+.devcontainer
+__pycache__
