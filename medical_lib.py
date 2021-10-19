@@ -62,8 +62,8 @@ def create_csv(names, df, pseudo):
     #erstellt csv-Dateien für jeden unique Pseudonym.
     #Vorraussetzung: Ein sortiertes Dataframe, aus dem die Unique Namen entnommen werden.
     filenames = []
-    for pseudo in names:
-        tmpdf = df[pseudo]==pseudo
+    for n in names:
+        tmpdf = df['Pseudonym']==pseudo
         filtered_df = df[tmpdf]
         fname = str(pseudo) + '.csv'
         filenames.append(fname)
@@ -165,10 +165,6 @@ def abkuFilter(filename, laborart):
     tmpdf = df[df['ABKU']=='laborart']
     laborartwert = tmpdf['Messwert_String']
     datum = tmpdf['relatives_datum']
-
-
-    
-
     fig = plt.figure()
     ax = plt.axes()
     ax.plot(datum, laborartwert)

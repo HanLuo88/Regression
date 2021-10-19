@@ -34,35 +34,36 @@ sorted_complete = completeDFcopy.sort_values(["Pseudonym", "relatives_datum", 'A
 # sorted_complete.to_csv('sorted_complete_copy.csv')
 sorted_complete_mat = sorted_complete.to_numpy()
 uniquePseudo = sorted_complete['Pseudonym'].unique()
+ml.create_csv(uniquePseudo, sorted_complete, 0)
 #############################################################################################
 # onlySoEzero = sorted_complete.loc[sorted_complete['relatives_datum'] <= 0] #nimm nur Datum bis Tag 0
 # onlySoEzero.to_csv('sorted_complete_SoEzero.csv')
-preclas = ml.werteuebertragen(sorted_complete, classificationtableCopy)
-preclas.to_csv('preClassificationtable.csv')
-############################################################################################
-objwithoutNumbers, dfwithoutstrcolumns = ml.removeColswithoutNumber('preClassificationtable.csv')
-objwithoutNumbers.to_csv('dfNonNumberOnly.csv')
-dfwithoutstrcolumns.to_csv('dfNumbersOnly.csv')
-############################################################################################
-# Status hinzufügen
-tot = pd.read_csv('Verstorben.csv')
-preclassData = pd.read_csv('dfNumbersOnly.csv')
-preclassData['Status'] = np.nan
-totenliste = tot.loc[:, 'Pseudonym'].tolist()
-for rows in range(len(preclassData)):
-    tmpPseudo = preclassData.iloc[rows, preclassData.columns.get_loc('Pseudonym')]
-    if totenliste.__contains__(tmpPseudo):
-        preclassData.iloc[rows, preclassData.columns.get_loc('Status')] = 1 #1 = tot
-    else:
-        preclassData.iloc[rows, preclassData.columns.get_loc('Status')] = 0
-preclassData.to_csv('dfNumbersOnly.csv')
+# preclas = ml.werteuebertragen(sorted_complete, classificationtableCopy)
+# preclas.to_csv('preClassificationtable.csv')
+# ############################################################################################
+# objwithoutNumbers, dfwithoutstrcolumns = ml.removeColswithoutNumber('preClassificationtable.csv')
+# objwithoutNumbers.to_csv('dfNonNumberOnly.csv')
+# dfwithoutstrcolumns.to_csv('dfNumbersOnly.csv')
+# ############################################################################################
+# # Status hinzufügen
+# tot = pd.read_csv('Verstorben.csv')
+# preclassData = pd.read_csv('dfNumbersOnly.csv')
+# preclassData['Status'] = np.nan
+# totenliste = tot.loc[:, 'Pseudonym'].tolist()
+# for rows in range(len(preclassData)):
+#     tmpPseudo = preclassData.iloc[rows, preclassData.columns.get_loc('Pseudonym')]
+#     if totenliste.__contains__(tmpPseudo):
+#         preclassData.iloc[rows, preclassData.columns.get_loc('Status')] = 1 #1 = tot
+#     else:
+#         preclassData.iloc[rows, preclassData.columns.get_loc('Status')] = 0
+# preclassData.to_csv('dfNumbersOnly.csv')
 
-############################################################################################
+# ############################################################################################
 
-pseudonyme = sorted_complete['Pseudonym'].unique()
-patient0 = ml.ABKUhaeufigkeit(pseudonyme[0])
-patient0.to_csv('0ABKUHaeufigkeit')
-print(patient0.head())
+# pseudonyme = sorted_complete['Pseudonym'].unique()
+# patient0 = ml.ABKUhaeufigkeit(pseudonyme[0])
+# patient0.to_csv('0ABKUHaeufigkeit')
+# print(patient0.head())
 
 #############################################################################################
 # test = ml.polReg('0')
