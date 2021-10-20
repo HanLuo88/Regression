@@ -478,8 +478,8 @@ sorted_complete_copy.csv
 sorted_complete_SoEzero.csv
 tmpdump.csv
 Verstorben.csv
-.devcontainer/devcontainer.json
-__pycache__/medical_lib.cpython-39.pyc
+.devcontainer
+__pycache__
 0.csv
 sortByLEUKO.csv
 transponedFeatures.csv
