@@ -10,11 +10,11 @@ complete_dataDF = pd.read_csv(
 #Copy original to avoid changing it and Remove the first 3 columns because they have no relevance and sort by pseudonym
 completeDFcopy = complete_dataDF.copy()
 completeDFcopy = completeDFcopy.iloc[:, 3:]
-remission = pd.read_csv('Remission.csv')
-infection = pd.read_csv('Infections.csv')
-akGVHD = pd.read_csv('acute_GVHD.csv')
-chrGVHD = pd.read_csv('chronic_GVHD.csv')
-verstorben = pd.read_csv('Verstorben.csv')
+# remission = pd.read_csv('Remission.csv')
+# infection = pd.read_csv('Infections.csv')
+# akGVHD = pd.read_csv('acute_GVHD.csv')
+# chrGVHD = pd.read_csv('chronic_GVHD.csv')
+# verstorben = pd.read_csv('Verstorben.csv')
 
 #############################################################################################
 #Zeile löschen, die keine Untersuchungsart beinhaltet
@@ -23,14 +23,17 @@ completeDFcopy.dropna(subset=['ABKU'], inplace=True)
 #############################################################################################
 distinct_ABKU = complete_dataDF['ABKU'].unique()
 distinct_ABKUlist = distinct_ABKU.tolist()
-distinct_ABKUlist[:0] = ['Pseudonym']
+distinct_ABKUlist.append('Pseudonym')
+distinct_ABKUlist.append('relatives_datum')
 distinct_ABKUlist.append('Status')
+print(distinct_ABKUlist)
 distinct_ABKU = np.array(distinct_ABKUlist)
-classificationtable = pd.DataFrame(columns=distinct_ABKU)
-#############################################################################################
-classificationtableCopy = classificationtable.copy()
-#############################################################################################
-sorted_complete = completeDFcopy.sort_values(["Pseudonym", "relatives_datum", 'ABKU'], ascending = True)
+print(distinct_ABKU)
+# classificationtable = pd.DataFrame(columns=distinct_ABKU)
+# #############################################################################################
+# classificationtableCopy = classificationtable.copy()
+# #############################################################################################
+# sorted_complete = completeDFcopy.sort_values(["Pseudonym", "relatives_datum", 'ABKU'], ascending = True)
 # sorted_complete.to_csv('sorted_complete_copy.csv')
 # sorted_complete_mat = sorted_complete.to_numpy()
 # uniquePseudo = sorted_complete['Pseudonym'].unique()
