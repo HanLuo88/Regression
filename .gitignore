@@ -485,3 +485,5 @@ sortByLEUKO.csv
 transponedFeatures.csv
 .gitignore
 .~lock.complete_copy.csv#
+transponed_complete.csv
+.~lock.transponed_complete.csv#

@@ -90,6 +90,23 @@ def werteuebertragen(inputdf, outputdf):
     
     return outdf
 
+# def werteuebertragenALL(inputdf, outputdf):
+#     outdf = outputdf.copy()
+#     copyIndex = 0
+#     datum = inputdf.iloc[0, inputdf.columns.get_loc('relatives_datum')] #ersten Kundenname speichern
+#     for rows in range(len(inputdf)): #gehe Zeile für Zeile durch
+#         tmpdatum = inputdf.iloc[rows, inputdf.columns.get_loc('relatives_datum')] #aktuellen Zeilen-Kunden zwischenspeichern
+#         if tmpdatum != datum: 
+#             datum = tmpdatum
+#             copyIndex += 1
+#         tmpLaborart = inputdf.iloc[rows, inputdf.columns.get_loc('ABKU')] 
+#         outdf.at[copyIndex, 'Pseudonym'] = inputdf.iloc[rows, inputdf.columns.get_loc('Pseudonym')]
+#         wert = inputdf.iloc[rows, inputdf.columns.get_loc('Messwert_String')] #Welcher Wert für die Untersuchungsart wurde gemessen in der rows-ten Zeile?
+#         outdf.iloc[copyIndex, outdf.columns.get_loc(tmpLaborart)] = wert
+#         outdf.iloc[copyIndex, outdf.columns.get_loc('relatives_datum')] = datum
+    
+#     return outdf
+
 
 def removeColswithoutNumber(csvfile):
     pre = pd.read_csv(csvfile)
@@ -186,7 +203,6 @@ def replaceValues(inputDF, featureOfInputDF, val):
     feature = feature.astype(float)
     meanOfColumn = feature.mean(axis=0, skipna=True)
     feature.fillna(meanOfColumn, inplace=True)
-    
     return feature
 
 
@@ -194,34 +210,40 @@ def datatransformation(dump):
     gesamt = pd.read_csv(str(dump), sep=';')
     completeDFcopy = gesamt.copy()
     completeDFcopy = gesamt.iloc[:, 3:]
+    #Zeile löschen, die keine Untersuchungsart beinhaltet
+    completeDFcopy['ABKU'].replace('', np.nan, inplace=True)
+    completeDFcopy.dropna(subset=['ABKU'], inplace=True)
     completeDFcopy.sort_values(by=["Pseudonym", "relatives_datum", 'ABKU'], inplace=True, ascending=True)
 
     distinct_ABKU = completeDFcopy['ABKU'].unique()
     distinct_ABKUlist = distinct_ABKU.tolist()
     distinct_ABKUlist.append('Pseudonym')
     distinct_ABKUlist.append('relatives_datum')
-    distinct_ABKUlist.append('Status')
     distinct_ABKU = np.array(distinct_ABKUlist)
     transponedTable = pd.DataFrame(columns=distinct_ABKU)
+
     datum = completeDFcopy.iloc[0, completeDFcopy.columns.get_loc('relatives_datum')] #erstes Datum speichern
     copyIndex = 0
-    for row in range(len(completeDFcopy)):
+    for row in range(0,100000): #Über alle Zeilen iterieren
         tmpdatum = completeDFcopy.iloc[row, completeDFcopy.columns.get_loc('relatives_datum')] #aktuelles Zeilen-Datum zwischenspeichern
         if tmpdatum != datum: 
             datum = tmpdatum
             copyIndex += 1
 
-        tmpMesswert = completeDFcopy.iloc[row, completeDFcopy.columns.get_loc('Messwert_String')]
+        tmpMesswertZahl = completeDFcopy.iloc[row, completeDFcopy.columns.get_loc('Messwert_Zahl')]
+        if (tmpMesswertZahl == np.nan) or (tmpMesswertZahl == 0.0) :
+            tmpMesswertZahl = completeDFcopy.iloc[row, completeDFcopy.columns.get_loc('Messwert_String')]
+
         tmpLaborart = completeDFcopy.iloc[row, completeDFcopy.columns.get_loc('ABKU')]
         tmpPseudo = completeDFcopy.iloc[row, completeDFcopy.columns.get_loc('Pseudonym')]
 
-        transponedTable.at[copyIndex, tmpLaborart] = tmpMesswert
+        transponedTable.at[copyIndex, tmpLaborart] = tmpMesswertZahl
         transponedTable.at[copyIndex, 'Pseudonym'] = tmpPseudo
         transponedTable.at[copyIndex, 'relatives_datum'] = tmpdatum
         # outabku = transponedTable.columns[transponedTable.columns.get_loc(tmpLaborart)]
         # outdate = transponedTable.at[copyIndex, 'relatives_datum']
         # outpseudo = transponedTable.at[copyIndex, 'Pseudonym']
-        # print('row, ABKU, Messwert, Date, Pseudonym: ', row, outabku, tmpMesswert, outdate, outpseudo)
+        # print('row, ABKU, Messwert, Date, Pseudonym: ', row, outabku, tmpMesswertZahl, outdate, outpseudo)
     return transponedTable
 
   
