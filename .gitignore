@@ -488,3 +488,5 @@ transponedFeatures.csv
 transponed_complete.csv
 .~lock.transponed_complete.csv#
 testcopy.csv
+transposed_complete.csv
+.~lock.transposed_complete.csv#

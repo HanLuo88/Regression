@@ -207,50 +207,6 @@ def replaceValues(inputDF, featureOfInputDF, val):
     return feature
 
 
-def datatransformation(dump):
-    gesamt = pd.read_csv(str(dump), sep=';')
-    completeDFcopy = gesamt.copy()
-    completeDFcopy = gesamt.iloc[:, 3:]
-    #Zeile löschen, die keine Untersuchungsart beinhaltet
-    completeDFcopy['ABKU'].replace('', np.nan, inplace=True)
-    completeDFcopy.dropna(subset=['ABKU'], inplace=True)
-    completeDFcopy.sort_values(by=["Pseudonym", "relatives_datum", 'ABKU'], inplace=True, ascending=True)
-
-    distinct_ABKU = completeDFcopy['ABKU'].unique()
-    distinct_ABKUlist = distinct_ABKU.tolist()
-    distinct_ABKUlist.append('Pseudonym')
-    distinct_ABKUlist.append('relatives_datum')
-    distinct_ABKU = np.array(distinct_ABKUlist)
-
-
-    transponedTable = pd.DataFrame(columns=distinct_ABKU)
-
-    datum = completeDFcopy.iloc[0, completeDFcopy.columns.get_loc('relatives_datum')] #erstes Datum speichern
-    copyIndex = 0
-    for row in range(len(completeDFcopy)): #Über alle Zeilen iterieren
-        tmpdatum = completeDFcopy.iloc[row, completeDFcopy.columns.get_loc('relatives_datum')] #aktuelles Zeilen-Datum zwischenspeichern
-        if row%100000 == 0:
-            print('Zeile: ', row, 'Datum: ', tmpdatum, 'Uhrzeit: ', time.strftime("%d.%m.%Y %H:%M:%S"))
-        if tmpdatum != datum: 
-            datum = tmpdatum
-            copyIndex += 1
-
-        tmpMesswertZahl = completeDFcopy.iloc[row, completeDFcopy.columns.get_loc('Messwert_Zahl')]
-        if (tmpMesswertZahl == np.nan) or (tmpMesswertZahl == 0.0) :
-            tmpMesswertZahl = completeDFcopy.iloc[row, completeDFcopy.columns.get_loc('Messwert_String')]
-
-        tmpLaborart = completeDFcopy.iloc[row, completeDFcopy.columns.get_loc('ABKU')]
-        tmpPseudo = completeDFcopy.iloc[row, completeDFcopy.columns.get_loc('Pseudonym')]
-
-        transponedTable.at[copyIndex, tmpLaborart] = tmpMesswertZahl
-        transponedTable.at[copyIndex, 'Pseudonym'] = tmpPseudo
-        transponedTable.at[copyIndex, 'relatives_datum'] = tmpdatum
-        # outabku = transponedTable.columns[transponedTable.columns.get_loc(tmpLaborart)]
-        # outdate = transponedTable.at[copyIndex, 'relatives_datum']
-        # outpseudo = transponedTable.at[copyIndex, 'Pseudonym']
-        # print('row, ABKU, Messwert, Date, Pseudonym: ', row, outabku, tmpMesswertZahl, outdate, outpseudo)
-    return transponedTable
-
 def transp(inputDf):
     gesamt = pd.read_csv(str(inputDf), sep=';')
     completeDFcopy = gesamt.copy()
@@ -270,7 +226,7 @@ def transp(inputDf):
     dictlist = [{}]
     datum = completeDFcopy.iloc[0, completeDFcopy.columns.get_loc('relatives_datum')]
     pseudo = completeDFcopy.iloc[0, completeDFcopy.columns.get_loc('Pseudonym')] #erstes Datum speichern
-    tmpdict = {"Pseudonym": str(pseudo), "relatives_datum": str(datum)}
+    tmpdict = {"Pseudonym" : str(pseudo), "relatives_datum" : str(datum)}
     counter = -1
     for index, row in completeDFcopy.iterrows():
         counter += 1
@@ -288,8 +244,6 @@ def transp(inputDf):
         
         tmpdict[str(row[2])] = str(row[1]) #ABKU:WERT(Messwert_Zahl)
         if (row[1] == np.nan) or (row[1]==0.0):
-            tmpzahl = row[1]
-            tmpstr = row[0]
             tmpdict[str(row[2])] = row[0]  #Falls wert nan oder 0.0 ist, nimm wert aus Messwert_String
 
     
