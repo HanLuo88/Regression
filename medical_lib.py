@@ -98,15 +98,15 @@ def removeColswithoutNumber(csvfile):
     pre = pre.iloc[:, 1:]
     precopy = pre.copy()
     dfwithObj = pd.DataFrame()
-    dfwithObj['colname'] = precopy.iloc[:, 0]
-    for col in range(1, len(pre.columns)):
+    dfwithObj['Pseudonym'] = precopy.iloc[:, 0]
+    for col in range(3, len(precopy.columns)):
         spalte = precopy.iloc[:, col]
         colname = precopy.columns[col]
-        if (spalte.dtype != np.number) or (spalte.isna().sum() >= 100):
+        if  (spalte.isna().sum() >= 90000): #(spalte.dtype != np.number) or
             dfwithObj[colname] = spalte
 
     colnamelist = list(dfwithObj.columns)
-    precopy.drop(columns=colnamelist[1:], axis=1, inplace=True)
+    precopy.drop(columns=colnamelist[3:], axis=1, inplace=True)
     return dfwithObj, precopy
 
 
@@ -236,4 +236,9 @@ def transp(inputDf):
     return df
         
             
-            
+def isfloat(value):
+  try:
+    float(value)
+    return True
+  except ValueError:
+    return False

@@ -1,28 +1,29 @@
 import medical_lib as ml
 import pandas as pd
 import numpy as np
+import time
 import warnings
 warnings.filterwarnings("ignore")
 from matplotlib import pyplot as plt
 
-complete_dataDF = pd.read_csv(
-    'dump_anonymisiert_bereinigt.csv', sep=';')  # Read in CSV
-#Copy original to avoid changing it and Remove the first 3 columns because they have no relevance and sort by pseudonym
-completeDFcopy = complete_dataDF.copy()
-completeDFcopy = completeDFcopy.iloc[:, 3:]
-#############################################################################################
-#Zeile löschen, die keine Untersuchungsart beinhaltet
-completeDFcopy['ABKU'].replace('', np.nan, inplace=True)
-completeDFcopy.dropna(subset=['ABKU'], inplace=True)
-#############################################################################################
-distinct_ABKU = complete_dataDF['ABKU'].unique()
-distinct_ABKUlist = distinct_ABKU.tolist()
-distinct_ABKUlist.append('Pseudonym')
-distinct_ABKUlist.append('relatives_datum')
-distinct_ABKUlist.append('Status')
-print(distinct_ABKUlist)
-distinct_ABKU = np.array(distinct_ABKUlist)
-print(distinct_ABKU)
+# complete_dataDF = pd.read_csv(
+#     'dump_anonymisiert_bereinigt.csv', sep=';')  # Read in CSV
+# #Copy original to avoid changing it and Remove the first 3 columns because they have no relevance and sort by pseudonym
+# completeDFcopy = complete_dataDF.copy()
+# completeDFcopy = completeDFcopy.iloc[:, 3:]
+# #############################################################################################
+# #Zeile löschen, die keine Untersuchungsart beinhaltet
+# completeDFcopy['ABKU'].replace('', np.nan, inplace=True)
+# completeDFcopy.dropna(subset=['ABKU'], inplace=True)
+# #############################################################################################
+# distinct_ABKU = complete_dataDF['ABKU'].unique()
+# distinct_ABKUlist = distinct_ABKU.tolist()
+# distinct_ABKUlist.append('Pseudonym')
+# distinct_ABKUlist.append('relatives_datum')
+# distinct_ABKUlist.append('Status')
+# print(distinct_ABKUlist)
+# distinct_ABKU = np.array(distinct_ABKUlist)
+# print(distinct_ABKU)
 # classificationtable = pd.DataFrame(columns=distinct_ABKU)
 # #############################################################################################
 # classificationtableCopy = classificationtable.copy()
@@ -32,7 +33,7 @@ print(distinct_ABKU)
 # sorted_complete_mat = sorted_complete.to_numpy()
 # uniquePseudo = sorted_complete['Pseudonym'].unique()
 # ml.create_csv(uniquePseudo, sorted_complete, 0)
-#############################################################################################
+# ############################################################################################
 # preclas = ml.werteuebertragen(sorted_complete, classificationtableCopy)
 # preclas.to_csv('preClassificationtable.csv')
 # ############################################################################################
@@ -52,5 +53,20 @@ print(distinct_ABKU)
 #     else:
 #         preclassData.iloc[rows, preclassData.columns.get_loc('Status')] = 0
 # preclassData.to_csv('dfNumbersOnly.csv')
-
 # ############################################################################################
+# dfcomplete = pd.read_csv('transposed_complete.csv')
+# print(dfcomplete.iloc[:,0])
+
+
+dfNonNumbers, dfNumbers = ml.removeColswithoutNumber('transposed_complete.csv')
+dfNonNumbers.to_csv('nonNumbers.csv')
+print('Fertig')
+dfNumbers.to_csv('numbers.csv')
+print('Fertig')
+# for i in range(dfcomplete.shape[0]):
+#     if i%100 == 0:
+#         print('Zeile: ', i, 'Uhrzeit: ', 'Uhrzeit: ', time.strftime("%d.%m.%Y %H:%M:%S"))
+#     for j in range(dfcomplete.shape[1]): 
+#         value = dfcomplete.iloc[i, j]
+#         if ml.isfloat(value):
+#             dfcomplete.at[i,j] = float(value)

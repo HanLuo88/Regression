@@ -493,3 +493,7 @@ transposed_complete.csv
 .~lock.dfNumbersOnly.csv#
 .gitignore
 .~lock.dfNonNumberOnly.csv#
+nonNumbers.csv
+numbers.csv
+.~lock.numbers.csv#
+.~lock.nonNumbers.csv#
