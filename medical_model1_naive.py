@@ -20,6 +20,17 @@ from matplotlib import pyplot as plt
 # preclas = ml.werteuebertragenALL(completeDFcopy, transponedTable)
 # preclas.to_csv('ttt.csv')
 
-transponedTable = ml.datatransformation('dump_anonymisiert_bereinigt.csv')
-transponedTable.to_csv('transponed_complete.csv')
+# transponedTable = ml.transp('dump_anonymisiert_bereinigt.csv')
+# print('Fertig mit lesen. Die neue csv-Datei wird erstellt.')
+# transponedTable.to_csv('transponed_complete.csv')
+# print('Die Datei wurde erstellt.')
 
+#First Transformation of Dataset in a usable form
+df = pd.read_csv('transponed_complete.csv')
+df.drop(df.columns[0], axis=1, inplace=True)
+df.drop(index = df.index[0], axis=0, inplace=True)
+print(df.columns)
+print(df.head())
+df.to_csv('transponed_complete.csv')
+
+#reduce datasat for model 1
