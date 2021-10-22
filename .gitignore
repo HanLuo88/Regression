@@ -490,3 +490,5 @@ transponed_complete.csv
 testcopy.csv
 transposed_complete.csv
 .~lock.transposed_complete.csv#
+.~lock.dfNumbersOnly.csv#
+.gitignore

@@ -10,12 +10,6 @@ complete_dataDF = pd.read_csv(
 #Copy original to avoid changing it and Remove the first 3 columns because they have no relevance and sort by pseudonym
 completeDFcopy = complete_dataDF.copy()
 completeDFcopy = completeDFcopy.iloc[:, 3:]
-# remission = pd.read_csv('Remission.csv')
-# infection = pd.read_csv('Infections.csv')
-# akGVHD = pd.read_csv('acute_GVHD.csv')
-# chrGVHD = pd.read_csv('chronic_GVHD.csv')
-# verstorben = pd.read_csv('Verstorben.csv')
-
 #############################################################################################
 #Zeile löschen, die keine Untersuchungsart beinhaltet
 completeDFcopy['ABKU'].replace('', np.nan, inplace=True)
@@ -39,8 +33,6 @@ print(distinct_ABKU)
 # uniquePseudo = sorted_complete['Pseudonym'].unique()
 # ml.create_csv(uniquePseudo, sorted_complete, 0)
 #############################################################################################
-# onlySoEzero = sorted_complete.loc[sorted_complete['relatives_datum'] <= 0] #nimm nur Datum bis Tag 0
-# onlySoEzero.to_csv('sorted_complete_SoEzero.csv')
 # preclas = ml.werteuebertragen(sorted_complete, classificationtableCopy)
 # preclas.to_csv('preClassificationtable.csv')
 # ############################################################################################
@@ -62,13 +54,3 @@ print(distinct_ABKU)
 # preclassData.to_csv('dfNumbersOnly.csv')
 
 # ############################################################################################
-
-# pseudonyme = sorted_complete['Pseudonym'].unique()
-# patient0 = ml.ABKUhaeufigkeit(pseudonyme[0])
-# patient0.to_csv('0ABKUHaeufigkeit')
-# print(patient0.head())
-
-#############################################################################################
-# test = ml.polReg('0')
-# ml.crea('0.csv')
-

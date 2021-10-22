@@ -91,22 +91,6 @@ def werteuebertragen(inputdf, outputdf):
     
     return outdf
 
-# def werteuebertragenALL(inputdf, outputdf):
-#     outdf = outputdf.copy()
-#     copyIndex = 0
-#     datum = inputdf.iloc[0, inputdf.columns.get_loc('relatives_datum')] #ersten Kundenname speichern
-#     for rows in range(len(inputdf)): #gehe Zeile für Zeile durch
-#         tmpdatum = inputdf.iloc[rows, inputdf.columns.get_loc('relatives_datum')] #aktuellen Zeilen-Kunden zwischenspeichern
-#         if tmpdatum != datum: 
-#             datum = tmpdatum
-#             copyIndex += 1
-#         tmpLaborart = inputdf.iloc[rows, inputdf.columns.get_loc('ABKU')] 
-#         outdf.at[copyIndex, 'Pseudonym'] = inputdf.iloc[rows, inputdf.columns.get_loc('Pseudonym')]
-#         wert = inputdf.iloc[rows, inputdf.columns.get_loc('Messwert_String')] #Welcher Wert für die Untersuchungsart wurde gemessen in der rows-ten Zeile?
-#         outdf.iloc[copyIndex, outdf.columns.get_loc(tmpLaborart)] = wert
-#         outdf.iloc[copyIndex, outdf.columns.get_loc('relatives_datum')] = datum
-    
-#     return outdf
 
 
 def removeColswithoutNumber(csvfile):
