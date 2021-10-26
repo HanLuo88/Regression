@@ -497,3 +497,9 @@ nonNumbers.csv
 numbers.csv
 .~lock.numbers.csv#
 .~lock.nonNumbers.csv#
+notFilled.csv
+naive_latest.csv
+naive_feature_importance.png
+naive_feature_gain_importance.png
+filled.csv
+filled_noStr.csv

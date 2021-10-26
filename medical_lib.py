@@ -3,6 +3,7 @@ import re
 import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
+from pandas.core.arrays.categorical import contains
 from sklearn.ensemble import IsolationForest
 import time
 
@@ -75,6 +76,7 @@ def create_csv(names, df, pseudo):
 
 def werteuebertragen(inputdf, outputdf):
     outdf = outputdf.copy()
+    
     copyIndex = 0
     pseudo = inputdf.iloc[0, inputdf.columns.get_loc('Pseudonym')] #ersten Kundenname speichern
     for rows in range(len(inputdf)): #gehe Zeile für Zeile durch
@@ -88,25 +90,23 @@ def werteuebertragen(inputdf, outputdf):
             outdf.at[copyIndex, 'Pseudonym'] = pseudo
             wert = inputdf.iloc[rows, inputdf.columns.get_loc('Messwert_String')] #Welcher Wert für die Untersuchungsart wurde gemessen in der rows-ten Zeile?
             outdf.iloc[copyIndex, outdf.columns.get_loc(tmpLaborart)] = wert
-    
     return outdf
 
 
 
-def removeColswithoutNumber(csvfile):
+def removeColsNotWellFilled(csvfile, blanknumber):
     pre = pd.read_csv(csvfile)
     pre = pre.iloc[:, 1:]
     precopy = pre.copy()
     dfwithObj = pd.DataFrame()
-    dfwithObj['Pseudonym'] = precopy.iloc[:, 0]
+    dfwithObj['Pseudonym'] = precopy.loc[:, 'Pseudonym']
     for col in range(3, len(precopy.columns)):
         spalte = precopy.iloc[:, col]
         colname = precopy.columns[col]
-        if  (spalte.isna().sum() >= 90000): #(spalte.dtype != np.number) or
+        if (spalte.isna().sum() >= blanknumber): 
             dfwithObj[colname] = spalte
-
     colnamelist = list(dfwithObj.columns)
-    precopy.drop(columns=colnamelist[3:], axis=1, inplace=True)
+    precopy.drop(columns=colnamelist[1:], axis=1, inplace=True)
     return dfwithObj, precopy
 
 
@@ -120,22 +120,6 @@ def ABKUhaeufigkeit(names):
     dups_ABKU2.to_csv(str(names) + 'ABKUHaeufigkeit.csv')
     return dups_ABKU2
 
-
-def polReg(name):
-    relevantABKU = pd.read_csv('dfNumbersOnly.csv')
-    relAbkulist = relevantABKU.columns.values.tolist()
-    relAbkulist = relAbkulist[3:-1]
-    df = pd.read_csv(str(name) + '.csv')
-    df.sort_values(['ABKU', 'relatives_datum'], inplace=True, ascending=False)
-    for entry in relAbkulist:
-        tmpdf = df[df['ABKU']==entry]
-        laborartwert = tmpdf['Messwert_String']
-
-        datum = tmpdf['relatives_datum']
-        plt.plot(datum, laborartwert)
-        plt.xlabel("relatives Datum")
-        plt.ylabel(str(entry) + "-Wert")
-        plt.show() 
             
 
 def scoring(predicted, truevalue):
@@ -239,6 +223,39 @@ def transp(inputDf):
 def isfloat(value):
   try:
     float(value)
-    return True
+    return float(value)
   except ValueError:
-    return False
+    return np.nan
+
+def addStatusModel1(addDF, statusDF):
+    # Status hinzufügen
+    tot = pd.read_csv(str(statusDF))
+    preclassData = pd.read_csv(str(addDF))
+    preclassData['Status'] = np.nan
+    totenliste = tot.loc[:, 'Pseudonym'].tolist()
+    for rows in range(len(preclassData)):
+        tmpPseudo = preclassData.iloc[rows, preclassData.columns.get_loc('Pseudonym')]
+        if totenliste.__contains__(tmpPseudo):
+            preclassData.iloc[rows, preclassData.columns.get_loc('Status')] = 1 #1 = tot
+        else:
+            preclassData.iloc[rows, preclassData.columns.get_loc('Status')] = 0
+    preclassData.to_csv(str(addDF))
+    ############################################################################################
+
+def takeLatest(inputDF, pseudo):
+    dffilled = pd.read_csv(str(inputDF))
+    dffilled = dffilled.iloc[:, 1:]
+    p = dffilled[dffilled['Pseudonym'] == pseudo]
+    p.sort_values(by='relatives_datum', ascending=False, inplace=True)
+    col = dffilled.columns
+    # tmp.to_csv('0.csv')
+    naive = pd.DataFrame(columns=col)
+    abkuset = set()
+    for row in range(0, len(p)):
+        for col in range(0, len(p.columns)):
+            value = p.iloc[row, col]
+            if (np.isnan(value) == False) and (abkuset.__contains__(p.columns[col]) == False): 
+                naive.loc[0, p.columns[col]] = value
+                abkuset.add(p.columns[col])
+    
+    return naive

@@ -1,3 +1,4 @@
+from pandas.io.parsers import read_csv
 import medical_lib as ml
 import pandas as pd
 import numpy as np
@@ -6,67 +7,42 @@ import warnings
 warnings.filterwarnings("ignore")
 from matplotlib import pyplot as plt
 
-# complete_dataDF = pd.read_csv(
-#     'dump_anonymisiert_bereinigt.csv', sep=';')  # Read in CSV
-# #Copy original to avoid changing it and Remove the first 3 columns because they have no relevance and sort by pseudonym
-# completeDFcopy = complete_dataDF.copy()
-# completeDFcopy = completeDFcopy.iloc[:, 3:]
-# #############################################################################################
-# #Zeile löschen, die keine Untersuchungsart beinhaltet
-# completeDFcopy['ABKU'].replace('', np.nan, inplace=True)
-# completeDFcopy.dropna(subset=['ABKU'], inplace=True)
-# #############################################################################################
-# distinct_ABKU = complete_dataDF['ABKU'].unique()
-# distinct_ABKUlist = distinct_ABKU.tolist()
-# distinct_ABKUlist.append('Pseudonym')
-# distinct_ABKUlist.append('relatives_datum')
-# distinct_ABKUlist.append('Status')
-# print(distinct_ABKUlist)
-# distinct_ABKU = np.array(distinct_ABKUlist)
-# print(distinct_ABKU)
-# classificationtable = pd.DataFrame(columns=distinct_ABKU)
-# #############################################################################################
-# classificationtableCopy = classificationtable.copy()
-# #############################################################################################
-# sorted_complete = completeDFcopy.sort_values(["Pseudonym", "relatives_datum", 'ABKU'], ascending = True)
-# sorted_complete.to_csv('sorted_complete_copy.csv')
-# sorted_complete_mat = sorted_complete.to_numpy()
-# uniquePseudo = sorted_complete['Pseudonym'].unique()
-# ml.create_csv(uniquePseudo, sorted_complete, 0)
-# ############################################################################################
-# preclas = ml.werteuebertragen(sorted_complete, classificationtableCopy)
-# preclas.to_csv('preClassificationtable.csv')
-# ############################################################################################
-# objwithoutNumbers, dfwithoutstrcolumns = ml.removeColswithoutNumber('preClassificationtable.csv')
-# objwithoutNumbers.to_csv('dfNonNumberOnly.csv')
-# dfwithoutstrcolumns.to_csv('dfNumbersOnly.csv')
-# ############################################################################################
-# # Status hinzufügen
-# tot = pd.read_csv('Verstorben.csv')
-# preclassData = pd.read_csv('dfNumbersOnly.csv')
-# preclassData['Status'] = np.nan
-# totenliste = tot.loc[:, 'Pseudonym'].tolist()
-# for rows in range(len(preclassData)):
-#     tmpPseudo = preclassData.iloc[rows, preclassData.columns.get_loc('Pseudonym')]
-#     if totenliste.__contains__(tmpPseudo):
-#         preclassData.iloc[rows, preclassData.columns.get_loc('Status')] = 1 #1 = tot
-#     else:
-#         preclassData.iloc[rows, preclassData.columns.get_loc('Status')] = 0
-# preclassData.to_csv('dfNumbersOnly.csv')
-# ############################################################################################
-# dfcomplete = pd.read_csv('transposed_complete.csv')
-# print(dfcomplete.iloc[:,0])
-
-
-dfNonNumbers, dfNumbers = ml.removeColswithoutNumber('transposed_complete.csv')
-dfNonNumbers.to_csv('nonNumbers.csv')
-print('Fertig')
-dfNumbers.to_csv('numbers.csv')
-print('Fertig')
-# for i in range(dfcomplete.shape[0]):
-#     if i%100 == 0:
-#         print('Zeile: ', i, 'Uhrzeit: ', 'Uhrzeit: ', time.strftime("%d.%m.%Y %H:%M:%S"))
-#     for j in range(dfcomplete.shape[1]): 
-#         value = dfcomplete.iloc[i, j]
-#         if ml.isfloat(value):
-#             dfcomplete.at[i,j] = float(value)
+############################################################################################################################
+# dfNonFilled, dfFilled = ml.removeColsNotWellFilled('transposed_complete.csv', 90000)
+# dfNonFilled.to_csv('notFilled.csv')
+# print('Fertig')
+# dfFilled.to_csv('filled.csv')
+# print('Fertig')
+############################################################################################################################
+# dffilled1 = pd.read_csv('filled.csv')
+# dffilled1 = dffilled1.iloc[:, 1:]
+# # print(type(dffilled1.loc[0, 'XDSON']))
+# dffilled1.replace("neg", 0.0, inplace=True)
+# dffilled1 = dffilled1.applymap(func=ml.isfloat)
+# dffilled1.dropna(axis=1, how='all', inplace=True)
+# print(dffilled1['XDSON'].dtypes)
+# dffilled1.to_csv('filled_noStr.csv')
+############################################################################################################################
+# dffilled1 = pd.read_csv('filled_noStr.csv')
+# dffilled1 = dffilled1.iloc[:, 1:]
+# dffilled1.drop('XDSON', inplace=True, axis=1)
+# dffilled1.to_csv('filled_noStr.csv')
+############################################################################################################################
+# df = pd.read_csv('filled_noStr.csv')
+# pseudolist = df['Pseudonym'].unique()
+# frames = []
+# i = 0
+# for name in pseudolist:
+#     tmp = ml.takeLatest('filled_noStr.csv', name)
+#     frames.append(tmp)
+#     i += 1
+#     print(i)
+# result = pd.concat(frames)
+# result.to_csv('naive_latest.csv')
+############################################################################################################################
+# ml.addStatusModel1('naive_latest.csv', 'Verstorben.csv')
+# df = read_csv('naive_latest.csv')
+# df = df.iloc[:, 1:]
+# for i in df.columns[df.isnull().any(axis=0)]:     #---Applying Only on variables with NaN values
+#     df[i].fillna(df[i].mean(),inplace=True)
+# df.to_csv('naive_latest.csv')
