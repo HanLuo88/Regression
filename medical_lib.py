@@ -241,6 +241,19 @@ def addStatusModel1(addDF, statusDF):
             preclassData.iloc[rows, preclassData.columns.get_loc('Status')] = 0
     preclassData.to_csv(str(addDF))
     ############################################################################################
+def addStatusModel2(addDF, statusDF):
+    # Status hinzufügen
+    tot = pd.read_csv(str(statusDF))
+    preclassData = pd.read_csv(str(addDF))
+    preclassData['Status'] = np.nan
+    totenliste = tot.loc[:, 'Pseudonym'].tolist()
+    for rows in range(len(preclassData)):
+        tmpPseudo = preclassData.iloc[rows, preclassData.columns.get_loc('Pseudonym')]
+        if totenliste.__contains__(tmpPseudo):
+            preclassData.iloc[rows, preclassData.columns.get_loc('Status')] = 1 #1 = tot
+        else:
+            preclassData.iloc[rows, preclassData.columns.get_loc('Status')] = 0
+    preclassData.to_csv(str(addDF))
 
 def takeLatest(inputDF, pseudo):
     dffilled = pd.read_csv(str(inputDF))

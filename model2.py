@@ -93,8 +93,28 @@ intervalle = [(-520, -200), (-199, -120), (-119, -100), (-99, -75), (-74, -50), 
 # result.to_csv('model2_Classificationtable.csv')
 ############################################################################################################################
 #Restliche Leere Zellen werden mit dem Nan der Spalte aufgefüllt
-df = read_csv('model2_Classificationtable.csv')
+# df = read_csv('model2_Classificationtable.csv')
+# df = df.iloc[:, 1:]
+# for i in df.columns[df.isnull().any(axis=0)]:     #---Applying Only on variables with NaN values
+#         df[i].fillna(df[i].mean(),inplace=True)
+# df.to_csv('model2_Classificationtable.csv')
+############################################################################################################################
+df = pd.read_csv('model2_Classificationtable.csv')
+statusDF = pd.read_csv('Verstorben.csv')
+statusDF = statusDF.iloc[:, 1:]
+status = statusDF['Pseudonym'].unique()
 df = df.iloc[:, 1:]
-for i in df.columns[df.isnull().any(axis=0)]:     #---Applying Only on variables with NaN values
-        df[i].fillna(df[i].mean(),inplace=True)
+df['Status'] = np.nan
+pseudo = df['Pseudonym'].unique()
+index = df.index
+for row in range(len(df)):
+    name = df.loc[row, 'Pseudonym']
+    if status.__contains__(name):
+        condition = df["Pseudonym"] == name
+        nameindexes = index[condition]
+        pseudoindexeslist = nameindexes.tolist()
+        df.loc[row, 'Status'] = 0
+        if row == pseudoindexeslist[-1]:
+            df.loc[row, 'Status'] = 1
+df['Status'].fillna(0,inplace=True)
 df.to_csv('model2_Classificationtable.csv')
