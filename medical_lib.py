@@ -97,17 +97,17 @@ def werteuebertragen(inputdf, outputdf):
 def removeColsNotWellFilled(csvfile, blanknumber):
     pre = pd.read_csv(csvfile)
     pre = pre.iloc[:, 1:]
-    precopy = pre.copy()
-    dfwithObj = pd.DataFrame()
-    dfwithObj['Pseudonym'] = precopy.loc[:, 'Pseudonym']
-    for col in range(3, len(precopy.columns)):
-        spalte = precopy.iloc[:, col]
-        colname = precopy.columns[col]
+    filled = pre.copy()
+    nonfilled = pd.DataFrame()
+    nonfilled['Pseudonym'] = filled.loc[:, 'Pseudonym']
+    for col in range(3, len(filled.columns)):
+        spalte = filled.iloc[:, col]
+        colname = filled.columns[col]
         if (spalte.isna().sum() >= blanknumber): 
-            dfwithObj[colname] = spalte
-    colnamelist = list(dfwithObj.columns)
-    precopy.drop(columns=colnamelist[1:], axis=1, inplace=True)
-    return dfwithObj, precopy
+            nonfilled[colname] = spalte
+    colnamelist = list(nonfilled.columns)
+    filled.drop(columns=colnamelist[1:], axis=1, inplace=True)
+    return nonfilled, filled
 
 
 def ABKUhaeufigkeit(names):
@@ -245,6 +245,25 @@ def addStatusModel1(addDF, statusDF):
 def takeLatest(inputDF, pseudo):
     dffilled = pd.read_csv(str(inputDF))
     dffilled = dffilled.iloc[:, 1:]
+    p = dffilled[dffilled['Pseudonym'] == pseudo]
+    p.sort_values(by='relatives_datum', ascending=False, inplace=True)
+    col = dffilled.columns
+    # tmp.to_csv('0.csv')
+    naive = pd.DataFrame(columns=col)
+    abkuset = set()
+    for row in range(0, len(p)):
+        for col in range(0, len(p.columns)):
+            value = p.iloc[row, col]
+            if (np.isnan(value) == False) and (abkuset.__contains__(p.columns[col]) == False): 
+                naive.loc[0, p.columns[col]] = value
+                abkuset.add(p.columns[col])
+    
+    return naive
+
+
+def takeLatestAsDF(inputDF, pseudo):
+    dffilled = inputDF.copy()
+    # dffilled = dffilled.iloc[:, 1:]
     p = dffilled[dffilled['Pseudonym'] == pseudo]
     p.sort_values(by='relatives_datum', ascending=False, inplace=True)
     col = dffilled.columns
