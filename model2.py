@@ -32,10 +32,8 @@ warnings.filterwarnings("ignore")
 
 # df2.to_csv('transposed_model2.csv')
 ############################################################################################################################
-
-
 # Festlegung der Intervalle:
-# Prinzip: 90Tage um Mü herum werden kleine Intervalle gewählt. Tag 0 ist der letzte Tag des Vergangenheits-Intervalls.
+
 intervalle = [(-520, -200), (-199, 0), (1, 540), (541, 1080), (1081, 1700)]
 ############################################################################################################################
 #Vorbereiten von transposed:model2.csv
@@ -166,3 +164,38 @@ intervalle = [(-520, -200), (-199, 0), (1, 540), (541, 1080), (1081, 1700)]
 #         tmp += 1 
 # verstorben.to_csv('Verstorben_Interval.csv')
 # ueberlebensinterval = len(intervalle) + 1
+
+
+
+
+# ############################################################################################################################
+# ###########################################################################################################################
+# ############################################################################################################################
+# ###########################################################################################################################
+# ############################################################################################################################
+# ###########################################################################################################################
+df = pd.read_csv('model2_Classificationtable_intervalstatus.csv')
+df = df.iloc[:, 1:]
+
+p247 = df[df['Pseudonym'] == 247]
+p247.drop('status', inplace=True, axis=1)
+p247.to_csv('p247.csv')
+
+p18425 = df[df['Pseudonym'] == 18425]
+p18425.drop('status', inplace=True, axis=1)
+p18425.to_csv('p18425.csv')
+
+p22278 = df[df['Pseudonym'] == 22278]
+p22278.drop('status', inplace=True, axis=1)
+p22278.to_csv('p22278.csv')
+
+p88775 = df[df['Pseudonym'] == 88775]
+p88775.drop('status', inplace=True, axis=1)
+p88775.to_csv('p88775.csv')
+
+df2 = df[(df['Pseudonym'] != 247) & (df['Pseudonym'] != 18425) & (df['Pseudonym'] != 22278) & (df['Pseudonym'] != 88775)]
+
+df2.to_csv('model2_Classificationtable_intervalstatus_TMP.csv')
+
+
+

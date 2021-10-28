@@ -27,7 +27,26 @@ from sklearn.metrics import f1_score
 from sklearn.metrics import recall_score
 from sklearn.metrics import precision_recall_fscore_support as score
 #################################################################################################
-medDatamodel2 = pd.read_csv('model2_Classificationtable_intervalstatus.csv')
+# medDatamodel2 = pd.read_csv('model2_Classificationtable_intervalstatus.csv')
+# medDataCopy_model2 = medDatamodel2.copy()
+# medDataCopy_model2 = medDataCopy_model2.iloc[:, 3:]
+
+
+# #################################################################################################
+# med_class_model2 = medDataCopy_model2.iloc[:, -1]
+
+# med_features_model2 = medDataCopy_model2.iloc[:, :-1]
+
+# ###########################################################################################################################
+# ###########################################################################################################################
+# # Aufteilen der Daten in 4 Untersets
+# med_features_train_model2, med_features_test_model2, med_class_train_model2, med_class_test_model2 = train_test_split(med_features_model2, med_class_model2, test_size=0.2, random_state=43, stratify=med_class_model2)
+# med_class_test_array = np.array(med_class_test_model2)
+###########################################################################################################################
+###########################################################################################################################
+###########################################################################################################################
+###########################################################################################################################
+medDatamodel2 = pd.read_csv('model2_Classificationtable_intervalstatus_TMP.csv')
 medDataCopy_model2 = medDatamodel2.copy()
 medDataCopy_model2 = medDataCopy_model2.iloc[:, 3:]
 
@@ -41,12 +60,16 @@ med_features_model2 = medDataCopy_model2.iloc[:, :-1]
 ###########################################################################################################################
 # Aufteilen der Daten in 4 Untersets
 med_features_train_model2, med_features_test_model2, med_class_train_model2, med_class_test_model2 = train_test_split(med_features_model2, med_class_model2, test_size=0.2, random_state=43, stratify=med_class_model2)
-
 med_class_test_array = np.array(med_class_test_model2)
-###########################################################################################################################
-###########################################################################################################################
-###########################################################################################################################
-###########################################################################################################################
+
+p247 = pd.read_csv('p247.csv')
+p247 = p247.iloc[:, 3:]
+p18425 = pd.read_csv('p18425.csv')
+p18425 = p18425.iloc[:, 3:]
+p22278 = pd.read_csv('p22278.csv')
+p22278 = p22278.iloc[:, 3:]
+p88775 = pd.read_csv('p88775.csv')
+p88775 = p88775.iloc[:, 3:]
 #Ohne Boost
 print('Nachfolgend sind alle Vorhersagen ohne Featureboost')
 # Knn-Classifier for K = 8
@@ -88,11 +111,24 @@ print('Nachfolgend sind alle Vorhersagen ohne Featureboost')
 # # # ###########################################################################################################################
 # # # ###########################################################################################################################
 # # # ###########################################################################################################################
+
 # # # # Logistic Regression:
-# print('Logistic Regression')
-# print('')
-# lr_model = LogisticRegression(solver='lbfgs' ,multi_class='multinomial')
-# lr_model.fit(med_features_train_model2, med_class_train_model2)
+print('Logistic Regression')
+print('')
+lr_model = LogisticRegression(solver='lbfgs' ,multi_class='multinomial')
+lr_model.fit(med_features_train_model2, med_class_train_model2)
+
+lr_y_pred1 = lr_model.predict(p247)
+print('Logistic Regression: ', lr_y_pred1)
+
+lr_y_pred2 = lr_model.predict(p18425)
+print('Logistic Regression: ', lr_y_pred2)
+
+lr_y_pred3 = lr_model.predict(p22278)
+print('Logistic Regression: ', lr_y_pred3)
+
+lr_y_pred4 = lr_model.predict(p88775)
+print('Logistic Regression: ', lr_y_pred4)
 # #Prediction of test set
 # lr_y_pred = lr_model.predict(med_features_test_model2)
 # lr_accuracyLogReg = accuracy_score(lr_y_pred, med_class_test_array)
@@ -160,16 +196,30 @@ print('Decision Tree')
 print('')
 medical_DecTree = DecisionTreeClassifier()
 medical_DecTree = medical_DecTree.fit(med_features_train_model2, med_class_train_model2)
-decTree_pred = medical_DecTree.predict(med_features_test_model2)
-print('Actual: \n', med_class_test_array)
-print('Prediction: \n', decTree_pred)
 
-accuracyDecTree = accuracy_score(decTree_pred, med_class_test_array)
-precisionDecTree = precision_score(decTree_pred, med_class_test_array, average='macro')
-recallDecTree = recall_score(decTree_pred, med_class_test_array, average='macro')
-f1scoreDecTree = f1_score(decTree_pred, med_class_test_array, average='macro')
-print('medical_DecTree Accuracy: ', accuracyDecTree, 'DecTree Precision: ', precisionDecTree, 'DecTree Recall: ', recallDecTree, 'DecTree F1-Score: ', f1scoreDecTree )
-print('#################################################################################################')
+decTree_pred1 = medical_DecTree.predict(p247)
+print('Decision Tree: ', decTree_pred1)
+
+
+decTree_pred2 = medical_DecTree.predict(p18425)
+print('Decision Tree: ', decTree_pred2)
+
+
+decTree_pred3 = medical_DecTree.predict(p22278)
+print('Decision Tree: ', decTree_pred3)
+
+
+decTree_pred4 = medical_DecTree.predict(p88775)
+print('Decision Tree: ', decTree_pred4)
+
+
+# decTree_pred = medical_DecTree.predict(med_features_test_model2)
+# accuracyDecTree = accuracy_score(decTree_pred, med_class_test_array)
+# precisionDecTree = precision_score(decTree_pred, med_class_test_array, average='macro')
+# recallDecTree = recall_score(decTree_pred, med_class_test_array, average='macro')
+# f1scoreDecTree = f1_score(decTree_pred, med_class_test_array, average='macro')
+# print('medical_DecTree Accuracy: ', accuracyDecTree, 'DecTree Precision: ', precisionDecTree, 'DecTree Recall: ', recallDecTree, 'DecTree F1-Score: ', f1scoreDecTree )
+# print('#################################################################################################')
 
 # # # # #10-Fold Decision Tree
 # # # print('10-Fold Decision Tree')
@@ -224,9 +274,25 @@ print('#########################################################################
 # # ###########################################################################################################################
 # # ###########################################################################################################################
 # # # # AdaBoost zum Klassifizieren
-# adamodel = AdaBoostClassifier()
+adamodel = AdaBoostClassifier()
 
-# adamodel.fit(med_features_train_model2, med_class_train_model2)
+adamodel.fit(med_features_train_model2, med_class_train_model2)
+
+adamodel_prediction1 = medical_DecTree.predict(p247)
+print('AdaBoost: ', adamodel_prediction1)
+
+
+adamodel_prediction2 = medical_DecTree.predict(p18425)
+print('AdaBoost: ', adamodel_prediction2)
+
+
+adamodel_prediction3 = medical_DecTree.predict(p22278)
+print('AdaBoost: ', adamodel_prediction3)
+
+
+adamodel_prediction4 = medical_DecTree.predict(p88775)
+print('AdaBoost: ', adamodel_prediction4)
+
 # #print(xgmodel) zeigt die Parameter des Classifiers an
 # adamodel_prediction = adamodel.predict(med_features_test_model2)
 # adamodel_accuracy = accuracy_score(med_class_test_model2, adamodel_prediction)
