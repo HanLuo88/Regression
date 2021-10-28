@@ -24,10 +24,19 @@ warnings.filterwarnings("ignore")
 
 # Neues Mü = 196.93 Tage, Neues Sigma = 399.85 Tage.
 ############################################################################################################################
+#löschen der vier Patienten, die nach 1620Tagen gestorben sind
+# df = pd.read_csv('transposed_model2.csv')
+# df = df.iloc[:, 1:]
+# # indexNames = df[(df['Pseudonym'] == 11952.0) & (df['Pseudonym'] == 86166.0) & (df['Pseudonym'] == 90954.0) & (df['Pseudonym'] == 231731.0)].index # Delete these row indexes from dataFrame
+# df2 = df[(df['Pseudonym'] != 11952) & (df['Pseudonym'] != 86166) & (df['Pseudonym'] != 90954) & (df['Pseudonym'] != 231731)]
+
+# df2.to_csv('transposed_model2.csv')
+############################################################################################################################
+
+
 # Festlegung der Intervalle:
 # Prinzip: 90Tage um Mü herum werden kleine Intervalle gewählt. Tag 0 ist der letzte Tag des Vergangenheits-Intervalls.
-intervalle = [(-520, -200), (-199, -120), (-119, -100), (-99, -75), (-74, -50), (-49, -39), (-38, -28), (-27, -17), (-16, -6), (-5, 0), (1, 7),
-              (8, 18), (19, 29), (30, 40), (41, 51), (52, 62), (63, 83), (84, 100), (101, 150), (151, 200), (201, 500), (500, 1000), (1000, 1650)]
+intervalle = [(-520, -200), (-199, 0), (1, 540), (541, 1080), (1081, 1700)]
 ############################################################################################################################
 #Vorbereiten von transposed:model2.csv
 # df = pd.read_csv('transposed_model2.csv')
@@ -38,7 +47,7 @@ intervalle = [(-520, -200), (-199, -120), (-119, -100), (-99, -75), (-74, -50), 
 # print('Fertig')
 # model2filled.to_csv('model2filled.csv')
 # print('Fertig')
-############################################################################################################################
+# ###########################################################################################################################
 # model2filled = pd.read_csv('model2filled.csv')
 # model2filled = model2filled.iloc[:, 1:]
 # # print(type(dffilled1.loc[0, 'XDSON']))
@@ -47,7 +56,7 @@ intervalle = [(-520, -200), (-199, -120), (-119, -100), (-99, -75), (-74, -50), 
 # model2filled.dropna(axis=1, how='all', inplace=True)
 # # print(model2filled['XDSON'].dtypes)
 # model2filled.to_csv('model2filled_noStr.csv')
-###########################################################################################################################
+# ##########################################################################################################################
 # model2filled = pd.read_csv('model2filled_noStr.csv')
 # model2filled = model2filled.iloc[:, 1:]
 # tmpPseudo = model2filled.iloc[:, 0]
@@ -77,8 +86,8 @@ intervalle = [(-520, -200), (-199, -120), (-119, -100), (-99, -75), (-74, -50), 
 #         frames.append(tmpdf)
 # result = pd.concat(frames)
 # result.to_csv('model2_interval_latest.csv')
-############################################################################################################################
-#Pro Patient werden leere Zellen werden mit dem mean der Spalte gefüllt
+# ###########################################################################################################################
+# # Pro Patient werden leere Zellen werden mit dem mean der Spalte gefüllt
 # df = pd.read_csv('model2_interval_latest.csv')
 # df = df.iloc[:, 1:]
 # pseudo = df['Pseudonym'].unique()
@@ -90,31 +99,70 @@ intervalle = [(-520, -200), (-199, -120), (-119, -100), (-99, -75), (-74, -50), 
 #         tmpdf[i].fillna(ser.mean(),inplace=True)
 #     frames.append(tmpdf)
 # result = pd.concat(frames)
-# result.to_csv('model2_Classificationtable.csv')
-############################################################################################################################
-#Restliche Leere Zellen werden mit dem Nan der Spalte aufgefüllt
-# df = read_csv('model2_Classificationtable.csv')
+# result.to_csv('model2_Classificationtable_intervalstatus.csv')
+# ###########################################################################################################################
+# # Restliche Leere Zellen werden mit dem mean der Spalte aufgefüllt
+# df = read_csv('model2_Classificationtable_intervalstatus.csv')
 # df = df.iloc[:, 1:]
 # for i in df.columns[df.isnull().any(axis=0)]:     #---Applying Only on variables with NaN values
 #         df[i].fillna(df[i].mean(),inplace=True)
-# df.to_csv('model2_Classificationtable.csv')
-############################################################################################################################
-df = pd.read_csv('model2_Classificationtable.csv')
-statusDF = pd.read_csv('Verstorben.csv')
-statusDF = statusDF.iloc[:, 1:]
-status = statusDF['Pseudonym'].unique()
-df = df.iloc[:, 1:]
-df['Status'] = np.nan
-pseudo = df['Pseudonym'].unique()
-index = df.index
-for row in range(len(df)):
-    name = df.loc[row, 'Pseudonym']
-    if status.__contains__(name):
-        condition = df["Pseudonym"] == name
-        nameindexes = index[condition]
-        pseudoindexeslist = nameindexes.tolist()
-        df.loc[row, 'Status'] = 0
-        if row == pseudoindexeslist[-1]:
-            df.loc[row, 'Status'] = 1
-df['Status'].fillna(0,inplace=True)
-df.to_csv('model2_Classificationtable.csv')
+# df.to_csv('model2_Classificationtable_intervalstatus.csv')
+# ###########################################################################################################################
+
+# df = pd.read_csv('model2_Classificationtable_intervalstatus.csv')
+# statusDF = pd.read_csv('Verstorben_Interval.csv')
+# statusDF = statusDF.iloc[:, 1:]
+# status = statusDF['Pseudonym'].unique()
+# df = df.iloc[:, 1:]
+# df['status'] = 6.0
+# index = df.index
+# pseudo = df['Pseudonym'].unique()
+# for row in range(len(df)):
+#     name = df.loc[row, 'Pseudonym']
+#     if status.__contains__(name):
+#         todesint = statusDF.query('Pseudonym == ' + str(name))['todesinterval'].to_list()
+#         df.loc[row, 'status'] = todesint[0]
+# df.to_csv('model2_Classificationtable_intervalstatus.csv')
+
+# df = pd.read_csv('model2_Classificationtable_intervalstatus.csv')
+# df1 = df[df.isna().any(axis=1)]
+# print(df1)
+
+
+# ############################################################################################################################
+# ###########################################################################################################################
+# df = pd.read_csv('model2_Classificationtable_intervalstatus.csv')
+# statusDF = pd.read_csv('Verstorben.csv')
+# statusDF = statusDF.iloc[:, 1:]
+# status = statusDF['Pseudonym'].unique()
+# df = df.iloc[:, 1:]
+# df['Status'] = np.nan
+# pseudo = df['Pseudonym'].unique()
+# index = df.index
+# for row in range(len(df)):
+#     name = df.loc[row, 'Pseudonym']
+#     if status.__contains__(name):
+#         condition = df["Pseudonym"] == name
+#         nameindexes = index[condition]
+#         pseudoindexeslist = nameindexes.tolist()
+#         df.loc[row, 'Status'] = 0
+#         if row == pseudoindexeslist[-1]:
+#             df.loc[row, 'Status'] = 1
+# df['Status'].fillna(0,inplace=True)
+# df.to_csv('model2_Classificationtable_intervalstatus.csv')
+# ############################################################################################################################
+# ###########################################################################################################################
+# # nehme Todesintervalle der toten Patienten als Klasse
+# # Füge in Verstorben.csv eine Intervallspalte hinzu
+# verstorben = pd.read_csv('Verstorben.csv')
+# verstorben = verstorben.iloc[:, 1:]
+# for row in range(len(verstorben)):
+#     tmp = 1
+#     todesdatum = verstorben.loc[row, 'relatives_datum']
+#     for el in intervalle:
+#         if (todesdatum >= el[0]) and (todesdatum <= el[1]):
+#             verstorben.loc[row, 'todesinterval'] = tmp
+#             break
+#         tmp += 1 
+# verstorben.to_csv('Verstorben_Interval.csv')
+# ueberlebensinterval = len(intervalle) + 1

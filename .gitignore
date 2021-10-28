@@ -513,3 +513,9 @@ model2_Classificationtable.csv
 medical_lib.py
 .~lock.Verstorben.csv#
 .~lock.model2_Classificationtable.csv#
+xgboost_multiclass_gain.png
+xgboost_multiclass_gain_macro.png
+Verstorben_Interval.csv
+model2_gain.png
+model2_Classificationtable_intervalstatus.csv
+.~lock.model2_Classificationtable_intervalstatus.csv#
