@@ -137,60 +137,60 @@ med_class_test_array = np.array(med_class_test)
 ###########################################################################################################################
 ###########################################################################################################################
 ###########################################################################################################################
-# #Decision Tree
-# print('Decision Tree')
-# print('')
-# medical_DecTree = DecisionTreeClassifier()
-# medical_DecTree = medical_DecTree.fit(med_features_train, med_class_train)
-# decTree_pred = medical_DecTree.predict(med_features_test)
-# accuracyDecTree, precisionDecTree, recallDecTree, f1scoreDecTree = ml.scoring(decTree_pred, med_class_test_array)
-# print('medical_DecTree Accuracy: ', accuracyDecTree, 'DecTree Precision: ', precisionDecTree, 'DecTree Recall: ', recallDecTree, 'DecTree F1-Score: ', f1scoreDecTree )
-# print('#################################################################################################')
+#Decision Tree
+print('Decision Tree')
+print('')
+medical_DecTree = DecisionTreeClassifier()
+medical_DecTree = medical_DecTree.fit(med_features_train, med_class_train)
+decTree_pred = medical_DecTree.predict(med_features_test)
+accuracyDecTree, precisionDecTree, recallDecTree, f1scoreDecTree = ml.scoring(decTree_pred, med_class_test_array)
+print('medical_DecTree Accuracy: ', accuracyDecTree, 'DecTree Precision: ', precisionDecTree, 'DecTree Recall: ', recallDecTree, 'DecTree F1-Score: ', f1scoreDecTree )
+print('#################################################################################################')
 
-# #10-Fold Decision Tree
-# print('10-Fold Decision Tree')
-# print('')
-# medical_KFOLD_DecTree = DecisionTreeClassifier()
-# accuracyDecTree_CV = cross_val_score(medical_KFOLD_DecTree, med_features, med_class, cv=10, scoring='accuracy')
-# precisionDecTree_CV = cross_val_score(medical_KFOLD_DecTree, med_features, med_class, cv=10, scoring='precision')
-# recallDecTree_CV = cross_val_score(medical_KFOLD_DecTree, med_features, med_class, cv=10, scoring='recall')
-# f1scoreDecTree_CV = cross_val_score(medical_KFOLD_DecTree, med_features, med_class, cv=10, scoring='f1')
-# meanAccuracyDecTree_CV = np.mean(accuracyDecTree_CV)
-# meanPrecisionDecTree_CV = np.mean(precisionDecTree_CV)
-# meanRecallDecTree_CV = np.mean(recallDecTree_CV)
-# meanF1scoreDecTree_CV = np.mean(f1scoreDecTree_CV)
-# print('10-Fold DecTree Accuracy: ', meanAccuracyDecTree_CV, '10-Fold DecTree Precision: ', meanPrecisionDecTree_CV, '10-Fold DecTree Recall: ', meanRecallDecTree_CV, '10-Fold DecTree F1-Score: ', meanF1scoreDecTree_CV )
-# print('#################################################################################################')
+#10-Fold Decision Tree
+print('10-Fold Decision Tree')
+print('')
+medical_KFOLD_DecTree = DecisionTreeClassifier()
+accuracyDecTree_CV = cross_val_score(medical_KFOLD_DecTree, med_features, med_class, cv=10, scoring='accuracy')
+precisionDecTree_CV = cross_val_score(medical_KFOLD_DecTree, med_features, med_class, cv=10, scoring='precision')
+recallDecTree_CV = cross_val_score(medical_KFOLD_DecTree, med_features, med_class, cv=10, scoring='recall')
+f1scoreDecTree_CV = cross_val_score(medical_KFOLD_DecTree, med_features, med_class, cv=10, scoring='f1')
+meanAccuracyDecTree_CV = np.mean(accuracyDecTree_CV)
+meanPrecisionDecTree_CV = np.mean(precisionDecTree_CV)
+meanRecallDecTree_CV = np.mean(recallDecTree_CV)
+meanF1scoreDecTree_CV = np.mean(f1scoreDecTree_CV)
+print('10-Fold DecTree Accuracy: ', meanAccuracyDecTree_CV, '10-Fold DecTree Precision: ', meanPrecisionDecTree_CV, '10-Fold DecTree Recall: ', meanRecallDecTree_CV, '10-Fold DecTree F1-Score: ', meanF1scoreDecTree_CV )
+print('#################################################################################################')
 
 # ###########################################################################################################################
 # ###########################################################################################################################
 # ###########################################################################################################################
 # ###########################################################################################################################
 # #Random Forest
-# print('Random Forest')
-# print('')
-# for estimator in range(50, 501, 25):
-#     medical_RF = RandomForestClassifier(n_estimators= estimator)
-#     medical_RF.fit(med_features_train, med_class_train)
-#     rfPred = medical_RF.predict(med_features_test)
-#     accuracyRF, precisionRF, recallRF, f1scoreRF = ml.scoring(rfPred, med_class_test_array)
-#     print('Anzahl Estimator: ', estimator, 'RF Accuracy: ', accuracyRF, 'RF Precision: ', precisionRF, 'RF Recall: ', recallRF, 'RF F1-Score: ', f1scoreRF )
-#     print('#################################################################################################')
+print('Random Forest')
+print('')
+for estimator in range(50, 501, 25):
+    medical_RF = RandomForestClassifier(n_estimators= estimator)
+    medical_RF.fit(med_features_train, med_class_train)
+    rfPred = medical_RF.predict(med_features_test)
+    accuracyRF, precisionRF, recallRF, f1scoreRF = ml.scoring(rfPred, med_class_test_array)
+    print('Anzahl Estimator: ', estimator, 'RF Accuracy: ', accuracyRF, 'RF Precision: ', precisionRF, 'RF Recall: ', recallRF, 'RF F1-Score: ', f1scoreRF )
+    print('#################################################################################################')
 
-# #10-Fold Random Forest
-# print('10-Fold Random Forest')
-# print('')
-# medical_KFOLD_RF = RandomForestClassifier(n_estimators= 125)
-# accuracyRF_CV = cross_val_score(medical_KFOLD_RF, med_features, med_class, cv=10, scoring='accuracy')
-# precisionRF_CV = cross_val_score(medical_KFOLD_RF, med_features, med_class, cv=10, scoring='precision')
-# recallRF_CV = cross_val_score(medical_KFOLD_RF, med_features, med_class, cv=10, scoring='recall')
-# f1scoreRF_CV = cross_val_score(medical_KFOLD_RF, med_features, med_class, cv=10, scoring='f1')
-# meanAccuracyRF_CV = np.mean(accuracyRF_CV)
-# meanPrecisionRF_CV = np.mean(precisionRF_CV)
-# meanRecallRFCV = np.mean(recallRF_CV)
-# meanF1scoreRF_CV = np.mean(f1scoreRF_CV)
-# print('10-Fold RF Accuracy: ', meanAccuracyRF_CV, '10-Fold RF Precision: ', meanPrecisionRF_CV, '10-Fold RF Recall: ', meanRecallRFCV, '10-Fold RF F1-Score: ', meanF1scoreRF_CV )
-# print('#################################################################################################')
+# 10-Fold Random Forest
+print('10-Fold Random Forest')
+print('')
+medical_KFOLD_RF = RandomForestClassifier(n_estimators= 50)
+accuracyRF_CV = cross_val_score(medical_KFOLD_RF, med_features, med_class, cv=10, scoring='accuracy')
+precisionRF_CV = cross_val_score(medical_KFOLD_RF, med_features, med_class, cv=10, scoring='precision')
+recallRF_CV = cross_val_score(medical_KFOLD_RF, med_features, med_class, cv=10, scoring='recall')
+f1scoreRF_CV = cross_val_score(medical_KFOLD_RF, med_features, med_class, cv=10, scoring='f1')
+meanAccuracyRF_CV = np.mean(accuracyRF_CV)
+meanPrecisionRF_CV = np.mean(precisionRF_CV)
+meanRecallRFCV = np.mean(recallRF_CV)
+meanF1scoreRF_CV = np.mean(f1scoreRF_CV)
+print('10-Fold RF Accuracy: ', meanAccuracyRF_CV, '10-Fold RF Precision: ', meanPrecisionRF_CV, '10-Fold RF Recall: ', meanRecallRFCV, '10-Fold RF F1-Score: ', meanF1scoreRF_CV )
+print('#################################################################################################')
 
 ###########################################################################################################################
 ###########################################################################################################################
@@ -206,9 +206,9 @@ xgboosted_prediction = xgmodel.predict(med_features_test)
 acc_CV = cross_val_score(xgmodel, med_features, med_class, cv=10)
 print(acc_CV, "Mean-Accuracy with all Features: ", mean(acc_CV))
 print(sorted((value, key) for (key, value) in xgmodel.get_booster().get_score(importance_type= 'gain').items()))
-pyplot.rcParams['figure.figsize'] = [25,25]
-plot_importance(xgmodel.get_booster().get_score(importance_type= 'gain'))
-pyplot.show()
+# pyplot.rcParams['figure.figsize'] = [25,25]
+# plot_importance(xgmodel.get_booster().get_score(importance_type= 'gain'))
+# pyplot.show()
 # ##########################################################################################################################
 # ##########################################################################################################################
 # ##########################################################################################################################

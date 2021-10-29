@@ -211,19 +211,7 @@ def addStatusModel1(addDF, statusDF):
             preclassData.iloc[rows, preclassData.columns.get_loc('Status')] = 0
     preclassData.to_csv(str(addDF))
     ############################################################################################
-def addStatusModel2(addDF, statusDF):
-    # Status hinzufügen
-    tot = pd.read_csv(str(statusDF))
-    preclassData = pd.read_csv(str(addDF))
-    preclassData['Status'] = np.nan
-    totenliste = tot.loc[:, 'Pseudonym'].tolist()
-    for rows in range(len(preclassData)):
-        tmpPseudo = preclassData.iloc[rows, preclassData.columns.get_loc('Pseudonym')]
-        if totenliste.__contains__(tmpPseudo):
-            preclassData.iloc[rows, preclassData.columns.get_loc('Status')] = 1 #1 = tot
-        else:
-            preclassData.iloc[rows, preclassData.columns.get_loc('Status')] = 0
-    preclassData.to_csv(str(addDF))
+
 
 def takeLatest(inputDF, pseudo):
     dffilled = pd.read_csv(str(inputDF))
@@ -261,3 +249,63 @@ def takeLatestAsDF(inputDF, pseudo):
                 abkuset.add(p.columns[col])
     
     return naive
+#####################################################################################################################################################
+# # nehme Todesintervalle der toten Patienten als Klasse
+# # Füge in Verstorben.csv eine Intervallspalte hinzu
+def addtoverstorben(verstorbenDF, interval):
+    verstorben = pd.read_csv(str(verstorbenDF))
+    verstorben = verstorben.iloc[:, 1:]
+    for row in range(len(verstorben)):
+        tmp = 1
+        todesdatum = verstorben.loc[row, 'relatives_datum']
+        for el in interval:
+            if (todesdatum >= el[0]) and (todesdatum <= el[1]):
+                verstorben.loc[row, 'todesinterval'] = tmp
+                break
+            tmp += 1 
+    return verstorben
+
+def takelatestperInterval(nostrdf, interval):
+    df = pd.read_csv(str(nostrdf))
+    df = df.iloc[:, 1:]
+    pseudo = df['Pseudonym'].unique()
+    # tmp = df[(df['Pseudonym'] == 0) & (df['relatives_datum'] >= intervalle[0][0]) & (df['relatives_datum'] <= intervalle[0][1])]
+    # print(tmp)
+    frames = []
+    for name in pseudo:
+        for el in interval:
+            tmpIntervalDF = df[(df['Pseudonym'] == name) & (df['relatives_datum'] >= el[0]) & (df['relatives_datum'] <= el[1])]
+            tmpdf = takeLatestAsDF(tmpIntervalDF, name)
+            frames.append(tmpdf)
+    result = pd.concat(frames)
+    return result
+
+def fillmeanperPseudo(latestdf):
+    df = pd.read_csv(str(latestdf))
+    df = df.iloc[:, 1:]
+    pseudo = df['Pseudonym'].unique()
+    frames = []
+    for name in pseudo:
+        tmpdf = df.loc[df['Pseudonym'] == name]
+        for i in tmpdf.columns[tmpdf.isnull().any(axis=0)]:     #---Applying Only on variables with NaN values
+            ser = tmpdf.loc[:, i]
+            tmpdf[i].fillna(ser.mean(),inplace=True)
+        frames.append(tmpdf)
+    result = pd.concat(frames)
+    return result
+
+def fillintervalstatus(classificationabletable, interval):
+    df = pd.read_csv(str(classificationabletable))
+    statusDF = pd.read_csv('Verstorben_Interval.csv')
+    statusDF = statusDF.iloc[:, 1:]
+    status = statusDF['Pseudonym'].unique()
+    df = df.iloc[:, 1:]
+    df['status'] = len(interval) + 1
+    index = df.index
+    pseudo = df['Pseudonym'].unique()
+    for row in range(len(df)):
+        name = df.loc[row, 'Pseudonym']
+        if status.__contains__(name):
+            todesint = statusDF.query('Pseudonym == ' + str(name))['todesinterval'].to_list()
+            df.loc[row, 'status'] = todesint[0]
+    return df
