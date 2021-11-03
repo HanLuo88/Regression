@@ -34,7 +34,7 @@ warnings.filterwarnings("ignore")
 ############################################################################################################################
 # Festlegung der Intervalle:
 
-intervalle = [(0, 1650)]
+intervalle = [(-520, -200),(-199, 0),(1, 14),(15, 30),(31, 60),(61,90),(91,120),(121,180),(181,365),(366,850),(851,1650)]
 # # nehme Todesintervalle der toten Patienten als Klasse
 # # Füge in Verstorben.csv eine Intervallspalte hinzu
 # totintervalle = ml.addtoverstorben('Verstorben.csv', intervalle)
@@ -63,12 +63,12 @@ intervalle = [(0, 1650)]
 # tmpPseudo = model2filled.iloc[:, 0]
 # tmpDatum = model2filled.iloc[:, 1]
 # df1 = model2filled.iloc[:, 2:]
-# print(df1.head())
+# # print(df1.head())
 # df1 = df1.dropna(how='all')
 # df1.insert(loc=0, column='relatives_datum', value=tmpDatum)
-# print(df1.head())
+# # print(df1.head())
 # df1.insert(loc=0, column='Pseudonym', value=tmpPseudo)
-# print(df1.head())
+# # print(df1.head())
 # df1.drop('XDSON', inplace=True, axis=1)
 # df1.to_csv('model2filled_noStr.csv')
 
@@ -101,23 +101,23 @@ intervalle = [(0, 1650)]
 # df = pd.read_csv('model2_Classificationtable_intervalstatus.csv')
 # df = df.iloc[:, 1:]
 
-# p247 = df[df['Pseudonym'] == 247]
-# p247.drop('status', inplace=True, axis=1)
-# p247.to_csv('p247.csv')
+# p1235 = df[df['Pseudonym'] == 1235]
+# p1235.drop('status', inplace=True, axis=1)
+# p1235.to_csv('p1235.csv')
 
-# p18425 = df[df['Pseudonym'] == 18425]
-# p18425.drop('status', inplace=True, axis=1)
-# p18425.to_csv('p18425.csv')
+# p3487 = df[df['Pseudonym'] == 3487]
+# p3487.drop('status', inplace=True, axis=1)
+# p3487.to_csv('p3487.csv')
 
-# p22278 = df[df['Pseudonym'] == 22278]
-# p22278.drop('status', inplace=True, axis=1)
-# p22278.to_csv('p22278.csv')
+# p5865 = df[df['Pseudonym'] == 5865]
+# p5865.drop('status', inplace=True, axis=1)
+# p5865.to_csv('p5865.csv')
 
-# p88775 = df[df['Pseudonym'] == 88775]
-# p88775.drop('status', inplace=True, axis=1)
-# p88775.to_csv('p88775.csv')
+# p8730 = df[df['Pseudonym'] == 8730]
+# p8730.drop('status', inplace=True, axis=1)
+# p8730.to_csv('p8730.csv')
 
-# df2 = df[(df['Pseudonym'] != 247) & (df['Pseudonym'] != 18425) & (df['Pseudonym'] != 22278) & (df['Pseudonym'] != 88775)]
+# df2 = df[(df['Pseudonym'] != 1235) & (df['Pseudonym'] != 3487) & (df['Pseudonym'] != 5865) & (df['Pseudonym'] != 8730)]
 # df2.to_csv('model2_Classificationtable_intervalstatus_TMP.csv')
 
 
@@ -143,3 +143,16 @@ intervalle = [(0, 1650)]
 #             df.loc[row, 'Status'] = 1
 # df['Status'].fillna(0,inplace=True)
 # df.to_csv('model2_Classificationtable_intervalstatus.csv')
+
+
+
+
+
+# df = pd.read_csv('model2_Classificationtable_intervalstatus.csv')
+# keep = ['CRP','GGT37','GOT37','GPT37','HB','LEUKO','THROMB','LDH37','RETI-ABS','HAPTO','FERR','IL-6']
+# df2 = pd.DataFrame()
+# for el in keep:
+#     df2[el] = df[el]
+# df2['status'] = df['status']
+# print(df2.head())
+# df2.to_csv('myOwnFeatures.csv')

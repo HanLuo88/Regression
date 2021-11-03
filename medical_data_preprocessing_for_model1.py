@@ -46,3 +46,29 @@ from matplotlib import pyplot as plt
 # for i in df.columns[df.isnull().any(axis=0)]:     #---Applying Only on variables with NaN values
 #     df[i].fillna(df[i].mean(),inplace=True)
 # df.to_csv('naive_latest.csv')
+############################################################################################################################
+############################################################################################################################
+############################################################################################################################
+############################################################################################################################
+############################################################################################################################
+# df = pd.read_csv('naive_latest.csv')
+# df = df.iloc[:, 1:]
+
+# p1235_M1 = df[df['Pseudonym'] == 1235]
+# p1235_M1.drop('Status', inplace=True, axis=1)
+# p1235_M1.to_csv('p1235_M1.csv')
+
+# p3487_M1 = df[df['Pseudonym'] == 3487]
+# p3487_M1.drop('Status', inplace=True, axis=1)
+# p3487_M1.to_csv('p3487_M1.csv')
+
+# p5865_M1 = df[df['Pseudonym'] == 5865]
+# p5865_M1.drop('Status', inplace=True, axis=1)
+# p5865_M1.to_csv('p5865_M1.csv')
+
+# p8730_M1 = df[df['Pseudonym'] == 8730]
+# p8730_M1.drop('Status', inplace=True, axis=1)
+# p8730_M1.to_csv('p8730_M1.csv')
+
+# df2 = df[(df['Pseudonym'] != 1235) & (df['Pseudonym'] != 3487) & (df['Pseudonym'] != 5865) & (df['Pseudonym'] != 8730)]
+# df2.to_csv('naive_latest_TMP.csv')
