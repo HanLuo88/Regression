@@ -608,3 +608,8 @@ p8730_M4.csv
 p282441_M4_selection.csv
 p282441_M4.csv
 transposed_complete_model1.csv
+distance_featuregain.png
+M4_means_Distance.csv
+model4_weighted_selected_distance.txt
+my_test.py
+testest.csv

@@ -50,7 +50,7 @@ from sklearn.metrics import precision_recall_fscore_support as score
 ###########################################################################################################################
 ###########################################################################################################################
 ###########################################################################################################################
-medDatamodel4 = pd.read_csv('model4_TMP.csv')
+medDatamodel4 = pd.read_csv('model4_Selected.csv')
 medDataCopy_model4 = medDatamodel4.copy()
 medDataCopy_model4 = medDataCopy_model4.iloc[:, 3:]
 print(medDataCopy_model4.columns)
@@ -69,23 +69,23 @@ med_class_test_array = np.array(med_class_test_model4)
 
 
 
-p1235 = pd.read_csv('p1235_M4.csv')
+p1235 = pd.read_csv('p1235_M4_selection.csv')
 p1235 = p1235.iloc[:, 3:]
 # print(p1235.columns)
-p3487 = pd.read_csv('p3487_M4.csv')
+p3487 = pd.read_csv('p3487_M4_selection.csv')
 p3487 = p3487.iloc[:, 3:]
-p5865 = pd.read_csv('p5865_M4.csv')
+p5865 = pd.read_csv('p5865_M4_selection.csv')
 p5865 = p5865.iloc[:, 3:]
-p8730 = pd.read_csv('p8730_M4.csv')
+p8730 = pd.read_csv('p8730_M4_selection.csv')
 p8730 = p8730.iloc[:, 3:]
 
-p124 = pd.read_csv('p124_M4.csv')
+p124 = pd.read_csv('p124_M4_selection.csv')
 p124 = p124.iloc[:, 3:]
-p3297 = pd.read_csv('p3297_M4.csv')
+p3297 = pd.read_csv('p3297_M4_selection.csv')
 p3297 = p3297.iloc[:, 3:]
-p6658 = pd.read_csv('p6658_M4.csv')
+p6658 = pd.read_csv('p6658_M4_selection.csv')
 p6658 = p6658.iloc[:, 3:]
-p282441 = pd.read_csv('p282441_M4.csv')
+p282441 = pd.read_csv('p282441_M4_selection.csv')
 p282441 = p282441.iloc[:, 3:]
 intervalle = [(-520, -200),(-199, 0),(1, 120),(121, 300),(301, 800),(801, 1650)]
 print(intervalle)
