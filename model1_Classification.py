@@ -42,7 +42,7 @@ from sklearn.metrics import recall_score
 # med_class_test_array = np.array(med_class_test)
 ###########################################################################################################################
 ###########################################################################################################################
-medData = pd.read_csv('naive_latest_TMP.csv')
+medData = pd.read_csv('naive_latest_selection.csv')
 medDataCopy = medData.copy()
 medDataCopy = medDataCopy.iloc[:, 3:]
 print(medDataCopy.head())
@@ -59,14 +59,14 @@ med_features = medDataCopy.iloc[:, :-1]
 med_features_train, med_features_test, med_class_train, med_class_test = train_test_split(med_features, med_class, test_size=0.2, random_state=43, stratify=med_class)
 med_class_test_array = np.array(med_class_test)
 
-p1235_M1 = pd.read_csv('p1235_M1.csv')
+p1235_M1 = pd.read_csv('p1235_M1_selection.csv')
 p1235_M1 = p1235_M1.iloc[:, 3:]
 print(p1235_M1.columns)
-p3487_M1 = pd.read_csv('p3487_M1.csv')
+p3487_M1 = pd.read_csv('p3487_M1_selection.csv')
 p3487_M1 = p3487_M1.iloc[:, 3:]
-p5865_M1 = pd.read_csv('p5865_M1.csv')
+p5865_M1 = pd.read_csv('p5865_M1_selection.csv')
 p5865_M1 = p5865_M1.iloc[:, 3:]
-p8730_M1 = pd.read_csv('p8730_M1.csv')
+p8730_M1 = pd.read_csv('p8730_M1_selection.csv')
 p8730_M1 = p8730_M1.iloc[:, 3:]
 ###########################################################################################################################
 ###########################################################################################################################
@@ -354,18 +354,18 @@ xgboosted_f1 = f1_score(med_class_test, xgboosted_prediction, average='macro')
 print('XGBOOST: ', 'Accuracy: ', xgboosted_accuracy, 'Precision: ', xgboosted_precision, 'Recall: ', xgboosted_recall, 'F1-Score: ', xgboosted_f1)
 acc_CV = cross_val_score(xgmodel, med_features, med_class, cv=10)
 print(acc_CV, "Mean-Accuracy with all Features: ", mean(acc_CV))
-print(sorted((value, key) for (key, value) in xgmodel.get_booster().get_score(importance_type= 'gain').items()))
-# featureranking = sorted((value, key) for (key, value) in xgmodel.get_booster().get_score(importance_type= 'gain').items())
-# pyplot.rcParams['figure.figsize'] = [25,25]
-# plot_importance(xgmodel.get_booster().get_score(importance_type= 'gain'))
-# pyplot.show()
+# print(sorted((value, key) for (key, value) in xgmodel.get_booster().get_score(importance_type= 'gain').items()))
+featureranking = sorted((value, key) for (key, value) in xgmodel.get_booster().get_score(importance_type= 'gain').items())
+pyplot.rcParams['figure.figsize'] = [25,25]
+plot_importance(xgmodel.get_booster().get_score(importance_type= 'gain'))
+pyplot.show()
 # # ##########################################################################################################################
 # # ##########################################################################################################################
 # # ##########################################################################################################################
 # # ##########################################################################################################################
 # newfeatures = []
 # for i in range(len(featureranking)):
-#     if featureranking[i][0] < 0.8:
+#     if featureranking[i][0] < 1.0:
 #         newfeatures.append(featureranking[i][1])
 # # # print(newfeatures)
 
