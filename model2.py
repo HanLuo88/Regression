@@ -77,7 +77,7 @@ intervalle = [(-520, -200),(-199, 0),(1, 14),(15, 30),(31, 60),(61,90),(91,120),
 # df = ml.takelatestperInterval('model2filled_noStr.csv', intervalle)
 # df.to_csv('model2_interval_latest.csv')
 # ###########################################################################################################################
-# # Pro Patient werden leere Zellen werden mit dem mean der Spalte gefüllt
+# # Pro Patient werden leere Zellen werden mit dem mean des Intervals gefüllt
 # df = ml.fillmeanperPseudo('model2_interval_latest.csv')
 # df.to_csv('model2_Classificationtable_intervalstatus.csv')
 # ###########################################################################################################################
@@ -120,39 +120,3 @@ intervalle = [(-520, -200),(-199, 0),(1, 14),(15, 30),(31, 60),(61,90),(91,120),
 # df2 = df[(df['Pseudonym'] != 1235) & (df['Pseudonym'] != 3487) & (df['Pseudonym'] != 5865) & (df['Pseudonym'] != 8730)]
 # df2.to_csv('model2_Classificationtable_intervalstatus_TMP.csv')
 
-
-
-# ############################################################################################################################
-# ###########################################################################################################################
-# df = pd.read_csv('model2_Classificationtable_intervalstatus.csv')
-# statusDF = pd.read_csv('Verstorben.csv')
-# statusDF = statusDF.iloc[:, 1:]
-# status = statusDF['Pseudonym'].unique()
-# df = df.iloc[:, 1:]
-# df['Status'] = np.nan
-# pseudo = df['Pseudonym'].unique()
-# index = df.index
-# for row in range(len(df)):
-#     name = df.loc[row, 'Pseudonym']
-#     if status.__contains__(name):
-#         condition = df["Pseudonym"] == name
-#         nameindexes = index[condition]
-#         pseudoindexeslist = nameindexes.tolist()
-#         df.loc[row, 'Status'] = 0
-#         if row == pseudoindexeslist[-1]:
-#             df.loc[row, 'Status'] = 1
-# df['Status'].fillna(0,inplace=True)
-# df.to_csv('model2_Classificationtable_intervalstatus.csv')
-
-
-
-
-
-# df = pd.read_csv('model2_Classificationtable_intervalstatus.csv')
-# keep = ['CRP','GGT37','GOT37','GPT37','HB','LEUKO','THROMB','LDH37','RETI-ABS','HAPTO','FERR','IL-6']
-# df2 = pd.DataFrame()
-# for el in keep:
-#     df2[el] = df[el]
-# df2['status'] = df['status']
-# print(df2.head())
-# df2.to_csv('myOwnFeatures.csv')

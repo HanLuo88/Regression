@@ -64,6 +64,7 @@ class TestStringMethods(unittest.TestCase):
         
 
         df = pd.read_csv(inputDf)
+        df = df.iloc[:, 1:]
         pseudolist = df['Pseudonym'].unique()
         frames = []
         i = 0
@@ -90,23 +91,25 @@ class TestStringMethods(unittest.TestCase):
 ############################################################################################################################
     def test_remove_verificationPatients(self):
         inputFile = 'naive_latest.csv'
+       
         outputFile = 'naive_latest_TMP.csv'
 
         toRemoveSurvivor = [124, 3297, 6658, 282441]
         toRemoveDead = [1235, 3487, 5865, 8730]
 
         df = pd.read_csv(inputFile)
+        df = df.iloc[:, 1:]
 
         tmpDf = df.iloc[:, 1:]
         for index in range(0, len(toRemoveSurvivor)):
 
-            tot_M4 = df[df['Pseudonym'] == toRemoveDead[index]]
-            tot_M4.drop('status', inplace=True, axis=1)
-            tot_M4.to_csv('p' + str(toRemoveDead[index]) + '_M1.csv')
+            tot_M1 = df[df['Pseudonym'] == toRemoveDead[index]]
+            tot_M1.drop('Status', inplace=True, axis=1)
+            tot_M1.to_csv('p' + str(toRemoveDead[index]) + '_M1.csv')
 
-            lebend_M4 = df[df['Pseudonym'] == toRemoveSurvivor[index]]
-            lebend_M4.drop('status', inplace=True, axis=1)
-            lebend_M4.to_csv('p' + str(toRemoveSurvivor[index]) + '_M1.csv')
+            lebend_M1 = df[df['Pseudonym'] == toRemoveSurvivor[index]]
+            lebend_M1.drop('Status', inplace=True, axis=1)
+            lebend_M1.to_csv('p' + str(toRemoveSurvivor[index]) + '_M1.csv')
             
             tmpDf = tmpDf[(df['Pseudonym'] != toRemoveSurvivor[index]) & (df['Pseudonym'] != toRemoveDead[index])]
 
