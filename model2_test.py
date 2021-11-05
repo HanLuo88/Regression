@@ -6,7 +6,6 @@ import medical_lib as ml
 class TestStringMethods(unittest.TestCase):
 
     def test_Zeitraum_Eingrenzung(self):
-        intervalle = [(-520, -200),(-199, 0),(1, 14),(15, 30),(31, 60),(61,90),(91,120),(121,180),(181,365),(366,850),(851,1650)]
         # Eingrenzung des Betrachtungszeitraumes:
         # Model 2 teilt den Zeitraum in intervalle und nimmt pro Patient den letzten Wert in diesem Intervall pro Zeile.
         # Dadurch hat jeder Patient mehr als eine Zeile am ende.
@@ -43,7 +42,7 @@ class TestStringMethods(unittest.TestCase):
         wellFilledNoStrings = 'model2filled_noStr.csv'
         blanks = 90000
 
-        df = pd.read_csv(input)
+        df = pd.read_csv(inputDf)
         df = df.iloc[:, 1:]
         model2nonfilled, model2filled = ml.removeColsNotWellFilled(inputDf, blanks)
         model2nonfilled.to_csv(notwellFilledDF)
@@ -114,19 +113,23 @@ class TestStringMethods(unittest.TestCase):
         toRemoveDead = [1235, 3487, 5865, 8730]
 
         df = pd.read_csv(inputFile)
-        df = df.iloc[:, 1:]
 
         tmpDf = df.iloc[:, 1:]
         for index in range(0, len(toRemoveSurvivor)):
 
             tot_M2 = df[df['Pseudonym'] == toRemoveDead[index]]
-            tot_M2.drop('Status', inplace=True, axis=1)
+            tot_M2.drop('status', inplace=True, axis=1)
             tot_M2.to_csv('p' + str(toRemoveDead[index]) + '_M2.csv')
 
             lebend_M2 = df[df['Pseudonym'] == toRemoveSurvivor[index]]
-            lebend_M2.drop('Status', inplace=True, axis=1)
+            lebend_M2.drop('status', inplace=True, axis=1)
             lebend_M2.to_csv('p' + str(toRemoveSurvivor[index]) + '_M2.csv')
             
             tmpDf = tmpDf[(df['Pseudonym'] != toRemoveSurvivor[index]) & (df['Pseudonym'] != toRemoveDead[index])]
 
         tmpDf.to_csv(outputFile)
+
+
+
+if __name__ == '__main__':
+    unittest.main()
