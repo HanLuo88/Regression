@@ -45,12 +45,13 @@ from sklearn.metrics import precision_recall_fscore_support as score
 # med_features_train_model2, med_features_test_model2, med_class_train_model2, med_class_test_model2 = train_test_split(med_features_model2, med_class_model2, test_size=0.2, random_state=43, stratify=med_class_model2)
 # med_class_test_array = np.array(med_class_test_model2)
 
-
+intervalle = [(-520, -200),(-199, 0),(1, 120),(121, 300),(301, 800),(801, 1650)]
+print(intervalle)
 ###########################################################################################################################
 ###########################################################################################################################
 ###########################################################################################################################
 ###########################################################################################################################
-medDatamodel3 = pd.read_csv('naive_latest_todesinterval_model3.csv')
+medDatamodel3 = pd.read_csv('medDataCopy_model3_Features_Selected.csv')
 medDataCopy_model3 = medDatamodel3.copy()
 medDataCopy_model3 = medDataCopy_model3.iloc[:, 1:]
 
@@ -67,15 +68,24 @@ med_features_model3 = medDataCopy_model3.iloc[:, :-1]
 med_features_train_model3, med_features_test_model3, med_class_train_model3, med_class_test_model3 = train_test_split(med_features_model3, med_class_model3, test_size=0.2, random_state=43, stratify=med_class_model3)
 med_class_test_array = np.array(med_class_test_model3)
 
-p1235 = pd.read_csv('p1235_M3.csv')
-p1235 = p1235.iloc[:, 1:]
-print(p1235.columns)
-p3487 = pd.read_csv('p3487_M3.csv')
-p3487 = p3487.iloc[:, 1:]
-p5865 = pd.read_csv('p5865_M3.csv')
-p5865 = p5865.iloc[:, 1:]
-p8730 = pd.read_csv('p8730_M3.csv')
-p8730 = p8730.iloc[:, 1:]
+p1235_M3 = pd.read_csv('p1235_M3_selection.csv')
+p1235_M3 = p1235_M3.iloc[:, 1:]
+print(p1235_M3.columns)
+p3487_M3 = pd.read_csv('p3487_M3_selection.csv')
+p3487_M3 = p3487_M3.iloc[:, 1:]
+p5865_M3 = pd.read_csv('p5865_M3_selection.csv')
+p5865_M3 = p5865_M3.iloc[:, 1:]
+p8730_M3 = pd.read_csv('p8730_M3_selection.csv')
+p8730_M3 = p8730_M3.iloc[:, 1:]
+
+p124_M3 = pd.read_csv('p124_M3_selection.csv')
+p124_M3 = p124_M3.iloc[:, 1:]
+p3297_M3 = pd.read_csv('p3297_M3_selection.csv')
+p3297_M3 = p3297_M3.iloc[:, 1:]
+p6658_M3= pd.read_csv('p6658_M3_selection.csv')
+p6658_M3 = p6658_M3.iloc[:, 1:]
+p282441_M3 = pd.read_csv('p282441_M3_selection.csv')
+p282441_M3 = p282441_M3.iloc[:, 1:]
 
 # #Ohne Boost
 # print('Nachfolgend sind alle Vorhersagen ohne Featureboost')
@@ -87,22 +97,26 @@ medKNN = KNeighborsClassifier(n_neighbors=4)
     #Training
 medKNN.fit(med_features_train_model3,med_class_train_model3)
 
-medKNN_pred1 = medKNN.predict(p1235)
-print('KNN: ', medKNN_pred1)
+medKNN_pred1 = medKNN.predict(p1235_M3)
+print('KNN 1235: ', medKNN_pred1)
+medKNN_pred2 = medKNN.predict(p3487_M3)
+print('KNN 3487: ', medKNN_pred2)
+medKNN_pred3 = medKNN.predict(p5865_M3)
+print('KNN 5865: ', medKNN_pred3)
+medKNN_pred4 = medKNN.predict(p8730_M3)
+print('KNN 8730: ', medKNN_pred4)
 
-medKNN_pred2 = medKNN.predict(p3487)
-print('KNN: ', medKNN_pred2)
-
-medKNN_pred3 = medKNN.predict(p5865)
-print('KNN: ', medKNN_pred3)
-
-medKNN_pred4 = medKNN.predict(p8730)
-print('KNN: ', medKNN_pred4)
-
+medKNN_pred5 = medKNN.predict(p124_M3)
+print('KNN 124: ', medKNN_pred5)
+medKNN_pred6 = medKNN.predict(p3297_M3)
+print('KNN 3297: ', medKNN_pred6)
+medKNN_pred7 = medKNN.predict(p6658_M3)
+print('KNN 6658: ', medKNN_pred7)
+medKNN_pred8 = medKNN.predict(p282441_M3)
+print('KNN 282441: ', medKNN_pred8)
+print('')
 
 knnYpred = medKNN.predict(med_features_test_model3)
-print('KNN: ', 'Prediction: ', knnYpred)
-print('KNN: ', 'Actual: \n', med_class_test_model3.to_numpy())
 accuracyKNN = accuracy_score(knnYpred, med_class_test_array)
 precisionKNN = precision_score(knnYpred, med_class_test_array, average='weighted')
 recallKNN = recall_score(knnYpred, med_class_test_array, average='weighted')
@@ -140,24 +154,27 @@ print('')
 lr_model = LogisticRegression(solver='newton-cg' ,multi_class='multinomial')
 lr_model.fit(med_features_train_model3, med_class_train_model3)
 
-lr_y_pred1 = lr_model.predict(p1235)
-print('Logistic Regression: ', lr_y_pred1)
+lr_y_pred1 = lr_model.predict(p1235_M3)
+print('Logistic Regression 1235: ', lr_y_pred1)
+lr_y_pred2 = lr_model.predict(p3487_M3)
+print('Logistic Regression 3487: ', lr_y_pred2)
+lr_y_pred3 = lr_model.predict(p5865_M3)
+print('Logistic Regression 5865: ', lr_y_pred3)
+lr_y_pred4 = lr_model.predict(p8730_M3)
+print('Logistic Regression 8730: ', lr_y_pred4)
 
-lr_y_pred2 = lr_model.predict(p3487)
-print('Logistic Regression: ', lr_y_pred2)
-
-lr_y_pred3 = lr_model.predict(p5865)
-print('Logistic Regression: ', lr_y_pred3)
-
-lr_y_pred4 = lr_model.predict(p8730)
-print('Logistic Regression: ', lr_y_pred4)
-
+lr_y_pred5 = lr_model.predict(p124_M3)
+print('Logistic Regression 124: ', lr_y_pred5)
+lr_y_pred6 = lr_model.predict(p3297_M3)
+print('Logistic Regression 3297: ', lr_y_pred6)
+lr_y_pred7 = lr_model.predict(p6658_M3)
+print('Logistic Regression 6658: ', lr_y_pred7)
+lr_y_pred8 = lr_model.predict(p282441_M3)
+print('Logistic Regression 282441: ', lr_y_pred8)
+print('')
 
 # #Prediction of test set
 lr_y_pred = lr_model.predict(med_features_test_model3)
-print('Logistic Regression', 'predicted: \n', lr_y_pred)
-print('Logistic Regression', 'Actual: \n', med_class_test_model3.to_numpy())
-
 lr_accuracyLogReg = accuracy_score(lr_y_pred, med_class_test_array)
 lr_precisionLogReg = precision_score(lr_y_pred, med_class_test_array, average='weighted')
 lr_recallLogReg = recall_score(lr_y_pred, med_class_test_array, average='weighted')
@@ -247,26 +264,26 @@ print('')
 medical_DecTree = DecisionTreeClassifier(criterion='entropy')
 medical_DecTree = medical_DecTree.fit(med_features_train_model3, med_class_train_model3)
 
-decTree_pred1 = medical_DecTree.predict(p1235)
-print('Decision Tree: ', decTree_pred1)
+decTree_pred1 = medical_DecTree.predict(p1235_M3)
+print('Decision Tree 1235: ', decTree_pred1)
+decTree_pred2 = medical_DecTree.predict(p3487_M3)
+print('Decision Tree 3487: ', decTree_pred2)
+decTree_pred3 = medical_DecTree.predict(p5865_M3)
+print('Decision Tree 5865: ', decTree_pred3)
+decTree_pred4 = medical_DecTree.predict(p8730_M3)
+print('Decision Tree 8730: ', decTree_pred4)
 
-
-decTree_pred2 = medical_DecTree.predict(p3487)
-print('Decision Tree: ', decTree_pred2)
-
-
-decTree_pred3 = medical_DecTree.predict(p5865)
-print('Decision Tree: ', decTree_pred3)
-
-
-decTree_pred4 = medical_DecTree.predict(p8730)
-print('Decision Tree: ', decTree_pred4)
-
+decTree_pred5 = medical_DecTree.predict(p124_M3)
+print('Decision Tree 124: ', decTree_pred5)
+decTree_pred6 = medical_DecTree.predict(p3297_M3)
+print('Decision Tree 3297: ', decTree_pred6)
+decTree_pred7 = medical_DecTree.predict(p6658_M3)
+print('Decision Tree 6658: ', decTree_pred7)
+decTree_pred8 = medical_DecTree.predict(p282441_M3)
+print('Decision Tree 282441: ', decTree_pred8)
+print('')
 
 decTree_pred = medical_DecTree.predict(med_features_test_model3)
-print('Decision Tree: ','predicted: \n', decTree_pred)
-print('Decision Tree: ','Actual: \n', med_class_test_model3.to_numpy())
-
 accuracyDecTree = accuracy_score(decTree_pred, med_class_test_array)
 precisionDecTree = precision_score(decTree_pred, med_class_test_array, average='weighted')
 recallDecTree = recall_score(decTree_pred, med_class_test_array, average='weighted')
@@ -300,25 +317,26 @@ print('')
 medical_RF = RandomForestClassifier(n_estimators= 50, criterion='entropy', class_weight='balanced_subsample')
 medical_RF.fit(med_features_train_model3, med_class_train_model3)
 
-RandomForest_prediction1 = medical_RF.predict(p1235)
-print('Random Forest: ', RandomForest_prediction1)
+RandomForest_prediction1 = medical_RF.predict(p1235_M3)
+print('Random Forest 1235: ', RandomForest_prediction1)
+RandomForest_prediction2 = medical_RF.predict(p3487_M3)
+print('Random Forest 3487: ', RandomForest_prediction2)
+RandomForest_prediction3 = medical_RF.predict(p5865_M3)
+print('Random Forest 5865: ', RandomForest_prediction3)
+RandomForest_prediction4 = medical_RF.predict(p8730_M3)
+print('Random Forest 8730: ', RandomForest_prediction4)
 
-
-RandomForest_prediction2 = medical_RF.predict(p3487)
-print('Random Forest: ', RandomForest_prediction2)
-
-
-RandomForest_prediction3 = medical_RF.predict(p5865)
-print('Random Forest: ', RandomForest_prediction3)
-
-
-RandomForest_prediction4 = medical_RF.predict(p8730)
-print('Random Forest: ', RandomForest_prediction4)
+RandomForest_pred5 = medical_RF.predict(p124_M3)
+print('Random Forest 124: ', RandomForest_pred5)
+RandomForest_pred6 = medical_RF.predict(p3297_M3)
+print('Random Forest 3297: ', RandomForest_pred6)
+RandomForest_pred7 = medical_RF.predict(p6658_M3)
+print('Random Forest 6658: ', RandomForest_pred7)
+RandomForest_pred8 = medical_RF.predict(p282441_M3)
+print('Random Forest 282441: ', RandomForest_pred8)
 print('')
 
 rfPred = medical_RF.predict(med_features_test_model3)
-print('Random Forest: ','predicted: \n', decTree_pred)
-print('Random Forest: ','Actual: \n', med_class_test_model3.to_numpy())
 accuracyRF = accuracy_score(rfPred, med_class_test_array)
 precisionRF = precision_score(rfPred, med_class_test_array, average='weighted')
 recallRF = recall_score(rfPred, med_class_test_array, average='weighted')
@@ -351,27 +369,27 @@ print('')
 adamodel = AdaBoostClassifier()
 adamodel.fit(med_features_train_model3, med_class_train_model3)
 
-adamodel_prediction1 = adamodel.predict(p1235)
-print('AdaBoost: ', adamodel_prediction1)
+adamodel_prediction1 = adamodel.predict(p1235_M3)
+print('AdaBoost 1235: ', adamodel_prediction1)
+adamodel_prediction2 = adamodel.predict(p3487_M3)
+print('AdaBoost 3487: ', adamodel_prediction2)
+adamodel_prediction3 = adamodel.predict(p5865_M3)
+print('AdaBoost 5865: ', adamodel_prediction3)
+adamodel_prediction4 = adamodel.predict(p8730_M3)
+print('AdaBoost 8730: ', adamodel_prediction4)
 
-
-adamodel_prediction2 = adamodel.predict(p3487)
-print('AdaBoost: ', adamodel_prediction2)
-
-
-adamodel_prediction3 = adamodel.predict(p5865)
-print('AdaBoost: ', adamodel_prediction3)
-
-
-adamodel_prediction4 = adamodel.predict(p8730)
-print('AdaBoost: ', adamodel_prediction4)
+adamodel_pred5 = adamodel.predict(p124_M3)
+print('AdaBoost 124: ', adamodel_pred5)
+adamodel_pred6 = adamodel.predict(p3297_M3)
+print('AdaBoost 3297: ', adamodel_pred6)
+adamodel_pred7 = adamodel.predict(p6658_M3)
+print('AdaBoost 6658: ', adamodel_pred7)
+adamodel_pred8 = adamodel.predict(p282441_M3)
+print('AdaBoost 282441: ', adamodel_pred8)
 print('')
 
 # #print(adamodel) zeigt die Parameter des Classifiers an
 adamodel_prediction = adamodel.predict(med_features_test_model3)
-print('AdaBoost: ','predicted: \n', adamodel_prediction)
-print('AdaBoost: ','Actual: \n', med_class_test_model3.to_numpy())
-
 adamodel_accuracy = accuracy_score(med_class_test_model3, adamodel_prediction)
 adamodel_precision = precision_score(med_class_test_model3, adamodel_prediction, average='weighted')
 adamodel_recall = recall_score(med_class_test_model3, adamodel_prediction, average='weighted')
@@ -418,26 +436,26 @@ xgmodel.fit(med_features_train_model3, med_class_train_model3)
 # # #print(xgmodel) zeigt die Parameter des Classifiers an
 
 
-xgmodel_prediction1 = xgmodel.predict(p1235)
-print('XGBoost: ', xgmodel_prediction1)
+xgmodel_prediction1 = xgmodel.predict(p1235_M3)
+print('XGBoost 1235: ', xgmodel_prediction1)
+xgmodel_prediction2 = xgmodel.predict(p3487_M3)
+print('XGBoost 3487: ', xgmodel_prediction2)
+xgmodel_prediction3 = xgmodel.predict(p5865_M3)
+print('XGBoost 5865: ', xgmodel_prediction3)
+xgmodel_prediction4 = xgmodel.predict(p8730_M3)
+print('XGBoost 8730: ', xgmodel_prediction4)
 
-
-xgmodel_prediction2 = xgmodel.predict(p3487)
-print('XGBoost: ', xgmodel_prediction2)
-
-
-xgmodel_prediction3 = xgmodel.predict(p5865)
-print('XGBoost: ', xgmodel_prediction3)
-
-
-xgmodel_prediction4 = xgmodel.predict(p8730)
-print('XGBoost: ', xgmodel_prediction4)
+xgmodel_pred5 = xgmodel.predict(p124_M3)
+print('XGBoost 124: ', adamodel_pred5)
+xgmodel_pred6 = xgmodel.predict(p3297_M3)
+print('XGBoost 3297: ', adamodel_pred6)
+xgmodel_pred7 = xgmodel.predict(p6658_M3)
+print('XGBoost 6658: ', adamodel_pred7)
+xgmodel_pred8 = xgmodel.predict(p282441_M3)
+print('XGBoost 282441: ', adamodel_pred8)
+print('')
 
 xgboosted_prediction = xgmodel.predict(med_features_test_model3)
-print('predicted: \n', xgboosted_prediction)
-print('Actual: \n', med_class_test_model3.to_numpy())
-
-
 xgboosted_accuracy = accuracy_score(med_class_test_model3, xgboosted_prediction)
 xgboosted_precision = precision_score(med_class_test_model3, xgboosted_prediction, average='weighted')
 xgboosted_recall = recall_score(med_class_test_model3, xgboosted_prediction, average='weighted')
@@ -445,7 +463,7 @@ xgboosted_f1 = f1_score(med_class_test_model3, xgboosted_prediction, average='we
 print('XGBOOST: ', 'Accuracy: ', xgboosted_accuracy, 'Precision: ', xgboosted_precision, 'Recall: ', xgboosted_recall, 'F1-Score: ', xgboosted_f1)
 # acc_CV = cross_val_score(xgmodel, med_features_model2, med_class_model2, cv=10, scoring='precision')
 # print('XGBOOST: ', acc_CV, "Mean-Accuracy with all Features: ", mean(acc_CV))
-# featureranking = sorted((value, key) for (key, value) in xgmodel.get_booster().get_score(importance_type= 'gain').items())
+featureranking = sorted((value, key) for (key, value) in xgmodel.get_booster().get_score(importance_type= 'gain').items())
 pyplot.rcParams['figure.figsize'] = [30,30]
 plot_importance(xgmodel.get_booster().get_score(importance_type= 'gain'))
 pyplot.show()
@@ -464,12 +482,20 @@ pyplot.show()
 
 # for el in newfeatures:
 #     medDataCopy_model3.drop(el, inplace=True, axis=1)
-#     p1235.drop(el, inplace=True, axis=1)
-#     p3487.drop(el, inplace=True, axis=1)
-#     p5865.drop(el, inplace=True, axis=1)
-#     p8730.drop(el, inplace=True, axis=1)
+#     p1235_M3.drop(el, inplace=True, axis=1)
+#     p3487_M3.drop(el, inplace=True, axis=1)
+#     p5865_M3.drop(el, inplace=True, axis=1)
+#     p8730_M3.drop(el, inplace=True, axis=1)
+#     p124_M3.drop(el, inplace=True, axis=1)
+#     p3297_M3.drop(el, inplace=True, axis=1)
+#     p6658_M3.drop(el, inplace=True, axis=1)
+#     p282441_M3.drop(el, inplace=True, axis=1)
 # medDataCopy_model3.to_csv('medDataCopy_model3_Features_Selected.csv')
-# p1235.to_csv('p1235_M3_selection.csv')
-# p3487.to_csv('p3487_M3_selection.csv')
-# p5865.to_csv('p5865_M3_selection.csv')
-# p8730.to_csv('p8730_M3_selection.csv')
+# p1235_M3.to_csv('p1235_M3_selection.csv')
+# p3487_M3.to_csv('p3487_M3_selection.csv')
+# p5865_M3.to_csv('p5865_M3_selection.csv')
+# p8730_M3.to_csv('p8730_M3_selection.csv')
+# p124_M3.to_csv('p124_M3_selection.csv')
+# p3297_M3.to_csv('p3297_M3_selection.csv')
+# p6658_M3.to_csv('p6658_M3_selection.csv')
+# p282441_M3.to_csv('p282441_M3_selection.csv')
