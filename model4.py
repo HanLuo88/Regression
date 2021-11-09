@@ -14,33 +14,33 @@ from matplotlib import pyplot as plt
 # lebendig = df[df['status'] == 7]
 
 # #Mean für lebendig
-# meandict_lebendig = {}
+# modedict_lebendig = {}
 # lebendig = lebendig.iloc[:, 2:]
 # for el in lebendig.columns:
-#     meandict_lebendig[el] = lebendig[el].mean()
+#     modedict_lebendig[el] = lebendig[el].mode()[0]
     
-# df1 = pd.DataFrame.from_dict(meandict_lebendig, orient='index')
+# df1 = pd.DataFrame.from_dict(modedict_lebendig, orient='index')
 # # df1 = df1.transpose()
 
 # #Mean für tot
-# meandict_tot = {}
+# modedict_tot = {}
 # tot = tot.iloc[:, 2:]
 # for el in lebendig.columns:
-#     meandict_tot[el] = tot[el].mean()
+#     modedict_tot[el] = tot[el].mode()[0]
     
-# df2 = pd.DataFrame.from_dict(meandict_tot, orient='index')
+# df2 = pd.DataFrame.from_dict(modedict_tot, orient='index')
 # # df2 = df2.transpose()
 
 # frames = [df1, df2]
 # result = pd.concat(frames, axis=1)
 # result.columns = ['Lebendig_Average', 'Tot_Average']
-# result.to_csv('M4_means.csv')
+# result.to_csv('M4_modes.csv')
 ###########################################################################################################################
-# mdf = pd.read_csv('M4_means.csv')
+# mdf = pd.read_csv('M4_modes.csv')
 # mdf['relative_Abweichung'] = abs((mdf['Tot_Average'] - mdf['Lebendig_Average']) / mdf['Lebendig_Average'])
 # mdf.sort_values(by='relative_Abweichung', inplace=True, ascending=False)
 # mdf = mdf.reset_index()
-# mdf.to_csv('M4_means_Distance.csv')
+# mdf.to_csv('M4_modes_Distance.csv')
 ###########################################################################################################################
 # cols = ['Pseudonym', 'relatives_datum', 'CRP', 'GGT37', 'GOT37', 'GPT37', 'HB', 'LEUKO', 'THROMB', 'LDH37', 'M-BL', 'FERR', 'BK-PCR', 'CMV-DNA', 'EBV-DNA', 'HST', 'M-AZ', 'M-NRBC', 'M-PR', 'NRBC-ABS','IL-6', 'status']
 # frames = []

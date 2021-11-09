@@ -280,7 +280,7 @@ def takelatestperInterval(nostrdf, interval):
     result = pd.concat(frames)
     return result
 
-def fillmeanperPseudo(latestdf):
+def fillmodeperPseudo(latestdf):
     df = pd.read_csv(str(latestdf))
     df = df.iloc[:, 1:]
     pseudo = df['Pseudonym'].unique()
@@ -289,7 +289,7 @@ def fillmeanperPseudo(latestdf):
         tmpdf = df.loc[df['Pseudonym'] == name]
         for i in tmpdf.columns[tmpdf.isnull().any(axis=0)]:     #---Applying Only on variables with NaN values
             ser = tmpdf.loc[:, i]
-            tmpdf[i].fillna(ser.mean(),inplace=True)
+            tmpdf[i].fillna(ser.mode(),inplace=True)
         frames.append(tmpdf)
     result = pd.concat(frames)
     return result

@@ -30,26 +30,6 @@ from sklearn.metrics import f1_score
 from sklearn.metrics import recall_score
 from sklearn.metrics import precision_recall_fscore_support as score
 #################################################################################################
-# medDatamodel2 = pd.read_csv('myOwnFeatures.csv')
-# medDataCopy_model2 = medDatamodel2.copy()
-# medDataCopy_model2 = medDataCopy_model2.iloc[:, 1:]
-# print('Prediction mit einem grossen Interval und selbst ausgesuchten Features: \n', medDataCopy_model2.columns)
-# #################################################################################################
-# med_class_model2 = medDataCopy_model2.iloc[:, -1]
-
-# med_features_model2 = medDataCopy_model2.iloc[:, :-1]
-
-# ###########################################################################################################################
-# ###########################################################################################################################
-# # Aufteilen der Daten in 4 Untersets
-# med_features_train_model2, med_features_test_model2, med_class_train_model2, med_class_test_model2 = train_test_split(med_features_model2, med_class_model2, test_size=0.2, random_state=43, stratify=med_class_model2)
-# med_class_test_array = np.array(med_class_test_model2)
-
-
-###########################################################################################################################
-###########################################################################################################################
-###########################################################################################################################
-###########################################################################################################################
 medDatamodel3 = pd.read_csv('naive_latest_model3_TMP.csv')
 medDataCopy_model3 = medDatamodel3.copy()
 medDataCopy_model3 = medDataCopy_model3.iloc[:, 3:]
@@ -64,10 +44,6 @@ med_features_model3 = medDataCopy_model3.iloc[:, :-1]
 # Aufteilen der Daten in 4 Untersets
 med_features_train_model3, med_features_test_model3, med_class_train_model3, med_class_test_model3 = train_test_split(med_features_model3, med_class_model3, test_size=0.2, random_state=43, stratify=med_class_model3)
 med_class_test_array = np.array(med_class_test_model3)
-
-# print(med_features_train_model4.columns)
-
-
 
 p1235 = pd.read_csv('p1235_M3.csv')
 p1235 = p1235.iloc[:, 4:]
@@ -90,12 +66,10 @@ p282441 = p282441.iloc[:, 4:]
 intervalle = [(-520, -200),(-199, 0),(1, 120),(121, 300),(301, 800),(801, 1650)]
 print(intervalle)
 
-
 # #Ohne Boost
 # print('Nachfolgend sind alle Vorhersagen ohne Featureboost')
 # # Knn-Classifier for K = 8
-print('KNN up to K = 4')
-print('')
+print('KNN')
 # for k in range(1,81):
 medKNN = KNeighborsClassifier(n_neighbors=4)
     #Training
@@ -147,7 +121,7 @@ print('Tatsächlich: ', accuracyknn, precisionknn, recallknn, f1scoreknn)
 print('Durchschnittliche Abweichung: ', mean(abweichungknn))
 print('Standartabweichung der Abweichung: ', np.std(abweichungknn))
 pyplot.hist(abweichungknn)
-pyplot.title('Häugifkeitsverteilung: K-Nearest Neighbor')
+pyplot.title('Häugifkeitsverteilung der Abweichungen: K-Nearest Neighbor')
 pyplot.xlabel("Wert")
 pyplot.ylabel("Häufigkeit")
 pyplot.show()
@@ -228,7 +202,7 @@ print('Tatsächlich: ', accuracylr, precisionlr, recalllr, f1scorelr)
 print('Durchschnittliche Abweichung: ', mean(abweichunglr))
 print('Standartabweichung der Abweichung: ', np.std(abweichunglr))
 pyplot.hist(abweichunglr)
-pyplot.title('Häugifkeitsverteilung: Logistic Regression')
+pyplot.title('Häugifkeitsverteilung der Abweichungen: Logistic Regression')
 pyplot.xlabel("Wert")
 pyplot.ylabel("Häufigkeit")
 pyplot.show()
@@ -302,7 +276,7 @@ print('Tatsächlich: ', accuracydc, precisiondc, recalldc, f1scoredc)
 print('Durchschnittliche Abweichung: ', mean(abweichungdc))
 print('Standartabweichung der Abweichung: ', np.std(abweichungdc))
 pyplot.hist(abweichungdc)
-pyplot.title('Häugifkeitsverteilung: Decision Tree')
+pyplot.title('Häugifkeitsverteilung der Abweichungen: Decision Tree')
 pyplot.xlabel("Wert")
 pyplot.ylabel("Häufigkeit")
 pyplot.show()
@@ -354,7 +328,7 @@ accuracyRF = accuracy_score(rfPred, med_class_test_array)
 precisionRF = precision_score(rfPred, med_class_test_array, average='weighted')
 recallRF = recall_score(rfPred, med_class_test_array, average='weighted')
 f1scoreRF = f1_score(rfPred, med_class_test_array, average='weighted')
-print('Anzahl Estimator: 50 ', 'RF Accuracy: ', accuracyRF, 'RF Precision: ', precisionRF, 'RF Recall: ', recallRF, 'RF F1-Score: ', f1scoreRF )
+print('Anzahl Estimator: 100 ', 'RF Accuracy: ', accuracyRF, 'RF Precision: ', precisionRF, 'RF Recall: ', recallRF, 'RF F1-Score: ', f1scoreRF )
 pred_tot_lebendigrf = []
 actual_tot_lebendigrf = []
 abweichungrf = []
@@ -377,7 +351,7 @@ print('Tatsächlich: ', accuracyrf, precisionrf, recallrf, f1scorerf)
 print('Durchschnittliche Abweichung: ', mean(abweichungrf))
 print('Standartabweichung der Abweichung: ', np.std(abweichungrf))
 pyplot.hist(abweichungrf)
-pyplot.title('Häugifkeitsverteilung: Random Forest')
+pyplot.title('Häugifkeitsverteilung der Abweichungen: Random Forest')
 pyplot.xlabel("Wert")
 pyplot.ylabel("Häufigkeit")
 pyplot.show()
@@ -454,7 +428,7 @@ print('Tatsächlich: ', accuracyada, precisionada, recallada, f1scoreada)
 print('Durchschnittliche Abweichung: ', mean(abweichungada))
 print('Standartabweichung der Abweichung: ', np.std(abweichungada))
 pyplot.hist(abweichungada)
-pyplot.title('Häugifkeitsverteilung: ADABoost')
+pyplot.title('Häugifkeitsverteilung der Abweichungen: ADABoost')
 pyplot.xlabel("Wert")
 pyplot.ylabel("Häufigkeit")
 pyplot.show()
@@ -519,7 +493,7 @@ print('Durchschnittliche Abweichung: ', mean(abweichungxg))
 print('Standartabweichung der Abweichung: ', np.std(abweichungxg))
 print('#################################################################################################')
 pyplot.hist(abweichungxg)
-pyplot.title('Häugifkeitsverteilung: XGBoost')
+pyplot.title('Häugifkeitsverteilung der Abweichungen: XGBoost')
 pyplot.xlabel("Wert")
 pyplot.ylabel("Häufigkeit")
 pyplot.show()

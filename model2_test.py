@@ -118,22 +118,22 @@ class TestStringMethods(unittest.TestCase):
 ############################################################################################################################
 
     def test_fillmean_pro_interval(self):
-        # Pro Patient werden leere Zellen werden mit dem mean des Intervalls gefüllt
+        # Pro Patient werden leere Zellen werden mit dem mode(häufigster Wert) des Intervalls gefüllt
         inputDf = 'model2_interval_latest.csv'
         outputDf = 'model2_Classificationtable_intervalstatus.csv'
-
-        df = ml.fillmeanperPseudo(inputDf)
+        df = ml.fillmodeperPseudo(inputDf)
         df.to_csv(outputDf)
 ############################################################################################################################
 
     def test_fill_rest(self):
-        # # Pro Patient werden leere Zellen werden mit dem mean des Intervals gefüllt
+        # # Pro Patient werden leere Zellen werden mit dem mode des Intervals gefüllt
         inputDf = 'model2_Classificationtable_intervalstatus.csv'
         df = pd.read_csv(inputDf)
         df = df.iloc[:, 1:]
         # ---Applying Only on variables with NaN values
         for i in df.columns[df.isnull().any(axis=0)]:
-            df[i].fillna(df[i].mean(), inplace=True)
+            df[i].fillna(df[i].mode()[0], inplace=True)
+        df.dropna(inplace=True)
         df.to_csv(inputDf)
 ############################################################################################################################
 

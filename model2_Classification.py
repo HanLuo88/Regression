@@ -33,9 +33,9 @@ warnings.filterwarnings("ignore")
 intervalle = [(-520, -200),(-199, 0),(1, 14),(15, 30),(31, 60),(61,90),(91,120),(121,180),(181,365),(366,850),(851,1650)]
 print(intervalle)
 medDatamodel2 = pd.read_csv(
-    'medDataCopy_model2_Features_Selected.csv')
+    'model2_Classificationtable_intervalstatus_TMP.csv')
 medDataCopy_model2 = medDatamodel2.copy()
-medDataCopy_model2 = medDataCopy_model2.iloc[:, 1:]
+medDataCopy_model2 = medDataCopy_model2.iloc[:, 3:]
 medDataCopy_model2_Features_Selected = medDataCopy_model2.copy()
 
 #################################################################################################
@@ -50,28 +50,27 @@ med_features_train_model2, med_features_test_model2, med_class_train_model2, med
     med_features_model2, med_class_model2, test_size=0.2, random_state=43, stratify=med_class_model2)
 med_class_test_array = np.array(med_class_test_model2)
 
-p1235_M2 = pd.read_csv('p1235_M2_selection.csv')
-p1235_M2 = p1235_M2.iloc[:, 1:]
+p1235_M2 = pd.read_csv('p1235_M2.csv')
+p1235_M2 = p1235_M2.iloc[:, 4:]
 print(p1235_M2.columns)
-p3487_M2 = pd.read_csv('p3487_M2_selection.csv')
-p3487_M2 = p3487_M2.iloc[:, 1:]
-p5865_M2 = pd.read_csv('p5865_M2_selection.csv')
-p5865_M2 = p5865_M2.iloc[:, 1:]
-p8730_M2 = pd.read_csv('p8730_M2_selection.csv')
-p8730_M2 = p8730_M2.iloc[:, 1:]
+p3487_M2 = pd.read_csv('p3487_M2.csv')
+p3487_M2 = p3487_M2.iloc[:, 4:]
+p5865_M2 = pd.read_csv('p5865_M2.csv')
+p5865_M2 = p5865_M2.iloc[:, 4:]
+p8730_M2 = pd.read_csv('p8730_M2.csv')
+p8730_M2 = p8730_M2.iloc[:, 4:]
 
-p124_M2 = pd.read_csv('p124_M2_selection.csv')
-p124_M2 = p124_M2.iloc[:, 1:]
-p3297_M2 = pd.read_csv('p3297_M2_selection.csv')
-p3297_M2 = p3297_M2.iloc[:, 1:]
-p6658_M2 = pd.read_csv('p6658_M2_selection.csv')
-p6658_M2 = p6658_M2.iloc[:, 1:]
-p282441_M2 = pd.read_csv('p282441_M2_selection.csv')
-p282441_M2 = p282441_M2.iloc[:, 1:]
+p124_M2 = pd.read_csv('p124_M2.csv')
+p124_M2 = p124_M2.iloc[:, 4:]
+p3297_M2 = pd.read_csv('p3297_M2.csv')
+p3297_M2 = p3297_M2.iloc[:, 4:]
+p6658_M2 = pd.read_csv('p6658_M2.csv')
+p6658_M2 = p6658_M2.iloc[:, 4:]
+p282441_M2 = pd.read_csv('p282441_M2.csv')
+p282441_M2 = p282441_M2.iloc[:, 4:]
 
-# #Ohne Boost
-# print('Nachfolgend sind alle Vorhersagen ohne Featureboost')
-# # Knn-Classifier for K = 8
+###########################################################################################################################
+###########################################################################################################################
 print('KNN up to K = 4')
 print('')
 # for k in range(1,81):
@@ -179,65 +178,6 @@ print('#########################################################################
 # meanF1scoreLogReg_CV = np.mean(f1scoreLogReg_CV)
 # print('10-Fold LogReg Accuracy: ', meanAccuracyLogReg_CV, '10-Fold LogReg Precision: ', meanPrecisionLogReg_CV, '10-Fold LogReg Recall: ', meanRecallLogReg_CV, '10-Fold LogReg F1-Score: ', meanF1scoreLogReg_CV )
 # print('#################################################################################################')
-
-# # # ###########################################################################################################################
-# # # ###########################################################################################################################
-# # # ###########################################################################################################################
-# # # ###########################################################################################################################
-# # # # # SVM:
-# print('SVM')
-# print('')
-# # # Create a svm Classifier
-# medical_SVM = svm.SVC(kernel='poly', degree=9, C=1, decision_function_shape='ovo') # Linear Kernel
-# #Train the model using the training sets
-# medical_SVM.fit(med_features_train_model2, med_class_train_model2)
-
-# SVM_pred1 = medical_SVM.predict(p1235)
-# print('SVM: ', SVM_pred1)
-
-
-# SVM_pred2 = medical_SVM.predict(p3487)
-# print('SVM: ', SVM_pred2)
-
-
-# SVM_pred3 = medical_SVM.predict(p5865)
-# print('SVM: ', SVM_pred3)
-
-
-# SVM_pred4 = medical_SVM.predict(p8730)
-# print('SVM: ', SVM_pred4)
-# print('')
-
-
-# # #Predict the response for test dataset
-# svmPred = medical_SVM.predict(med_features_test_model2)
-# print('SVM: ', 'predicted: \n', lr_y_pred)
-# print('SVM: ', 'Actual: \n', med_class_test_model2.to_numpy())
-# accuracySVM = accuracy_score(svmPred, med_class_test_array)
-# precisionSVM = precision_score(svmPred, med_class_test_array, average='macro')
-# recallSVM = recall_score(svmPred, med_class_test_array, average='macro')
-# f1scoreSVM = f1_score(svmPred, med_class_test_array, average='macro')
-# print('SVM Accuracy: ', accuracySVM, 'SVM Precision: ', precisionSVM, 'SVM Recall: ', recallSVM, 'SVM F1-Score: ', f1scoreSVM )
-# print('#################################################################################################')
-# # # ###########################################################################################################################
-# # # ###########################################################################################################################
-# # # ###########################################################################################################################
-# # # ###########################################################################################################################
-# # # #10-Fold SVM
-# print('10-Fold SVM')
-# print('')
-# medical_KFOLD_SVM = svm.SVC()
-# accuracySVM_CV = cross_val_score(medical_KFOLD_SVM, med_features_model2, med_class_model2, cv=10, scoring='accuracy')
-# precisionSVM_CV = cross_val_score(medical_KFOLD_SVM, med_features_model2, med_class_model2, cv=10, scoring='precision')
-# recallSVM_CV = cross_val_score(medical_KFOLD_SVM, med_features_model2, med_class_model2, cv=10, scoring='recall')
-# f1scoreSVM_CV = cross_val_score(medical_KFOLD_SVM, med_features_model2, med_class_model2, cv=10, scoring='f1')
-# meanAccuracySVM_CV = np.mean(accuracySVM_CV)
-# meanPrecisionSVM_CV = np.mean(precisionSVM_CV)
-# meanRecallSVM_CV = np.mean(recallSVM_CV)
-# meanF1scoreSVM_CV = np.mean(f1scoreSVM_CV)
-# print('10-Fold SVM Accuracy: ', meanAccuracySVM_CV, '10-Fold SVM Precision: ', meanPrecisionSVM_CV, '10-Fold SVM Recall: ', meanRecallSVM_CV, '10-Fold SVM F1-Score: ', meanF1scoreSVM_CV )
-# print('#################################################################################################')
-
 # # # ##########################################################################################################################
 # # # ##########################################################################################################################
 # # # ##########################################################################################################################
@@ -245,7 +185,7 @@ print('#########################################################################
 # # # #Decision Tree
 print('Decision Tree')
 print('')
-medical_DecTree = DecisionTreeClassifier(criterion='entropy')
+medical_DecTree = DecisionTreeClassifier(random_state=17)
 medical_DecTree = medical_DecTree.fit(
     med_features_train_model2, med_class_train_model2)
 
@@ -302,7 +242,7 @@ print('Random Forest')
 print('')
 # for estimator in range(50, 501, 25):
 medical_RF = RandomForestClassifier(
-    n_estimators=50, criterion='entropy', class_weight='balanced_subsample')
+    n_estimators=100, random_state= 17)
 medical_RF.fit(med_features_train_model2, med_class_train_model2)
 
 RandomForest_prediction1 = medical_RF.predict(p1235_M2)
@@ -390,33 +330,6 @@ print('ADABOOST: ', 'Accuracy: ', adamodel_accuracy, 'Precision: ',
       adamodel_precision, 'Recall: ', adamodel_recall, 'f1-Score: ', adamodel_f1)
 # acc_CV = cross_val_score(adamodel, med_features_model2, med_class_model2, cv=10, scoring='average_precision')
 # print('ADABOOST: ', acc_CV, "Mean-Precision with all Features: ", mean(acc_CV))
-# ###########################################################################################################################
-# ###########################################################################################################################
-# ###########################################################################################################################
-# ###########################################################################################################################
-# #Isolation Forest
-# # isoforestmodel = IsolationForest(random_state=1)
-# # isoforestmodel.fit(med_features_train_model2, med_class_train_model2)
-# # isoforestmodelprediction0 = isoforestmodel.predict(med_features_test_model2)
-# # print(isoforestmodelprediction0)
-
-# # isoforestmodel_prediction1 = isoforestmodel.predict(p247)
-# # print('IsolationForest: ', isoforestmodel_prediction1)
-
-
-# # isoforestmodel_prediction2 = isoforestmodel.predict(p18425)
-# # print('IsolationForest: ', isoforestmodel_prediction2)
-
-
-# # isoforestmodel_prediction3 = isoforestmodel.predict(p22278)
-# # print('IsolationForest: ', isoforestmodel_prediction3)
-
-
-# # isoforestmodel_prediction4 = isoforestmodel.predict(p88775)
-# # print('IsolationForest: ', isoforestmodel_prediction4)
-# # print('')
-
-
 # ###########################################################################################################################
 # ###########################################################################################################################
 # ###########################################################################################################################
