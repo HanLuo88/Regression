@@ -14,8 +14,9 @@ warnings.filterwarnings("ignore")
 # Dadurch hat jeder Patient mehr als eine Zeile am ende.
 # Nach Tag 0 anhand der Verteilung der relativen Tage:  Mittelwert mü = 118.58 Tage, SIgma s = 637,79 Tage => mü + 3S = 2031.95 Tage = 2032 Tage
 # Vor Tag 0 anhand der Verteilung der relativen Tage: Mittelwert mü = 118.58 Tage, SIgma s = 637,79 Tage => mü - s = -519.21 Tage = -520 Tage
-# dfcomplete = pd.read_csv('transposed_complete.csv')
-# dfcomplete = dfcomplete.iloc[:, 1:]
+dfcomplete = pd.read_csv('transposed_complete.csv')
+dfcomplete = dfcomplete.iloc[:, 1:]
+# print(dfcomplete.memory_usage(index=True).sum())
 # dfcomplete = dfcomplete[(dfcomplete.relatives_datum < 1620)
 #                         & (dfcomplete.relatives_datum > -520)]
 # dfcomplete.reset_index(drop=True, inplace=True)

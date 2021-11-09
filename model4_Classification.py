@@ -233,43 +233,28 @@ print('#########################################################################
 
 # SVM_pred1 = medical_SVM.predict(p1235)
 # print('SVM: ', SVM_pred1)
-
-
 # SVM_pred2 = medical_SVM.predict(p3487)
 # print('SVM: ', SVM_pred2)
-
-
 # SVM_pred3 = medical_SVM.predict(p5865)
 # print('SVM: ', SVM_pred3)
-
-
 # SVM_pred4 = medical_SVM.predict(p8730)
 # print('SVM: ', SVM_pred4)
 
 
 # SVM_prediction5 = medical_SVM.predict(p124)
 # print('SVM: ', SVM_prediction5)
-
-
 # SVM_prediction6 = medical_SVM.predict(p3297)
 # print('SVM: ', SVM_prediction6)
-
-
 # SVM_prediction7 = medical_SVM.predict(p6658)
 # print('SVM: ', SVM_prediction7)
-
-
 # SVM_prediction8 = medical_SVM.predict(p282441)
 # print('SVM: ', SVM_prediction8)
-
 # print('')
 
 
 
 # # #Predict the response for test dataset
 # svmPred = medical_SVM.predict(med_features_test_model4)
-# # print('SVM: ', 'predicted: \n', lr_y_pred)
-# # print('SVM: ', 'Actual: \n', med_class_test_model4.to_numpy())
 # accuracySVM = accuracy_score(svmPred, med_class_test_array)
 # precisionSVM = precision_score(svmPred, med_class_test_array, average='macro')
 # recallSVM = recall_score(svmPred, med_class_test_array, average='macro')
