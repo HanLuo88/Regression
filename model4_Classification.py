@@ -31,7 +31,7 @@ from sklearn.metrics import recall_score
 from sklearn.metrics import precision_recall_fscore_support as score
 #################################################################################################
 
-medDatamodel4 = pd.read_csv('model4_TMP.csv')
+medDatamodel4 = pd.read_csv('model4.csv')
 medDataCopy_model4 = medDatamodel4.copy()
 medDataCopy_model4 = medDataCopy_model4.iloc[:, 3:]
 print(medDataCopy_model4.columns)

@@ -1,10 +1,8 @@
-from os import sep
-import re
 import pandas as pd
 import numpy as np
-from matplotlib import pyplot as plt
-from pandas.core.arrays.categorical import contains
-from sklearn.ensemble import IsolationForest
+
+
+
 import time
 
 def hasBefund_one(df1, befundDf):
@@ -137,11 +135,26 @@ def scoring(predicted, truevalue):
             falsePositiv += 1
         else: 
             falseNegativ += 1
-    accuracy = (truePositiv + trueNegativ) / len(predicted)
-    precision = truePositiv/(truePositiv+falsePositiv)
-    recall = truePositiv/(truePositiv + falseNegativ)
-    f1score = 2*(recall *precision)/(recall + precision)
-    return accuracy, precision, recall, f1score
+    try:
+        accuracy = (truePositiv + trueNegativ) / len(predicted)
+    except:
+        print('accuracy: Division by Zero')
+    try:
+        precision = truePositiv/(truePositiv+falsePositiv)
+    except:
+        print('precision: Division by Zero')
+    try:
+        recall = truePositiv/(truePositiv + falseNegativ)
+    except:
+        print('recall: Division by Zero')
+    try:
+        f1score = 2*(recall *precision)/(recall + precision)
+    except:
+        print('f1score: Division by Zero')
+    
+    return(accuracy, precision, recall, f1score)
+   
+       
 
 
 
@@ -309,3 +322,4 @@ def fillintervalstatus(classificationabletable, interval):
             todesint = statusDF.query('Pseudonym == ' + str(name))['todesinterval'].to_list()
             df.loc[row, 'status'] = todesint[0]
     return df
+

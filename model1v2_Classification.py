@@ -25,7 +25,7 @@ from sklearn.metrics import recall_score
 #################################################################################################
 ###########################################################################################################################
 ###########################################################################################################################
-medData = pd.read_csv('naive_latest_selection.csv')
+medData = pd.read_csv('naive_latest_model1v2_selection.csv')
 medDataCopy = medData.copy()
 medDataCopy = medDataCopy.iloc[:, 1:]
 medDataCopy_model2_Features_Selected = medDataCopy.copy()
@@ -41,23 +41,23 @@ med_features = medDataCopy.iloc[:, :-1]
 med_features_train, med_features_test, med_class_train, med_class_test = train_test_split(med_features, med_class, test_size=0.2, random_state=43, stratify=med_class)
 med_class_test_array = np.array(med_class_test)
 
-p1235_M1 = pd.read_csv('p1235_M1_selection.csv')
+p1235_M1 = pd.read_csv('p1235_M1_v2_selection.csv')
 p1235_M1 = p1235_M1.iloc[:, 1:]
 print(p1235_M1.columns)
-p3487_M1 = pd.read_csv('p3487_M1_selection.csv')
+p3487_M1 = pd.read_csv('p3487_M1_v2_selection.csv')
 p3487_M1 = p3487_M1.iloc[:, 1:]
-p5865_M1 = pd.read_csv('p5865_M1_selection.csv')
+p5865_M1 = pd.read_csv('p5865_M1_v2_selection.csv')
 p5865_M1 = p5865_M1.iloc[:, 1:]
-p8730_M1 = pd.read_csv('p8730_M1_selection.csv')
+p8730_M1 = pd.read_csv('p8730_M1_v2_selection.csv')
 p8730_M1 = p8730_M1.iloc[:, 1:]
 
-p124_M1 = pd.read_csv('p124_M1_selection.csv')
+p124_M1 = pd.read_csv('p124_M1_v2_selection.csv')
 p124_M1 = p124_M1.iloc[:, 1:]
-p3297_M1 = pd.read_csv('p3297_M1_selection.csv')
+p3297_M1 = pd.read_csv('p3297_M1_v2_selection.csv')
 p3297_M1 = p3297_M1.iloc[:, 1:]
-p6658_M1 = pd.read_csv('p6658_M1_selection.csv')
+p6658_M1 = pd.read_csv('p6658_M1_v2_selection.csv')
 p6658_M1 = p6658_M1.iloc[:, 1:]
-p282441_M1 = pd.read_csv('p282441_M1_selection.csv')
+p282441_M1 = pd.read_csv('p282441_M1_v2_selection.csv')
 p282441_M1 = p282441_M1.iloc[:, 1:]
 ###########################################################################################################################
 ###########################################################################################################################
@@ -168,7 +168,7 @@ print('#########################################################################
 #Decision Tree
 print('Decision Tree')
 print('')
-medical_DecTree = DecisionTreeClassifier(random_state=15)
+medical_DecTree = DecisionTreeClassifier(random_state=43)
 medical_DecTree = medical_DecTree.fit(med_features_train, med_class_train)
 
 medical_DecTree_pred1 = medical_DecTree.predict(p1235_M1)
@@ -200,7 +200,7 @@ print('#########################################################################
 
 #10-Fold Decision Tree
 print('10-Fold Decision Tree')
-medical_KFOLD_DecTree = DecisionTreeClassifier(random_state=15)
+medical_KFOLD_DecTree = DecisionTreeClassifier(random_state=43)
 accuracyDecTree_CV = cross_val_score(medical_KFOLD_DecTree, med_features, med_class, cv=10, scoring='accuracy')
 precisionDecTree_CV = cross_val_score(medical_KFOLD_DecTree, med_features, med_class, cv=10, scoring='precision')
 recallDecTree_CV = cross_val_score(medical_KFOLD_DecTree, med_features, med_class, cv=10, scoring='recall')
@@ -365,12 +365,12 @@ pyplot.show()
 #     p3297_M1.drop(el, inplace=True, axis=1)
 #     p6658_M1.drop(el, inplace=True, axis=1)
 #     p282441_M1.drop(el, inplace=True, axis=1)
-# medDataCopy.to_csv('naive_latest_selection.csv')
-# p1235_M1.to_csv('p1235_M1_selection.csv')
-# p3487_M1.to_csv('p3487_M1_selection.csv')
-# p5865_M1.to_csv('p5865_M1_selection.csv')
-# p8730_M1.to_csv('p8730_M1_selection.csv')
-# p124_M1.to_csv('p124_M1_selection.csv')
-# p3297_M1.to_csv('p3297_M1_selection.csv')
-# p6658_M1.to_csv('p6658_M1_selection.csv')
-# p282441_M1.to_csv('p282441_M1_selection.csv')
+# medDataCopy.to_csv('naive_latest_model1v2_selection.csv')
+# p1235_M1.to_csv('p1235_M1_v2_selection.csv')
+# p3487_M1.to_csv('p3487_M1_v2_selection.csv')
+# p5865_M1.to_csv('p5865_M1_v2_selection.csv')
+# p8730_M1.to_csv('p8730_M1_v2_selection.csv')
+# p124_M1.to_csv('p124_M1_v2_selection.csv')
+# p3297_M1.to_csv('p3297_M1_v2_selection.csv')
+# p6658_M1.to_csv('p6658_M1_v2_selection.csv')
+# p282441_M1.to_csv('p282441_M1_v2_selection.csv')

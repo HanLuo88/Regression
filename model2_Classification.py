@@ -33,9 +33,9 @@ warnings.filterwarnings("ignore")
 intervalle = [(-520, -200),(-199, 0),(1, 14),(15, 30),(31, 60),(61,90),(91,120),(121,180),(181,365),(366,850),(851,1650)]
 print(intervalle)
 medDatamodel2 = pd.read_csv(
-    'model2_Classificationtable_intervalstatus_TMP.csv')
+    'medDataCopy_model2_Features_Selected.csv')
 medDataCopy_model2 = medDatamodel2.copy()
-medDataCopy_model2 = medDataCopy_model2.iloc[:, 3:]
+medDataCopy_model2 = medDataCopy_model2.iloc[:, 1:]
 medDataCopy_model2_Features_Selected = medDataCopy_model2.copy()
 
 #################################################################################################
@@ -50,24 +50,24 @@ med_features_train_model2, med_features_test_model2, med_class_train_model2, med
     med_features_model2, med_class_model2, test_size=0.2, random_state=43, stratify=med_class_model2)
 med_class_test_array = np.array(med_class_test_model2)
 
-p1235_M2 = pd.read_csv('p1235_M2.csv')
-p1235_M2 = p1235_M2.iloc[:, 4:]
+p1235_M2 = pd.read_csv('p1235_M2_selection.csv')
+p1235_M2 = p1235_M2.iloc[:, 1:]
 print(p1235_M2.columns)
-p3487_M2 = pd.read_csv('p3487_M2.csv')
-p3487_M2 = p3487_M2.iloc[:, 4:]
-p5865_M2 = pd.read_csv('p5865_M2.csv')
-p5865_M2 = p5865_M2.iloc[:, 4:]
-p8730_M2 = pd.read_csv('p8730_M2.csv')
-p8730_M2 = p8730_M2.iloc[:, 4:]
+p3487_M2 = pd.read_csv('p3487_M2_selection.csv')
+p3487_M2 = p3487_M2.iloc[:, 1:]
+p5865_M2 = pd.read_csv('p5865_M2_selection.csv')
+p5865_M2 = p5865_M2.iloc[:, 1:]
+p8730_M2 = pd.read_csv('p8730_M2_selection.csv')
+p8730_M2 = p8730_M2.iloc[:, 1:]
 
-p124_M2 = pd.read_csv('p124_M2.csv')
-p124_M2 = p124_M2.iloc[:, 4:]
-p3297_M2 = pd.read_csv('p3297_M2.csv')
-p3297_M2 = p3297_M2.iloc[:, 4:]
-p6658_M2 = pd.read_csv('p6658_M2.csv')
-p6658_M2 = p6658_M2.iloc[:, 4:]
-p282441_M2 = pd.read_csv('p282441_M2.csv')
-p282441_M2 = p282441_M2.iloc[:, 4:]
+p124_M2 = pd.read_csv('p124_M2_selection.csv')
+p124_M2 = p124_M2.iloc[:, 1:]
+p3297_M2 = pd.read_csv('p3297_M2_selection.csv')
+p3297_M2 = p3297_M2.iloc[:, 1:]
+p6658_M2 = pd.read_csv('p6658_M2_selection.csv')
+p6658_M2 = p6658_M2.iloc[:, 1:]
+p282441_M2 = pd.read_csv('p282441_M2_selection.csv')
+p282441_M2 = p282441_M2.iloc[:, 1:]
 
 ###########################################################################################################################
 ###########################################################################################################################
@@ -98,11 +98,34 @@ print('KNN 282441: ', medKNN_pred8)
 print('')
 knnYpred = medKNN.predict(med_features_test_model2)
 accuracyKNN = accuracy_score(knnYpred, med_class_test_array)
-precisionKNN = precision_score(knnYpred, med_class_test_array, average='macro')
-recallKNN = recall_score(knnYpred, med_class_test_array, average='macro')
-f1scoreKNN = f1_score(knnYpred, med_class_test_array, average='macro')
+precisionKNN = precision_score(knnYpred, med_class_test_array, average='weighted')
+recallKNN = recall_score(knnYpred, med_class_test_array, average='weighted')
+f1scoreKNN = f1_score(knnYpred, med_class_test_array, average='weighted')
 print('K: ', 4, 'KNN Accuracy: ', accuracyKNN, 'KNN Precision: ',
       precisionKNN, 'KNN Recall: ', recallKNN, 'KNN F1-Score: ', f1scoreKNN)
+pred_tot_lebendigknn = []
+actual_tot_lebendigknn = []
+abweichungknn = []
+for el in range(0, len(knnYpred)):
+    dist = abs(knnYpred[el] - med_class_test_array[el])
+    abweichungknn.append(dist)
+    if knnYpred[el] < 12:
+        pred_tot_lebendigknn.append(1)
+    else: 
+        pred_tot_lebendigknn.append(0)
+    if med_class_test_array[el] < 12:
+        actual_tot_lebendigknn.append(1)
+    else:
+        actual_tot_lebendigknn.append(0)
+accuracyknn, precisionknn, recallknn, f1scoreknn = ml.scoring(pred_tot_lebendigknn, actual_tot_lebendigknn)
+print('Tatsächlich: ', accuracyknn, precisionknn, recallknn, f1scoreknn)
+print('Durchschnittliche Abweichung: ', np.mean(abweichungknn))
+print('Standartabweichung der Abweichung: ', np.std(abweichungknn))
+pyplot.hist(abweichungknn)
+pyplot.title('Häugifkeitsverteilung der Abweichungen: Logistic Regression')
+pyplot.xlabel("Wert")
+pyplot.ylabel("Häufigkeit")
+pyplot.show()
 print('#################################################################################################')
 
 
@@ -123,12 +146,10 @@ print('#########################################################################
 # meanF1scoreKNN_CV = np.mean(f1scoreKNN_CV)
 # print('10-Fold KNN Accuracy: ', meanAccuracyKNN_CV, '10-Fold KNN Precision: ', meanPrecisionKNN_CV, '10-Fold KNN Recall: ', meanRecallKNN_CV, '10-Fold KNN F1-Score: ', meanF1scoreKNN_CV )
 # print('#################################################################################################')
-
 # # # ###########################################################################################################################
 # # # ###########################################################################################################################
 # # # ###########################################################################################################################
 # # # ###########################################################################################################################
-
 # # # # Logistic Regression:
 print('Logistic Regression')
 print('')
@@ -157,12 +178,35 @@ print('')
 lr_y_pred = lr_model.predict(med_features_test_model2)
 lr_accuracyLogReg = accuracy_score(lr_y_pred, med_class_test_array)
 lr_precisionLogReg = precision_score(
-    lr_y_pred, med_class_test_array, average='macro')
+    lr_y_pred, med_class_test_array, average='weighted')
 lr_recallLogReg = recall_score(
-    lr_y_pred, med_class_test_array, average='macro')
-lr_f1scoreLogReg = f1_score(lr_y_pred, med_class_test_array, average='macro')
+    lr_y_pred, med_class_test_array, average='weighted')
+lr_f1scoreLogReg = f1_score(lr_y_pred, med_class_test_array, average='weighted')
 print('Log-Regression Accuracy: ', lr_accuracyLogReg, 'Log-Regression Precision: ', lr_precisionLogReg,
       'Log-Regression Recall: ', lr_recallLogReg, 'Log-Regression F1-Score: ', lr_f1scoreLogReg)
+pred_tot_lebendiglr = []
+actual_tot_lebendiglr = []
+abweichunglr = []
+for el in range(0, len(lr_y_pred)):
+    dist = abs(lr_y_pred[el] - med_class_test_array[el])
+    abweichunglr.append(dist)
+    if lr_y_pred[el] < 12:
+        pred_tot_lebendiglr.append(1)
+    else: 
+        pred_tot_lebendiglr.append(0)
+    if med_class_test_array[el] < 12:
+        actual_tot_lebendiglr.append(1)
+    else:
+        actual_tot_lebendiglr.append(0)
+accuracylr, precisionlr, recalllr, f1scorelr = ml.scoring(pred_tot_lebendiglr, actual_tot_lebendiglr)
+print('Tatsächlich: ', accuracylr, precisionlr, recalllr, f1scorelr)
+print('Durchschnittliche Abweichung: ', np.mean(abweichunglr))
+print('Standartabweichung der Abweichung: ', np.std(abweichunglr))
+pyplot.hist(abweichunglr)
+pyplot.title('Häugifkeitsverteilung der Abweichungen: Logistic Regression')
+pyplot.xlabel("Wert")
+pyplot.ylabel("Häufigkeit")
+pyplot.show()
 print('#################################################################################################')
 # # # # # 10-Fold Logistic Regression:
 # print('10-Fold Logistic Regression')
@@ -210,12 +254,35 @@ print('')
 decTree_pred = medical_DecTree.predict(med_features_test_model2)
 accuracyDecTree = accuracy_score(decTree_pred, med_class_test_array)
 precisionDecTree = precision_score(
-    decTree_pred, med_class_test_array, average='macro')
+    decTree_pred, med_class_test_array, average='weighted')
 recallDecTree = recall_score(
-    decTree_pred, med_class_test_array, average='macro')
-f1scoreDecTree = f1_score(decTree_pred, med_class_test_array, average='macro')
+    decTree_pred, med_class_test_array, average='weighted')
+f1scoreDecTree = f1_score(decTree_pred, med_class_test_array, average='weighted')
 print('Decision Tree: ', 'medical_DecTree Accuracy: ', accuracyDecTree, 'DecTree Precision: ',
       precisionDecTree, 'DecTree Recall: ', recallDecTree, 'DecTree F1-Score: ', f1scoreDecTree)
+pred_tot_lebendigdc = []
+actual_tot_lebendigdc = []
+abweichungdc = []
+for el in range(0, len(decTree_pred)):
+    dist = abs(decTree_pred[el] - med_class_test_array[el])
+    abweichungdc.append(dist)
+    if decTree_pred[el] < 12:
+        pred_tot_lebendigdc.append(1)
+    else: 
+        pred_tot_lebendigdc.append(0)
+    if med_class_test_array[el] < 12:
+        actual_tot_lebendigdc.append(1)
+    else:
+        actual_tot_lebendigdc.append(0)
+accuracydc, precisiondc, recalldc, f1scoredc = ml.scoring(pred_tot_lebendigdc, actual_tot_lebendigdc)
+print('Tatsächlich: ', accuracydc, precisiondc, recalldc, f1scoredc)
+print('Durchschnittliche Abweichung: ', np.mean(abweichungdc))
+print('Standartabweichung der Abweichung: ', np.std(abweichungdc))
+pyplot.hist(abweichungdc)
+pyplot.title('Häugifkeitsverteilung der Abweichungen: Decision Tree')
+pyplot.xlabel("Wert")
+pyplot.ylabel("Häufigkeit")
+pyplot.show()
 # print('#################################################################################################')
 
 # # # # #10-Fold Decision Tree
@@ -242,7 +309,7 @@ print('Random Forest')
 print('')
 # for estimator in range(50, 501, 25):
 medical_RF = RandomForestClassifier(
-    n_estimators=100, random_state= 17)
+    n_estimators=100, random_state= 20)
 medical_RF.fit(med_features_train_model2, med_class_train_model2)
 
 RandomForest_prediction1 = medical_RF.predict(p1235_M2)
@@ -266,11 +333,34 @@ print('')
 
 rfPred = medical_RF.predict(med_features_test_model2)
 accuracyRF = accuracy_score(rfPred, med_class_test_array)
-precisionRF = precision_score(rfPred, med_class_test_array, average='macro')
-recallRF = recall_score(rfPred, med_class_test_array, average='macro')
-f1scoreRF = f1_score(rfPred, med_class_test_array, average='macro')
-print('Anzahl Estimator: 50 ', 'RF Accuracy: ', accuracyRF, 'RF Precision: ',
+precisionRF = precision_score(rfPred, med_class_test_array, average='weighted')
+recallRF = recall_score(rfPred, med_class_test_array, average='weighted')
+f1scoreRF = f1_score(rfPred, med_class_test_array, average='weighted')
+print('Anzahl Estimator: 100 ', 'RF Accuracy: ', accuracyRF, 'RF Precision: ',
       precisionRF, 'RF Recall: ', recallRF, 'RF F1-Score: ', f1scoreRF)
+pred_tot_lebendigrf = []
+actual_tot_lebendigrf = []
+abweichungrf = []
+for el in range(0, len(rfPred)):
+    dist = abs(rfPred[el] - med_class_test_array[el])
+    abweichungrf.append(dist)
+    if rfPred[el] < 12:
+        pred_tot_lebendigrf.append(1)
+    else: 
+        pred_tot_lebendigrf.append(0)
+    if med_class_test_array[el] < 12:
+        actual_tot_lebendigrf.append(1)
+    else:
+        actual_tot_lebendigrf.append(0)
+accuracyrf, precisionrf, recallrf, f1scorerf = ml.scoring(pred_tot_lebendigrf, actual_tot_lebendigrf)
+print('Tatsächlich: ', accuracyrf, precisionrf, recallrf, f1scorerf)
+print('Durchschnittliche Abweichung: ', np.mean(abweichungrf))
+print('Standartabweichung der Abweichung: ', np.std(abweichungrf))
+pyplot.hist(abweichungrf)
+pyplot.title('Häugifkeitsverteilung der Abweichungen: Random Forest')
+pyplot.xlabel("Wert")
+pyplot.ylabel("Häufigkeit")
+pyplot.show()
 print('#################################################################################################')
 
 # # # # #10-Fold Random Forest
@@ -321,13 +411,39 @@ print('')
 adamodel_prediction = adamodel.predict(med_features_test_model2)
 adamodel_accuracy = accuracy_score(med_class_test_model2, adamodel_prediction)
 adamodel_precision = precision_score(
-    med_class_test_model2, adamodel_prediction, average='macro')
+    med_class_test_model2, adamodel_prediction, average='weighted')
 adamodel_recall = recall_score(
-    med_class_test_model2, adamodel_prediction, average='macro')
+    med_class_test_model2, adamodel_prediction, average='weighted')
 adamodel_f1 = f1_score(med_class_test_model2,
-                       adamodel_prediction, average='macro')
+                       adamodel_prediction, average='weighted')
 print('ADABOOST: ', 'Accuracy: ', adamodel_accuracy, 'Precision: ',
       adamodel_precision, 'Recall: ', adamodel_recall, 'f1-Score: ', adamodel_f1)
+pred_tot_lebendigada = []
+actual_tot_lebendigada = []
+abweichungada = []
+for el in range(0, len(adamodel_prediction)):
+    dist = abs(adamodel_prediction[el] - med_class_test_array[el])
+    abweichungada.append(dist)
+    if adamodel_prediction[el] < 12:
+        pred_tot_lebendigada.append(1)
+    else: 
+        pred_tot_lebendigada.append(0)
+    if med_class_test_array[el] < 12:
+        actual_tot_lebendigada.append(1)
+    else:
+        actual_tot_lebendigada.append(0)
+try:
+    accuracyada, precisionada, recallada, f1scoreada = ml.scoring(pred_tot_lebendigada, actual_tot_lebendigada)
+    print('Tatsächlich: ', accuracyada, precisionada, recallada, f1scoreada)
+    print('Durchschnittliche Abweichung: ', np.mean(abweichungada))
+    print('Standartabweichung der Abweichung: ', np.std(abweichungada))
+except:
+    print('Division by Zero')
+pyplot.hist(abweichungada)
+pyplot.title('Häugifkeitsverteilung der Abweichungen: ADABoost')
+pyplot.xlabel("Wert")
+pyplot.ylabel("Häufigkeit")
+pyplot.show()
 # acc_CV = cross_val_score(adamodel, med_features_model2, med_class_model2, cv=10, scoring='average_precision')
 # print('ADABOOST: ', acc_CV, "Mean-Precision with all Features: ", mean(acc_CV))
 # ###########################################################################################################################
@@ -337,7 +453,7 @@ print('ADABOOST: ', 'Accuracy: ', adamodel_accuracy, 'Precision: ',
 # #jetzt mit XGBoost die Features bewerten und deren Anzahl reduzieren
 # # XGBoost
 print('XGBOOST:')
-xgmodel = XGBClassifier(n_estimators=25, eval_metric='mlogloss')
+xgmodel = XGBClassifier(eval_metric='mlogloss')
 xgmodel.fit(med_features_train_model2, med_class_train_model2)
 # # #print(xgmodel) zeigt die Parameter des Classifiers an
 xgmodel_prediction1 = xgmodel.predict(p1235_M2)
@@ -363,13 +479,38 @@ xgboosted_prediction = xgmodel.predict(med_features_test_model2)
 xgboosted_accuracy = accuracy_score(
     med_class_test_model2, xgboosted_prediction)
 xgboosted_precision = precision_score(
-    med_class_test_model2, xgboosted_prediction, average='macro')
+    med_class_test_model2, xgboosted_prediction, average='weighted')
 xgboosted_recall = recall_score(
-    med_class_test_model2, xgboosted_prediction, average='macro')
+    med_class_test_model2, xgboosted_prediction, average='weighted')
 xgboosted_f1 = f1_score(med_class_test_model2,
-                        xgboosted_prediction, average='macro')
+                        xgboosted_prediction, average='weighted')
 print('XGBOOST: ', 'Accuracy: ', xgboosted_accuracy, 'Precision: ',
       xgboosted_precision, 'Recall: ', xgboosted_recall, 'F1-Score: ', xgboosted_f1)
+pred_tot_lebendigxg = []
+actual_tot_lebendigxg = []
+abweichungxg = []
+for el in range(0, len(xgboosted_prediction)):
+    dist = abs(xgboosted_prediction[el] - med_class_test_array[el])
+    abweichungxg.append(dist)
+    if xgboosted_prediction[el] < 12:
+        pred_tot_lebendigxg.append(1)
+    else: 
+        pred_tot_lebendigxg.append(0)
+    if med_class_test_array[el] < 12:
+        actual_tot_lebendigxg.append(1)
+    else:
+        actual_tot_lebendigxg.append(0)
+
+accuracyxg, precisionxg, recallxg, f1scorexg = ml.scoring(pred_tot_lebendigxg, actual_tot_lebendigxg)
+print('Tatsächlich: ', accuracyxg, precisionxg, recallxg, f1scorexg)
+print('Durchschnittliche Abweichung: ', np.mean(abweichungxg))
+print('Standartabweichung der Abweichung: ', np.std(abweichungxg))
+print('#################################################################################################')
+pyplot.hist(abweichungxg)
+pyplot.title('Häugifkeitsverteilung der Abweichungen: XGBoost')
+pyplot.xlabel("Wert")
+pyplot.ylabel("Häufigkeit")
+pyplot.show()
 # acc_CV = cross_val_score(xgmodel, med_features_model2, med_class_model2, cv=10, scoring='precision')
 # print('XGBOOST: ', acc_CV, "Mean-Accuracy with all Features: ", mean(acc_CV))
 featureranking = sorted((value, key) for (key, value) in xgmodel.get_booster().get_score(importance_type= 'gain').items())
@@ -382,10 +523,9 @@ pyplot.show()
 # ##########################################################################################################################
 # ##########################################################################################################################
 
-
 # newfeatures = []
 # for i in range(len(featureranking)):
-#     if featureranking[i][0] < 2.0:
+#     if featureranking[i][0] < 1.0:
 #         newfeatures.append(featureranking[i][1])
 # # # print(newfeatures)
 
