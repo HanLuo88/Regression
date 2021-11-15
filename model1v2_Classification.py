@@ -25,7 +25,7 @@ from sklearn.metrics import recall_score
 #################################################################################################
 ###########################################################################################################################
 ###########################################################################################################################
-medData = pd.read_csv('naive_latest_model1v2_selection.csv')
+medData = pd.read_csv('naive_latest_model1v2_selection.csv') #naive_latest_model1v2_TMP
 medDataCopy = medData.copy()
 medDataCopy = medDataCopy.iloc[:, 1:]
 medDataCopy_model2_Features_Selected = medDataCopy.copy()
@@ -107,6 +107,11 @@ meanAccuracyKNN_CV = np.mean(accuracyKNN_CV)
 meanPrecisionKNN_CV = np.mean(precisionKNN_CV)
 meanRecallKNN_CV = np.mean(recallKNN_CV)
 meanF1scoreKNN_CV = np.mean(f1scoreKNN_CV)
+result = pd.read_csv('automated_algorithmen.csv')
+result = result.iloc[:, 1:]
+result.at[3, 'KNN'] = meanPrecisionKNN_CV
+result.to_csv('automated_algorithmen.csv')
+
 print('10-Fold KNN Accuracy: ', meanAccuracyKNN_CV, '10-Fold KNN Precision: ', meanPrecisionKNN_CV, '10-Fold KNN Recall: ', meanRecallKNN_CV, '10-Fold KNN F1-Score: ', meanF1scoreKNN_CV )
 print('#################################################################################################')
 # ###########################################################################################################################
@@ -159,6 +164,11 @@ meanAccuracyLogReg_CV = np.mean(accuracyLogReg_CV)
 meanPrecisionLogReg_CV = np.mean(precisionLogReg_CV)
 meanRecallLogReg_CV = np.mean(recallLogReg_CV)
 meanF1scoreLogReg_CV = np.mean(f1scoreLogReg_CV)
+result = pd.read_csv('automated_algorithmen.csv')
+result = result.iloc[:, 1:]
+result.at[3, 'Logistic_Regression'] = meanPrecisionLogReg_CV
+result.to_csv('automated_algorithmen.csv')
+
 print('10-Fold LogReg Accuracy: ', meanAccuracyLogReg_CV, '10-Fold LogReg Precision: ', meanPrecisionLogReg_CV, '10-Fold LogReg Recall: ', meanRecallLogReg_CV, '10-Fold LogReg F1-Score: ', meanF1scoreLogReg_CV )
 print('#################################################################################################')
 ###########################################################################################################################
@@ -209,6 +219,12 @@ meanAccuracyDecTree_CV = np.mean(accuracyDecTree_CV)
 meanPrecisionDecTree_CV = np.mean(precisionDecTree_CV)
 meanRecallDecTree_CV = np.mean(recallDecTree_CV)
 meanF1scoreDecTree_CV = np.mean(f1scoreDecTree_CV)
+
+result = pd.read_csv('automated_algorithmen.csv')
+result = result.iloc[:, 1:]
+result.at[3, 'Decision_Tree'] = meanPrecisionDecTree_CV
+result.to_csv('automated_algorithmen.csv')
+
 print('10-Fold DecTree Accuracy: ', meanAccuracyDecTree_CV, '10-Fold DecTree Precision: ', meanPrecisionDecTree_CV, '10-Fold DecTree Recall: ', meanRecallDecTree_CV, '10-Fold DecTree F1-Score: ', meanF1scoreDecTree_CV )
 print('#################################################################################################')
 
@@ -260,6 +276,12 @@ meanAccuracyRF_CV = np.mean(accuracyRF_CV)
 meanPrecisionRF_CV = np.mean(precisionRF_CV)
 meanRecallRFCV = np.mean(recallRF_CV)
 meanF1scoreRF_CV = np.mean(f1scoreRF_CV)
+
+result = pd.read_csv('automated_algorithmen.csv')
+result = result.iloc[:, 1:]
+result.at[3, 'Random_Forest'] = meanPrecisionRF_CV
+result.to_csv('automated_algorithmen.csv')
+
 print('10-Fold RF Accuracy: ', meanAccuracyRF_CV, '10-Fold RF Precision: ', meanPrecisionRF_CV, '10-Fold RF Recall: ', meanRecallRFCV, '10-Fold RF F1-Score: ', meanF1scoreRF_CV )
 print('#################################################################################################')
 
@@ -303,6 +325,10 @@ print('ADABOOST: ', 'Accuracy: ', adamodel_accuracy,'Precision: ', adamodel_prec
 acc_CV = cross_val_score(adamodel, med_features, med_class, cv=10, scoring='average_precision')
 print('ADABOOST: ', acc_CV, "Mean-Precision with all Features: ", mean(acc_CV))
 print('###########################################################################################################################')
+result = pd.read_csv('automated_algorithmen.csv')
+result = result.iloc[:, 1:]
+result.at[3, 'ADABoost'] = mean(acc_CV)
+result.to_csv('automated_algorithmen.csv')
 # ###########################################################################################################################
 # ###########################################################################################################################
 # ###########################################################################################################################
@@ -340,15 +366,19 @@ xgboosted_f1 = f1_score(med_class_test, xgboosted_prediction)
 print('XGBOOST: ', 'Accuracy: ', xgboosted_accuracy, 'Precision: ', xgboosted_precision, 'Recall: ', xgboosted_recall, 'F1-Score: ', xgboosted_f1)
 acc_CV = cross_val_score(xgmodel, med_features, med_class, cv=10)
 print(acc_CV, "Mean-Accuracy with all Features: ", mean(acc_CV))
+result = pd.read_csv('automated_algorithmen.csv')
+result = result.iloc[:, 1:]
+result.at[3, 'XGBoost'] = mean(acc_CV)
+result.to_csv('automated_algorithmen.csv')
 # print(sorted((value, key) for (key, value) in xgmodel.get_booster().get_score(importance_type= 'gain').items()))
 featureranking = sorted((value, key) for (key, value) in xgmodel.get_booster().get_score(importance_type= 'gain').items())
 pyplot.rcParams['figure.figsize'] = [25,25]
 plot_importance(xgmodel.get_booster().get_score(importance_type= 'gain'))
 pyplot.show()
-# # ##########################################################################################################################
-# # ##########################################################################################################################
-# # ##########################################################################################################################
-# # ##########################################################################################################################
+# ##########################################################################################################################
+# ##########################################################################################################################
+# ##########################################################################################################################
+# ##########################################################################################################################
 # newfeatures = []
 # for i in range(len(featureranking)):
 #     if featureranking[i][0] < 1.0:

@@ -30,9 +30,9 @@ from sklearn.metrics import f1_score
 from sklearn.metrics import recall_score
 from sklearn.metrics import precision_recall_fscore_support as score
 #################################################################################################
-medDatamodel3 = pd.read_csv('naive_latest_model3_TMP.csv')
+medDatamodel3 = pd.read_csv('naive_latest_todesinterval_model3.csv') #naive_latest_model3_TMP
 medDataCopy_model3 = medDatamodel3.copy()
-medDataCopy_model3 = medDataCopy_model3.iloc[:, 3:]
+medDataCopy_model3 = medDataCopy_model3.iloc[:, 1:]
 print(medDataCopy_model3.columns)
 #################################################################################################
 med_class_model3 = medDataCopy_model3.iloc[:, -1]
@@ -45,24 +45,24 @@ med_features_model3 = medDataCopy_model3.iloc[:, :-1]
 med_features_train_model3, med_features_test_model3, med_class_train_model3, med_class_test_model3 = train_test_split(med_features_model3, med_class_model3, test_size=0.2, random_state=43, stratify=med_class_model3)
 med_class_test_array = np.array(med_class_test_model3)
 
-p1235 = pd.read_csv('p1235_M3.csv')
-p1235 = p1235.iloc[:, 4:]
+p1235 = pd.read_csv('p1235_M3_selection.csv')
+p1235 = p1235.iloc[:, 1:]
 # print(p1235.columns)
-p3487 = pd.read_csv('p3487_M3.csv')
-p3487 = p3487.iloc[:, 4:]
-p5865 = pd.read_csv('p5865_M3.csv')
-p5865 = p5865.iloc[:, 4:]
-p8730 = pd.read_csv('p8730_M3.csv')
-p8730 = p8730.iloc[:, 4:]
+p3487 = pd.read_csv('p3487_M3_selection.csv')
+p3487 = p3487.iloc[:, 1:]
+p5865 = pd.read_csv('p5865_M3_selection.csv')
+p5865 = p5865.iloc[:, 1:]
+p8730 = pd.read_csv('p8730_M3_selection.csv')
+p8730 = p8730.iloc[:, 1:]
 
-p124 = pd.read_csv('p124_M3.csv')
-p124 = p124.iloc[:, 4:]
-p3297 = pd.read_csv('p3297_M3.csv')
-p3297 = p3297.iloc[:, 4:]
-p6658 = pd.read_csv('p6658_M3.csv')
-p6658 = p6658.iloc[:, 4:]
-p282441 = pd.read_csv('p282441_M3.csv')
-p282441 = p282441.iloc[:, 4:]
+p124 = pd.read_csv('p124_M3_selection.csv')
+p124 = p124.iloc[:, 1:]
+p3297 = pd.read_csv('p3297_M3_selection.csv')
+p3297 = p3297.iloc[:, 1:]
+p6658 = pd.read_csv('p6658_M3_selection.csv')
+p6658 = p6658.iloc[:, 1:]
+p282441 = pd.read_csv('p282441_M3_selection.csv')
+p282441 = p282441.iloc[:, 1:]
 intervalle = [(-520, -200),(-199, 0),(1, 120),(121, 300),(301, 800),(801, 1650)]
 print(intervalle)
 
@@ -120,6 +120,12 @@ print(actual_tot_lebendigknn)
 print('Tatsächlich: ', accuracyknn, precisionknn, recallknn, f1scoreknn)
 print('Durchschnittliche Abweichung: ', mean(abweichungknn))
 print('Standartabweichung der Abweichung: ', np.std(abweichungknn))
+
+result = pd.read_csv('automated_algorithmen.csv')
+result = result.iloc[:, 1:]
+result.at[9, 'KNN'] = precisionknn
+result.to_csv('automated_algorithmen.csv')
+
 pyplot.hist(abweichungknn)
 pyplot.title('Häugifkeitsverteilung der Abweichungen: K-Nearest Neighbor')
 pyplot.xlabel("Wert")
@@ -201,6 +207,12 @@ print(actual_tot_lebendiglr)
 print('Tatsächlich: ', accuracylr, precisionlr, recalllr, f1scorelr)
 print('Durchschnittliche Abweichung: ', mean(abweichunglr))
 print('Standartabweichung der Abweichung: ', np.std(abweichunglr))
+
+result = pd.read_csv('automated_algorithmen.csv')
+result = result.iloc[:, 1:]
+result.at[9, 'Logistic_Regression'] = precisionlr
+result.to_csv('automated_algorithmen.csv')
+
 pyplot.hist(abweichunglr)
 pyplot.title('Häugifkeitsverteilung der Abweichungen: Logistic Regression')
 pyplot.xlabel("Wert")
@@ -275,6 +287,12 @@ print(actual_tot_lebendigdc)
 print('Tatsächlich: ', accuracydc, precisiondc, recalldc, f1scoredc)
 print('Durchschnittliche Abweichung: ', mean(abweichungdc))
 print('Standartabweichung der Abweichung: ', np.std(abweichungdc))
+
+result = pd.read_csv('automated_algorithmen.csv')
+result = result.iloc[:, 1:]
+result.at[9, 'Decision_Tree'] = precisiondc
+result.to_csv('automated_algorithmen.csv')
+
 pyplot.hist(abweichungdc)
 pyplot.title('Häugifkeitsverteilung der Abweichungen: Decision Tree')
 pyplot.xlabel("Wert")
@@ -350,6 +368,12 @@ print(actual_tot_lebendigrf)
 print('Tatsächlich: ', accuracyrf, precisionrf, recallrf, f1scorerf)
 print('Durchschnittliche Abweichung: ', mean(abweichungrf))
 print('Standartabweichung der Abweichung: ', np.std(abweichungrf))
+
+result = pd.read_csv('automated_algorithmen.csv')
+result = result.iloc[:, 1:]
+result.at[9, 'Random_Forest'] = precisionrf
+result.to_csv('automated_algorithmen.csv')
+
 pyplot.hist(abweichungrf)
 pyplot.title('Häugifkeitsverteilung der Abweichungen: Random Forest')
 pyplot.xlabel("Wert")
@@ -427,6 +451,12 @@ print(actual_tot_lebendigada)
 print('Tatsächlich: ', accuracyada, precisionada, recallada, f1scoreada)
 print('Durchschnittliche Abweichung: ', mean(abweichungada))
 print('Standartabweichung der Abweichung: ', np.std(abweichungada))
+
+result = pd.read_csv('automated_algorithmen.csv')
+result = result.iloc[:, 1:]
+result.at[9, 'ADABoost'] = precisionada
+result.to_csv('automated_algorithmen.csv')
+
 pyplot.hist(abweichungada)
 pyplot.title('Häugifkeitsverteilung der Abweichungen: ADABoost')
 pyplot.xlabel("Wert")
@@ -492,6 +522,12 @@ print('Tatsächlich: ', accuracyxg, precisionxg, recallxg, f1scorexg)
 print('Durchschnittliche Abweichung: ', mean(abweichungxg))
 print('Standartabweichung der Abweichung: ', np.std(abweichungxg))
 print('#################################################################################################')
+
+result = pd.read_csv('automated_algorithmen.csv')
+result = result.iloc[:, 1:]
+result.at[9, 'XGBoost'] = precisionxg
+result.to_csv('automated_algorithmen.csv')
+
 pyplot.hist(abweichungxg)
 pyplot.title('Häugifkeitsverteilung der Abweichungen: XGBoost')
 pyplot.xlabel("Wert")
@@ -512,30 +548,30 @@ pyplot.show()
 # ##########################################################################################################################
 
 
-newfeatures = []
-for i in range(len(featureranking)):
-    if featureranking[i][0] < 0.4:
-        newfeatures.append(featureranking[i][1])
-# print(newfeatures)
+# newfeatures = []
+# for i in range(len(featureranking)):
+#     if featureranking[i][0] < 0.4:
+#         newfeatures.append(featureranking[i][1])
+# # print(newfeatures)
 
-for el in newfeatures:
-    medDataCopy_model3.drop(el, inplace=True, axis=1)
-    p1235.drop(el, inplace=True, axis=1)
-    p3487.drop(el, inplace=True, axis=1)
-    p5865.drop(el, inplace=True, axis=1)
-    p8730.drop(el, inplace=True, axis=1)
+# for el in newfeatures:
+#     medDataCopy_model3.drop(el, inplace=True, axis=1)
+#     p1235.drop(el, inplace=True, axis=1)
+#     p3487.drop(el, inplace=True, axis=1)
+#     p5865.drop(el, inplace=True, axis=1)
+#     p8730.drop(el, inplace=True, axis=1)
 
-    p124.drop(el, inplace=True, axis=1)
-    p3297.drop(el, inplace=True, axis=1)
-    p6658.drop(el, inplace=True, axis=1)
-    p282441.drop(el, inplace=True, axis=1)
-medDataCopy_model3.to_csv('naive_latest_todesinterval_model3.csv')
-p1235.to_csv('p1235_M3_selection.csv')
-p3487.to_csv('p3487_M3_selection.csv')
-p5865.to_csv('p5865_M3_selection.csv')
-p8730.to_csv('p8730_M3_selection.csv')
+#     p124.drop(el, inplace=True, axis=1)
+#     p3297.drop(el, inplace=True, axis=1)
+#     p6658.drop(el, inplace=True, axis=1)
+#     p282441.drop(el, inplace=True, axis=1)
+# medDataCopy_model3.to_csv('naive_latest_todesinterval_model3.csv')
+# p1235.to_csv('p1235_M3_selection.csv')
+# p3487.to_csv('p3487_M3_selection.csv')
+# p5865.to_csv('p5865_M3_selection.csv')
+# p8730.to_csv('p8730_M3_selection.csv')
 
-p124.to_csv('p124_M3_selection.csv')
-p3297.to_csv('p3297_M3_selection.csv')
-p6658.to_csv('p6658_M3_selection.csv')
-p282441.to_csv('p282441_M3_selection.csv')
+# p124.to_csv('p124_M3_selection.csv')
+# p3297.to_csv('p3297_M3_selection.csv')
+# p6658.to_csv('p6658_M3_selection.csv')
+# p282441.to_csv('p282441_M3_selection.csv')

@@ -24,7 +24,7 @@ warnings.filterwarnings("ignore")
 intervalle = [(-520, -200),(-199, 0),(1, 14),(15, 30),(31, 60),(61,90),(91,120),(121,180),(181,365),(366,850),(851,1650)]
 print(intervalle)
 medDatamodel2 = pd.read_csv(
-    'model2_Classificationtable_intervalstatus_v2_selection.csv')
+    'model2_Classificationtable_intervalstatus_v2_selection.csv') #model2_Classificationtable_intervalstatus_v2_TMP
 medDataCopy_model2 = medDatamodel2.copy()
 medDataCopy_model2 = medDataCopy_model2.iloc[:, 1:]
 medDataCopy_model2_Features_Selected = medDataCopy_model2.copy()
@@ -112,6 +112,12 @@ accuracyknn, precisionknn, recallknn, f1scoreknn = ml.scoring(pred_tot_lebendigk
 print('Tatsächlich: ', accuracyknn, precisionknn, recallknn, f1scoreknn)
 print('Durchschnittliche Abweichung: ', np.mean(abweichungknn))
 print('Standartabweichung der Abweichung: ', np.std(abweichungknn))
+
+result = pd.read_csv('automated_algorithmen.csv')
+result = result.iloc[:, 1:]
+result.at[7, 'KNN'] = precisionknn
+result.to_csv('automated_algorithmen.csv')
+
 pyplot.hist(abweichungknn)
 pyplot.title('Häugifkeitsverteilung der Abweichungen: Logistic Regression')
 pyplot.xlabel("Wert")
@@ -193,6 +199,12 @@ accuracylr, precisionlr, recalllr, f1scorelr = ml.scoring(pred_tot_lebendiglr, a
 print('Tatsächlich: ', accuracylr, precisionlr, recalllr, f1scorelr)
 print('Durchschnittliche Abweichung: ', np.mean(abweichunglr))
 print('Standartabweichung der Abweichung: ', np.std(abweichunglr))
+
+result = pd.read_csv('automated_algorithmen.csv')
+result = result.iloc[:, 1:]
+result.at[7, 'Logistic_Regression'] = precisionlr
+result.to_csv('automated_algorithmen.csv')
+
 pyplot.hist(abweichunglr)
 pyplot.title('Häugifkeitsverteilung der Abweichungen: Logistic Regression')
 pyplot.xlabel("Wert")
@@ -269,6 +281,12 @@ accuracydc, precisiondc, recalldc, f1scoredc = ml.scoring(pred_tot_lebendigdc, a
 print('Tatsächlich: ', accuracydc, precisiondc, recalldc, f1scoredc)
 print('Durchschnittliche Abweichung: ', np.mean(abweichungdc))
 print('Standartabweichung der Abweichung: ', np.std(abweichungdc))
+
+result = pd.read_csv('automated_algorithmen.csv')
+result = result.iloc[:, 1:]
+result.at[7, 'Decision_Tree'] = precisiondc
+result.to_csv('automated_algorithmen.csv')
+
 pyplot.hist(abweichungdc)
 pyplot.title('Häugifkeitsverteilung der Abweichungen: Decision Tree')
 pyplot.xlabel("Wert")
@@ -346,6 +364,12 @@ accuracyrf, precisionrf, recallrf, f1scorerf = ml.scoring(pred_tot_lebendigrf, a
 print('Tatsächlich: ', accuracyrf, precisionrf, recallrf, f1scorerf)
 print('Durchschnittliche Abweichung: ', np.mean(abweichungrf))
 print('Standartabweichung der Abweichung: ', np.std(abweichungrf))
+
+result = pd.read_csv('automated_algorithmen.csv')
+result = result.iloc[:, 1:]
+result.at[7, 'Random_Forest'] = precisionrf
+result.to_csv('automated_algorithmen.csv')
+
 pyplot.hist(abweichungrf)
 pyplot.title('Häugifkeitsverteilung der Abweichungen: Random Forest')
 pyplot.xlabel("Wert")
@@ -425,6 +449,12 @@ accuracyada, precisionada, recallada, f1scoreada = ml.scoring(pred_tot_lebendiga
 print('Tatsächlich: ', accuracyada, precisionada, recallada, f1scoreada)
 print('Durchschnittliche Abweichung: ', np.mean(abweichungada))
 print('Standartabweichung der Abweichung: ', np.std(abweichungada))
+
+result = pd.read_csv('automated_algorithmen.csv')
+result = result.iloc[:, 1:]
+result.at[7, 'ADABoost'] = precisionada
+result.to_csv('automated_algorithmen.csv')
+
 pyplot.hist(abweichungada)
 pyplot.title('Häugifkeitsverteilung der Abweichungen: ADABoost')
 pyplot.xlabel("Wert")
@@ -491,6 +521,12 @@ accuracyxg, precisionxg, recallxg, f1scorexg = ml.scoring(pred_tot_lebendigxg, a
 print('Tatsächlich: ', accuracyxg, precisionxg, recallxg, f1scorexg)
 print('Durchschnittliche Abweichung: ', np.mean(abweichungxg))
 print('Standartabweichung der Abweichung: ', np.std(abweichungxg))
+
+result = pd.read_csv('automated_algorithmen.csv')
+result = result.iloc[:, 1:]
+result.at[7, 'XGBoost'] = precisionxg
+result.to_csv('automated_algorithmen.csv')
+
 print('#################################################################################################')
 pyplot.hist(abweichungxg)
 pyplot.title('Häugifkeitsverteilung der Abweichungen: XGBoost')

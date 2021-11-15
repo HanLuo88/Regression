@@ -31,9 +31,9 @@ from sklearn.metrics import recall_score
 from sklearn.metrics import precision_recall_fscore_support as score
 #################################################################################################
 
-medDatamodel4 = pd.read_csv('model4.csv')
+medDatamodel4 = pd.read_csv('model4_Selected.csv')
 medDataCopy_model4 = medDatamodel4.copy()
-medDataCopy_model4 = medDataCopy_model4.iloc[:, 3:]
+medDataCopy_model4 = medDataCopy_model4.iloc[:, 1:]
 print(medDataCopy_model4.columns)
 #################################################################################################
 med_class_model4 = medDataCopy_model4.iloc[:, -1]
@@ -50,24 +50,24 @@ med_class_test_array = np.array(med_class_test_model4)
 
 
 
-p1235 = pd.read_csv('p1235_M4.csv')
-p1235 = p1235.iloc[:, 4:]
+p1235 = pd.read_csv('p1235_M4_selection.csv')
+p1235 = p1235.iloc[:, 1:]
 # print(p1235.columns)
-p3487 = pd.read_csv('p3487_M4.csv')
-p3487 = p3487.iloc[:, 4:]
-p5865 = pd.read_csv('p5865_M4.csv')
-p5865 = p5865.iloc[:, 4:]
-p8730 = pd.read_csv('p8730_M4.csv')
-p8730 = p8730.iloc[:, 4:]
+p3487 = pd.read_csv('p3487_M4_selection.csv')
+p3487 = p3487.iloc[:, 1:]
+p5865 = pd.read_csv('p5865_M4_selection.csv')
+p5865 = p5865.iloc[:, 1:]
+p8730 = pd.read_csv('p8730_M4_selection.csv')
+p8730 = p8730.iloc[:, 1:]
 
-p124 = pd.read_csv('p124_M4.csv')
-p124 = p124.iloc[:, 4:]
-p3297 = pd.read_csv('p3297_M4.csv')
-p3297 = p3297.iloc[:, 4:]
-p6658 = pd.read_csv('p6658_M4.csv')
-p6658 = p6658.iloc[:, 4:]
-p282441 = pd.read_csv('p282441_M4.csv')
-p282441 = p282441.iloc[:, 4:]
+p124 = pd.read_csv('p124_M4_selection.csv')
+p124 = p124.iloc[:, 1:]
+p3297 = pd.read_csv('p3297_M4_selection.csv')
+p3297 = p3297.iloc[:, 1:]
+p6658 = pd.read_csv('p6658_M4_selection.csv')
+p6658 = p6658.iloc[:, 1:]
+p282441 = pd.read_csv('p282441_M4_selection.csv')
+p282441 = p282441.iloc[:, 1:]
 intervalle = [(-520, 0),(1, 120),(121, 365),(366, 700),(701, 1650)]
 print(intervalle)
 
@@ -125,6 +125,12 @@ print(actual_tot_lebendigknn)
 print('Tatsächlich: ', accuracyknn, precisionknn, recallknn, f1scoreknn)
 print('Durchschnittliche Abweichung: ', mean(abweichungknn))
 print('Standartabweichung der Abweichung: ', np.std(abweichungknn))
+
+result = pd.read_csv('automated_algorithmen.csv')
+result = result.iloc[:, 1:]
+result.at[13, 'KNN'] = precisionknn
+result.to_csv('automated_algorithmen.csv')
+
 pyplot.hist(abweichungknn)
 pyplot.title('Häugifkeitsverteilung der Abweichungen: K-Nearest Neighbor')
 pyplot.xlabel("Wert")
@@ -207,6 +213,12 @@ print(actual_tot_lebendiglr)
 print('Tatsächlich: ', accuracylr, precisionlr, recalllr, f1scorelr)
 print('Durchschnittliche Abweichung: ', mean(abweichunglr))
 print('Standartabweichung der Abweichung: ', np.std(abweichunglr))
+
+result = pd.read_csv('automated_algorithmen.csv')
+result = result.iloc[:, 1:]
+result.at[13, 'Logistic_Regression'] = precisionlr
+result.to_csv('automated_algorithmen.csv')
+
 pyplot.hist(abweichunglr)
 pyplot.title('Häugifkeitsverteilung der Abweichungen: Logistic Regression')
 pyplot.xlabel("Wert")
@@ -285,6 +297,12 @@ print(actual_tot_lebendigdc)
 print('Tatsächlich: ', accuracydc, precisiondc, recalldc, f1scoredc)
 print('Durchschnittliche Abweichung: ', mean(abweichungdc))
 print('Standartabweichung der Abweichung: ', np.std(abweichungdc))
+
+result = pd.read_csv('automated_algorithmen.csv')
+result = result.iloc[:, 1:]
+result.at[13, 'Decision_Tree'] = precisiondc
+result.to_csv('automated_algorithmen.csv')
+
 pyplot.hist(abweichungdc)
 pyplot.title('Häugifkeitsverteilung der Abweichungen: Decision Tree')
 pyplot.xlabel("Wert")
@@ -365,6 +383,12 @@ print(actual_tot_lebendigrf)
 print('Tatsächlich: ', accuracyrf, precisionrf, recallrf, f1scorerf)
 print('Durchschnittliche Abweichung: ', mean(abweichungrf))
 print('Standartabweichung der Abweichung: ', np.std(abweichungrf))
+
+result = pd.read_csv('automated_algorithmen.csv')
+result = result.iloc[:, 1:]
+result.at[13, 'Random_Forest'] = precisionrf
+result.to_csv('automated_algorithmen.csv')
+
 pyplot.hist(abweichungrf)
 pyplot.title('Häugifkeitsverteilung der Abweichungen: Random Forest')
 pyplot.xlabel("Wert")
@@ -444,6 +468,12 @@ print(actual_tot_lebendigada)
 print('Tatsächlich: ', accuracyada, precisionada, recallada, f1scoreada)
 print('Durchschnittliche Abweichung: ', mean(abweichungada))
 print('Standartabweichung der Abweichung: ', np.std(abweichungada))
+
+result = pd.read_csv('automated_algorithmen.csv')
+result = result.iloc[:, 1:]
+result.at[13, 'ADABoost'] = precisionada
+result.to_csv('automated_algorithmen.csv')
+
 pyplot.hist(abweichungada)
 pyplot.title('Häugifkeitsverteilung der Abweichungen: ADABoost')
 pyplot.xlabel("Wert")
@@ -510,6 +540,12 @@ print('Tatsächlich: ', accuracyxg, precisionxg, recallxg, f1scorexg)
 print('Durchschnittliche Abweichung: ', mean(abweichungxg))
 print('Standartabweichung der Abweichung: ', np.std(abweichungxg))
 print('#################################################################################################')
+
+result = pd.read_csv('automated_algorithmen.csv')
+result = result.iloc[:, 1:]
+result.at[13, 'XGBoost'] = precisionxg
+result.to_csv('automated_algorithmen.csv')
+
 pyplot.hist(abweichungxg)
 pyplot.title('Häugifkeitsverteilung der Abweichungen: XGBoost')
 pyplot.xlabel("Wert")
