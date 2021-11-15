@@ -2,6 +2,8 @@ import math
 import warnings
 import sys
 
+from sklearn.tree import DecisionTreeClassifier 
+from sklearn import tree
 from numpy.lib.function_base import average
 from sklearn.utils import multiclass
 from xgboost.sklearn import XGBRFClassifier
@@ -20,7 +22,6 @@ from matplotlib import pyplot
 from xgboost.core import Booster
 from sklearn.linear_model import LogisticRegression
 from sklearn import svm
-from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import IsolationForest
 from numpy import sort
@@ -33,7 +34,7 @@ from sklearn.metrics import precision_recall_fscore_support as score
 medDatamodel3 = pd.read_csv('naive_latest_todesinterval_model3_v2_selection.csv') #naive_latest_todesinterval_model3_v2_TMP
 medDataCopy_model3 = medDatamodel3.copy()
 medDataCopy_model3 = medDataCopy_model3.iloc[:, 1:]
-print(medDataCopy_model3.columns)
+
 #################################################################################################
 med_class_model3 = medDataCopy_model3.iloc[:, -1]
 
@@ -47,7 +48,7 @@ med_class_test_array = np.array(med_class_test_model3)
 
 p1235 = pd.read_csv('p1235_M3_v2_selection.csv')
 p1235 = p1235.iloc[:, 1:]
-# print(p1235.columns)
+print(p1235.columns)
 p3487 = pd.read_csv('p3487_M3_v2_selection.csv')
 p3487 = p3487.iloc[:, 1:]
 p5865 = pd.read_csv('p5865_M3_v2_selection.csv')
@@ -298,6 +299,8 @@ pyplot.title('Häugifkeitsverteilung der Abweichungen: Decision Tree')
 pyplot.xlabel("Wert")
 pyplot.ylabel("Häufigkeit")
 pyplot.show()
+
+
 print('#################################################################################################')
 # # # # #10-Fold Decision Tree
 # print('10-Fold Decision Tree')
@@ -548,11 +551,11 @@ pyplot.show()
 # ##########################################################################################################################
 
 
-# newfeatures = []
-# for i in range(len(featureranking)):
-#     if featureranking[i][0] < 1.0:
-#         newfeatures.append(featureranking[i][1])
-# # print(newfeatures)
+newfeatures = []
+for i in range(len(featureranking)):
+    if featureranking[i][0] < 1.0:
+        newfeatures.append(featureranking[i][1])
+# print(newfeatures)
 
 # for el in newfeatures:
 #     medDataCopy_model3.drop(el, inplace=True, axis=1)
