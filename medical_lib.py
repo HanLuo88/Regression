@@ -244,6 +244,25 @@ def takeLatest(inputDF, pseudo):
     
     return naive
 
+def takefreshop(inputDF, pseudo):
+    dffilled = inputDF.copy()
+    p = dffilled[dffilled['Pseudonym'] == pseudo]
+    p.sort_values(by='relatives_datum', ascending=False, inplace=True)
+    col = dffilled.columns
+    # tmp.to_csv('0.csv')
+    naive = pd.DataFrame(columns=col)
+    abkuset = set()
+    for row in range(0, len(p)):
+        for col in range(0, len(p.columns)):
+            value = p.iloc[row, col]
+            if (np.isnan(value) == False) and (abkuset.__contains__(p.columns[col]) == False): 
+                naive.loc[0, p.columns[col]] = value
+                abkuset.add(p.columns[col])
+                
+            
+    
+    return naive
+
 
 def takeLatestAsDF(inputDF, pseudo):
     dffilled = inputDF.copy()
