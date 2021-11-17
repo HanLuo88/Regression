@@ -25,9 +25,9 @@ from sklearn.metrics import recall_score
 #################################################################################################
 ###########################################################################################################################
 ###########################################################################################################################
-medData = pd.read_csv('naive_latest_selection.csv')
+medData = pd.read_csv('naive_latest_TMP.csv')
 medDataCopy = medData.copy()
-medDataCopy = medDataCopy.iloc[:, 1:]
+medDataCopy = medDataCopy.iloc[:, 3:]
 medDataCopy_model2_Features_Selected = medDataCopy.copy()
 
 #################################################################################################
@@ -41,24 +41,24 @@ med_features = medDataCopy.iloc[:, :-1]
 med_features_train, med_features_test, med_class_train, med_class_test = train_test_split(med_features, med_class, test_size=0.2, random_state=43, stratify=med_class)
 med_class_test_array = np.array(med_class_test)
 
-p1235_M1 = pd.read_csv('p1235_M1_selection.csv')
-p1235_M1 = p1235_M1.iloc[:, 1:]
+p1235_M1 = pd.read_csv('p1235_M1.csv')
+p1235_M1 = p1235_M1.iloc[:, 4:]
 print(p1235_M1.columns)
-p3487_M1 = pd.read_csv('p3487_M1_selection.csv')
-p3487_M1 = p3487_M1.iloc[:, 1:]
-p5865_M1 = pd.read_csv('p5865_M1_selection.csv')
-p5865_M1 = p5865_M1.iloc[:, 1:]
-p8730_M1 = pd.read_csv('p8730_M1_selection.csv')
-p8730_M1 = p8730_M1.iloc[:, 1:]
+p3487_M1 = pd.read_csv('p3487_M1.csv')
+p3487_M1 = p3487_M1.iloc[:, 4:]
+p5865_M1 = pd.read_csv('p5865_M1.csv')
+p5865_M1 = p5865_M1.iloc[:, 4:]
+p8730_M1 = pd.read_csv('p8730_M1.csv')
+p8730_M1 = p8730_M1.iloc[:, 4:]
 
-p124_M1 = pd.read_csv('p124_M1_selection.csv')
-p124_M1 = p124_M1.iloc[:, 1:]
-p3297_M1 = pd.read_csv('p3297_M1_selection.csv')
-p3297_M1 = p3297_M1.iloc[:, 1:]
-p6658_M1 = pd.read_csv('p6658_M1_selection.csv')
-p6658_M1 = p6658_M1.iloc[:, 1:]
-p282441_M1 = pd.read_csv('p282441_M1_selection.csv')
-p282441_M1 = p282441_M1.iloc[:, 1:]
+p124_M1 = pd.read_csv('p124_M1.csv')
+p124_M1 = p124_M1.iloc[:, 4:]
+p3297_M1 = pd.read_csv('p3297_M1.csv')
+p3297_M1 = p3297_M1.iloc[:, 4:]
+p6658_M1 = pd.read_csv('p6658_M1.csv')
+p6658_M1 = p6658_M1.iloc[:, 4:]
+p282441_M1 = pd.read_csv('p282441_M1.csv')
+p282441_M1 = p282441_M1.iloc[:, 4:]
 ###########################################################################################################################
 ###########################################################################################################################
 #Ohne Boost
@@ -89,9 +89,6 @@ print('')
 knnYpred = medKNN.predict(med_features_test)
 accuracyKNN = accuracy_score(med_class_test, knnYpred)
 precisionKNN = precision_score(med_class_test, knnYpred)
-
-
-
 recallKNN = recall_score(med_class_test, knnYpred)
 f1scoreKNN = f1_score(med_class_test, knnYpred)
 print('KNN Accuracy: ', accuracyKNN, 'KNN Precision: ', precisionKNN, 'KNN Recall: ', recallKNN, 'KNN F1-Score: ', f1scoreKNN )
@@ -110,10 +107,10 @@ meanAccuracyKNN_CV = np.mean(accuracyKNN_CV)
 meanPrecisionKNN_CV = np.mean(precisionKNN_CV)
 meanRecallKNN_CV = np.mean(recallKNN_CV)
 meanF1scoreKNN_CV = np.mean(f1scoreKNN_CV)
-result = pd.read_csv('automated_algorithmen.csv')
-result = result.iloc[:, 1:]
-result.at[1, 'KNN'] = meanPrecisionKNN_CV
-result.to_csv('automated_algorithmen.csv')
+# result = pd.read_csv('automated_algorithmen.csv')
+# result = result.iloc[:, 1:]
+# result.at[1, 'KNN'] = meanPrecisionKNN_CV
+# result.to_csv('automated_algorithmen.csv')
 
 
 print('10-Fold KNN Accuracy: ', meanAccuracyKNN_CV, '10-Fold KNN Precision: ', meanPrecisionKNN_CV, '10-Fold KNN Recall: ', meanRecallKNN_CV, '10-Fold KNN F1-Score: ', meanF1scoreKNN_CV )
@@ -169,10 +166,10 @@ meanPrecisionLogReg_CV = np.mean(precisionLogReg_CV)
 meanRecallLogReg_CV = np.mean(recallLogReg_CV)
 meanF1scoreLogReg_CV = np.mean(f1scoreLogReg_CV)
 
-result = pd.read_csv('automated_algorithmen.csv')
-result = result.iloc[:, 1:]
-result.at[1, 'Logistic_Regression'] = meanPrecisionLogReg_CV
-result.to_csv('automated_algorithmen.csv')
+# result = pd.read_csv('automated_algorithmen.csv')
+# result = result.iloc[:, 1:]
+# result.at[1, 'Logistic_Regression'] = meanPrecisionLogReg_CV
+# result.to_csv('automated_algorithmen.csv')
 
 print('10-Fold LogReg Accuracy: ', meanAccuracyLogReg_CV, '10-Fold LogReg Precision: ', meanPrecisionLogReg_CV, '10-Fold LogReg Recall: ', meanRecallLogReg_CV, '10-Fold LogReg F1-Score: ', meanF1scoreLogReg_CV )
 print('#################################################################################################')
@@ -228,10 +225,10 @@ meanPrecisionDecTree_CV = np.mean(precisionDecTree_CV)
 meanRecallDecTree_CV = np.mean(recallDecTree_CV)
 meanF1scoreDecTree_CV = np.mean(f1scoreDecTree_CV)
 
-result = pd.read_csv('automated_algorithmen.csv')
-result = result.iloc[:, 1:]
-result.at[1, 'Decision_Tree'] = meanPrecisionDecTree_CV
-result.to_csv('automated_algorithmen.csv')
+# result = pd.read_csv('automated_algorithmen.csv')
+# result = result.iloc[:, 1:]
+# result.at[1, 'Decision_Tree'] = meanPrecisionDecTree_CV
+# result.to_csv('automated_algorithmen.csv')
 
 print('10-Fold DecTree Accuracy: ', meanAccuracyDecTree_CV, '10-Fold DecTree Precision: ', meanPrecisionDecTree_CV, '10-Fold DecTree Recall: ', meanRecallDecTree_CV, '10-Fold DecTree F1-Score: ', meanF1scoreDecTree_CV )
 print('#################################################################################################')
@@ -285,10 +282,10 @@ meanPrecisionRF_CV = np.mean(precisionRF_CV)
 meanRecallRFCV = np.mean(recallRF_CV)
 meanF1scoreRF_CV = np.mean(f1scoreRF_CV)
 
-result = pd.read_csv('automated_algorithmen.csv')
-result = result.iloc[:, 1:]
-result.at[1, 'Random_Forest'] = meanPrecisionRF_CV
-result.to_csv('automated_algorithmen.csv')
+# result = pd.read_csv('automated_algorithmen.csv')
+# result = result.iloc[:, 1:]
+# result.at[1, 'Random_Forest'] = meanPrecisionRF_CV
+# result.to_csv('automated_algorithmen.csv')
 
 print('10-Fold RF Accuracy: ', meanAccuracyRF_CV, '10-Fold RF Precision: ', meanPrecisionRF_CV, '10-Fold RF Recall: ', meanRecallRFCV, '10-Fold RF F1-Score: ', meanF1scoreRF_CV )
 print('#################################################################################################')
@@ -333,10 +330,10 @@ print('ADABOOST: ', 'Accuracy: ', adamodel_accuracy,'Precision: ', adamodel_prec
 acc_CV = cross_val_score(adamodel, med_features, med_class, cv=10, scoring='average_precision')
 print('ADABOOST: ', acc_CV, "Mean-Precision with all Features: ", mean(acc_CV))
 print('###########################################################################################################################')
-result = pd.read_csv('automated_algorithmen.csv')
-result = result.iloc[:, 1:]
-result.at[1, 'ADABoost'] = mean(acc_CV)
-result.to_csv('automated_algorithmen.csv')
+# result = pd.read_csv('automated_algorithmen.csv')
+# result = result.iloc[:, 1:]
+# result.at[1, 'ADABoost'] = mean(acc_CV)
+# result.to_csv('automated_algorithmen.csv')
 # ###########################################################################################################################
 # ###########################################################################################################################
 # ###########################################################################################################################
@@ -374,10 +371,10 @@ xgboosted_f1 = f1_score(med_class_test, xgboosted_prediction)
 print('XGBOOST: ', 'Accuracy: ', xgboosted_accuracy, 'Precision: ', xgboosted_precision, 'Recall: ', xgboosted_recall, 'F1-Score: ', xgboosted_f1)
 acc_CV = cross_val_score(xgmodel, med_features, med_class, cv=10)
 print(acc_CV, "Mean-Accuracy with all Features: ", mean(acc_CV))
-result = pd.read_csv('automated_algorithmen.csv')
-result = result.iloc[:, 1:]
-result.at[1, 'XGBoost'] = mean(acc_CV)
-result.to_csv('automated_algorithmen.csv')
+# result = pd.read_csv('automated_algorithmen.csv')
+# result = result.iloc[:, 1:]
+# result.at[1, 'XGBoost'] = mean(acc_CV)
+# result.to_csv('automated_algorithmen.csv')
 # print(sorted((value, key) for (key, value) in xgmodel.get_booster().get_score(importance_type= 'gain').items()))
 featureranking = sorted((value, key) for (key, value) in xgmodel.get_booster().get_score(importance_type= 'gain').items())
 pyplot.rcParams['figure.figsize'] = [25,25]
