@@ -270,7 +270,6 @@ print('Random Forest: ', decTree_prediction8)
 decTree_pred = medical_DecTree.predict(med_features_test_model4)
 # print('Decision Tree: ','predicted: \n', decTree_pred)
 # print('Decision Tree: ','Actual: \n', med_class_test_model3.to_numpy())
-
 accuracyDecTree = accuracy_score(decTree_pred, med_class_test_array)
 precisionDecTree = precision_score(decTree_pred, med_class_test_array, average='weighted')
 recallDecTree = recall_score(decTree_pred, med_class_test_array, average='weighted')
