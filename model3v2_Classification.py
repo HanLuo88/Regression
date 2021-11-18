@@ -551,10 +551,10 @@ pyplot.show()
 # ##########################################################################################################################
 
 
-newfeatures = []
-for i in range(len(featureranking)):
-    if featureranking[i][0] < 1.0:
-        newfeatures.append(featureranking[i][1])
+# newfeatures = []
+# for i in range(len(featureranking)):
+#     if featureranking[i][0] < 1.0:
+#         newfeatures.append(featureranking[i][1])
 # print(newfeatures)
 
 # for el in newfeatures:
