@@ -1238,3 +1238,13 @@ data/common/df_all_pseudo.csv
 model5_ausmodel4_ohnebeides.csv
 model5_ausmodel4_selection.csv
 model5_ausmodel4.csv
+model2_Classificationtable_intervalstatus_m6.csv
+model2_interval_latest_m6.csv
+model2filled_m6.csv
+model2filled_noStr_m6.csv
+model2notFilled_m6.csv
+model5_version1_pseudos.png
+Model5_version2_TestPseudos.png
+naive_latest_todesinterval_model5_Test_langlebig.csv
+Verstorben_Interval_m6.csv
+data/common/transposed_numeric_values_only.csv

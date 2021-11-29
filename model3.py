@@ -1,4 +1,3 @@
-from pandas.io.parsers import read_csv
 import medical_lib as ml
 import pandas as pd
 import numpy as np

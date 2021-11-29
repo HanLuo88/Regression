@@ -59,20 +59,19 @@ class TestStringMethods(unittest.TestCase):
 
     def test_set_Interval(self):
         # Setzt Interval und überträgt es in die verstorben liste
-        intervalle = [(-520, -200), (-199, 0), (1, 14), (15, 30), (31, 60),
-                      (61, 90), (91, 120), (121, 180), (181, 365), (366, 850), (851, 1650)]
+        intervalle = [(0, 30), (31, 60), (91, 180),(181, 365), (366, 800), (801, 1650)]
         statusdf = 'Verstorben.csv'
 
         totintervalle = ml.addtoverstorben(statusdf, intervalle)
-        totintervalle.to_csv('Verstorben_Interval.csv')
+        totintervalle.to_csv('Verstorben_Interval_m6.csv')
 ############################################################################################################################
 
     def test_prepareDataframe(self):
         # Vorbereiten von transposed:model2.csv
         inputDf = 'transposed_model2.csv'
-        notwellFilledDF = 'model2notFilled.csv'
-        wellFilledDf = 'model2filled.csv'
-        wellFilledNoStrings = 'model2filled_noStr.csv'
+        notwellFilledDF = 'model2notFilled_m6.csv'
+        wellFilledDf = 'model2filled_m6.csv'
+        wellFilledNoStrings = 'model2filled_noStr_m6.csv'
         blanks = 90000
 
         df = pd.read_csv(inputDf)
@@ -108,26 +107,25 @@ class TestStringMethods(unittest.TestCase):
 
     def test_Aktuellste_Werte_Pro_Interval(self):
         # Pro Intervall den neusten Wert des Intervalls nehmen
-        intervalle = [(-520, -200), (-199, 0), (1, 14), (15, 30), (31, 60),
-                      (61, 90), (91, 120), (121, 180), (181, 365), (366, 850), (851, 1650)]
-        inputdf = 'model2filled_noStr.csv'
-        outputdf = 'model2_interval_latest.csv'
+        intervalle = [(0, 30), (31, 60), (91, 180),(181, 365), (366, 800), (801, 1650)]#[(-520, -200), (-199, 0), (1, 14), (15, 30), (31, 60),(61, 90), (91, 120), (121, 180), (181, 365), (366, 850), (851, 1650)]
+        inputdf = 'model2filled_noStr_m6.csv'
+        outputdf = 'model2_interval_latest_m6.csv'
 
         df = ml.takelatestperInterval(inputdf, intervalle)
         df.to_csv(outputdf)
 ############################################################################################################################
 
     def test_fillmean_pro_interval(self):
-        # Pro Patient werden leere Zellen werden mit dem mode(häufigster Wert) des Intervalls gefüllt
-        inputDf = 'model2_interval_latest.csv'
-        outputDf = 'model2_Classificationtable_intervalstatus.csv'
+        # Pro Patient werden leere Zellen werden mit dem mean des Intervalls gefüllt
+        inputDf = 'model2_interval_latest_m6.csv'
+        outputDf = 'model2_Classificationtable_intervalstatus_m6.csv'
         df = ml.fillmodeperPseudo(inputDf)
         df.to_csv(outputDf)
 ############################################################################################################################
 
     def test_fill_rest(self):
-        # # Pro Patient werden leere Zellen werden mit dem mode des Intervals gefüllt
-        inputDf = 'model2_Classificationtable_intervalstatus.csv'
+        # # Pro Patient werden leere Zellen werden mit dem mean des Intervals gefüllt
+        inputDf = 'model2_Classificationtable_intervalstatus_m6.csv'
         df = pd.read_csv(inputDf)
         df = df.iloc[:, 1:]
         # ---Applying Only on variables with NaN values
@@ -138,9 +136,8 @@ class TestStringMethods(unittest.TestCase):
 ############################################################################################################################
 
     def test_set_IntervalStatus(self):
-        intervalle = [(-520, -200), (-199, 0), (1, 14), (15, 30), (31, 60),
-                      (61, 90), (91, 120), (121, 180), (181, 365), (366, 850), (851, 1650)]
-        inputDf = 'model2_Classificationtable_intervalstatus.csv'
+        intervalle = [(0, 30), (31, 60), (91, 180),(181, 365), (366, 800), (801, 1650)]
+        inputDf = 'model2_Classificationtable_intervalstatus_m6.csv'
 
         df = ml.fillintervalstatus(inputDf, intervalle)
         df.to_csv(inputDf)
