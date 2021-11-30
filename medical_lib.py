@@ -150,6 +150,11 @@ def scoring(predicted, truevalue):
     try:
         f1score = 2*(recall *precision)/(recall + precision)
     except:
+        accuracy = 0
+        precision = 0
+        recall = 0
+        f1score = 0
+        
         print('f1score: Division by Zero')
     
     return(accuracy, precision, recall, f1score)

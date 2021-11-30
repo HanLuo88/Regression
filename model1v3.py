@@ -27,7 +27,7 @@ uniquelebende1 = uniquelebende[0: 94] #Liste aus 94Lebende
 uniquelebende2 = uniquelebende[94:len(uniquelebende)] # Liste der restlichen Lebenden
 
 beides_Train = uniquetote1 + uniquelebende1
-beides_Test = uniquetote1 + uniquelebende2
+beides_Test = uniquetote2 + uniquelebende2
 
 df1v3_train = df[df['Pseudonym'].isin(beides_Train)] # Dataframe aus 94tote und 94lebende. Komplettes Train-Set
 df1v3_Test = df[df['Pseudonym'].isin(beides_Test)]

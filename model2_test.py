@@ -59,7 +59,7 @@ class TestStringMethods(unittest.TestCase):
 
     def test_set_Interval(self):
         # Setzt Interval und überträgt es in die verstorben liste
-        intervalle = [(0, 30), (31, 60), (91, 180),(181, 365), (366, 800), (801, 1650)]
+        intervalle = [(0, 30), (31, 60), (61, 180),(181, 365), (366, 800), (801, 1650)]
         statusdf = 'Verstorben.csv'
 
         totintervalle = ml.addtoverstorben(statusdf, intervalle)
@@ -107,7 +107,7 @@ class TestStringMethods(unittest.TestCase):
 
     def test_Aktuellste_Werte_Pro_Interval(self):
         # Pro Intervall den neusten Wert des Intervalls nehmen
-        intervalle = [(0, 30), (31, 60), (91, 180),(181, 365), (366, 800), (801, 1650)]#[(-520, -200), (-199, 0), (1, 14), (15, 30), (31, 60),(61, 90), (91, 120), (121, 180), (181, 365), (366, 850), (851, 1650)]
+        intervalle = [(0, 30), (31, 60), (61, 180),(181, 365), (366, 800), (801, 1650)]#[(-520, -200), (-199, 0), (1, 14), (15, 30), (31, 60),(61, 90), (91, 120), (121, 180), (181, 365), (366, 850), (851, 1650)]
         inputdf = 'model2filled_noStr_m6.csv'
         outputdf = 'model2_interval_latest_m6.csv'
 
@@ -136,7 +136,7 @@ class TestStringMethods(unittest.TestCase):
 ############################################################################################################################
 
     def test_set_IntervalStatus(self):
-        intervalle = [(0, 30), (31, 60), (91, 180),(181, 365), (366, 800), (801, 1650)]
+        intervalle = [(0, 30), (31, 60), (61, 180),(181, 365), (366, 800), (801, 1650)]
         inputDf = 'model2_Classificationtable_intervalstatus_m6.csv'
 
         df = ml.fillintervalstatus(inputDf, intervalle)
